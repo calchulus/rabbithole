@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="411px" height="595px" viewBox="0 0 411 595" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>ProtocolLogo</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#E6AE31" offset="0%"></stop>
+            <stop stop-color="#E6AE31" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="💻-Protocol-Brand/Site" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="SetProtocol_logo" transform="translate(-335.000000, -243.000000)" fill="url(#linearGradient-1)">
+            <g id="ProtocolLogo" transform="translate(334.191662, 242.431200)">
+                <g id="Group-2-Copy" transform="translate(210.183103, 202.243495) rotate(-90.000000) translate(-210.183103, -202.243495) translate(8.183103, 0.243495)">
+                    <circle id="Oval" cx="201.589089" cy="201.990603" r="201.589089"></circle>
+                </g>
+                <g id="Group-2-Copy-2" transform="translate(202.143451, 394.384713) rotate(-270.000000) translate(-202.143451, -394.384713) translate(0.143451, 192.384713)">
+                    <circle id="Oval" cx="201.589089" cy="201.990603" r="201.589089"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
