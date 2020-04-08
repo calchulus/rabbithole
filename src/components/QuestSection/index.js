@@ -12,9 +12,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  margin: auto;
   align-items: flex-start;
+  justify-content: center;
   padding-top: ${({ theme }) => theme.bigPadding};
 `
 
@@ -24,10 +25,17 @@ const Heading = styled.div`
   justify-content: space-between;
   width: 100%;
   align-items: center;
-  font-size: 20px;
+  font-size: 24px;
   height: 80px;
-  font-weight: 700;
+  font-weight: bold;
   margin-bottom: 2rem;
+
+  & > div > span {
+    display: block;
+    font-size: 18px;
+    margin-top: 5px;
+    color: #A1A4B1;
+  }
 `
 
 const SectionHeading = styled.div`
@@ -45,13 +53,17 @@ const SectionHeading = styled.div`
 const Quest = styled.div`
   width: 100%;
   display: grid;
-  grid-templatealign-items: center;
   width: 100%;
-  height: 80px;
+  height: ${({isOpen}) => isOpen ? '150px' : '75px' };
+  font-size: 14px;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-  grid-template-columns: 68px 120px 340px auto auto 100px;
-  grid-column-gap: 20px;
+  background-color: #1F1F1F;
+  border: 1px solid ${({theme}) => theme.outlinePurple};
+  border-radius: 10px;
+  grid-template-columns: 68px 120px auto 75px 75px auto 75px; 
+  grid-template-rows: ${({isOpen}) => isOpen ? '75px 50px' : '75px' };
+  grid-template-areas: ${({isOpen}) => isOpen ? '"exp icon main points type track perc"\n"desc desc desc desc desc desc desc"' : '"exp icon main points type track perc"' };
+  margin-bottom: 13px;
 
   &:hover {
     cursor: pointer;
@@ -59,19 +71,19 @@ const Quest = styled.div`
   }
 
   @media (max-width: 1400px) {
-    grid-template-columns: 68px 340px auto auto 100px;
+    grid-template-columns: 40px 50px auto 75px 75px 120px 75px;
   }
 
   @media (max-width: 970px) {
-    grid-template-columns: 68px 340px auto 100px;
+    grid-template-columns: 40px 50px auto 75px 75px 120px 75px;
   }
 
   @media (max-width: 820px) {
-    grid-template-columns: 68px 300px auto 80px;
+    grid-template-columns: 40px 50px 300px auto 80px;
   }
 
   @media (max-width: 670px) {
-    grid-template-columns: 68px 200px auto 80px;
+    grid-template-columns: 40px 50px 200px auto 80px;
   }
 
   @media (max-width: 525px) {
@@ -88,8 +100,17 @@ const BlurbWrapper = styled.div`
   }
 `
 
+const Collapser = styled.img`
+  grid-area: exp;
+  margin: auto;
+  height: 15px;
+  width: 8px;
+  transform: rotate(${({isOpen}) => isOpen ? 'none': '-90deg'});
+`
+
 const Icon = styled.div`
-  margin-left: 32px;
+  grid-area: icon;
+  margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -113,41 +134,65 @@ const Icon = styled.div`
   }
 `
 
+const Platform = styled.div`
+  font-size: 10px;
+`
+
 const QuestName = styled.div`
   color: grey;
   font-size: 18px;
 `
 
-const Flag = styled.div`
-  padding: 2px 14px;
+const Track = styled.div`
+  grid-area: track;  
+  padding: 0 14px;
   display: flex;
-  height: 30px;
+  width: 70px;
+  height: 24px;
+  font-size: 16px;
+  color: rgba(245, 245, 253, 0.2);
   border-radius: 20px;
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
-  width: fit-content;
-  border: 1px solid ${({ color }) => color};
   white-space: nowrap;
-`
-
-const FlagGroup = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  & > div {
-    margin-right: 20px;
-  }
 `
 
 const QuestWrapper = styled.div`
   width: 100%;
-  overflow: hidden;
+`
+
+const QuestOverview = styled.div`
+  grid-area: main;
+  width: 100%;
+  padding-left: 15px;
 `
 
 const JustifyEnd = styled.div`
   justify-self: end;
   margin-right: 20px;
+`
+
+const Points = styled.div`
+  border: 1px solid rgba(141, 251, 201, 0.4);
+  border-radius: 15px;
+  color: #8DFBC9;
+  height: 27px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size 13px;
+  font-weight: bold;
+`
+
+const DripSymbol = styled.img`
+  height: 15px;
+  margin-left: 2px;
+`
+
+const QuestType = styled.div`
+  grid-area: type;
 `
 
 const ModalContent = styled.div`
@@ -184,6 +229,13 @@ const MojiWrapper = styled.div`
 const LoginWrapper = styled.div`
   width: 140px;
   padding-right: 1rem;
+`
+
+const Description = styled.div`
+  width: 90%;
+  grid-area: desc;
+  margin: auto;
+  display: ${({ isOpen }) => isOpen ? 'block' : 'none' };
 `
 
 export default function QuestSection() {
@@ -258,18 +310,12 @@ export default function QuestSection() {
         </ModalContent>
       </Modal>
       <Heading>
-        <div style={{ paddingLeft: '2rem' }}>{isXXSmall ? 'Janus' : 'Challenges'}</div>
+        <div>Weekly Quests<span>Complete these challenges before they expire</span></div>
         {!isXXSmall ? (
           <MojiWrapper style={{ paddingRight: '1rem' }}>{ethMoji && <img src={ethMoji.imageUrl} alt="" />}</MojiWrapper>
-        ) : (
-          <LoginWrapper>
-            <Web3Status />
-          </LoginWrapper>
-        )}
+        ) : null}
       </Heading>
-      <SectionHeading>
-        <div>Uncompleted</div>
-      </SectionHeading>
+
       <QuestWrapper>
         {quests.map((quest, i) => {
           let icon = require('../../assets/images/' + quest.imgPath)
@@ -277,59 +323,64 @@ export default function QuestSection() {
             return (
               <Quest
                 key={i}
+                isOpen={OpenQuest === quest}
                 onClick={() => {
                   setOpenQuest(quest)
-                  toggleModal(true)
                 }}
               >
+                <Collapser isOpen={OpenQuest === quest} src={require('../../assets/images/carat.svg')}></Collapser>
                 <Icon>
                   <img src={icon} alt="" />
                 </Icon>
-                {!isMedium && <QuestName>{quest.name}</QuestName>}
-                <BlurbWrapper>{quest.blurb}</BlurbWrapper>
-                {!isExtraSmall && (
-                  <FlagGroup>
-                    {!isSmall && <Flag color={quest.color}>{quest.platform}</Flag>}
-                    <Flag color="#7BB189">{quest.category}</Flag>
-                  </FlagGroup>
-                )}
-                {!isXXXSmall && <JustifyEnd>{quest.points + ' points'}</JustifyEnd>}
-                <JustifyEnd>
-                  {(isXXXSmall ? (quest.progress * 100).toFixed(0) : (quest.progress * 100).toFixed(4)) + '%'}
+                <QuestOverview>
+                  <Platform color={quest.color}>{quest.platform}</Platform>
+                  <BlurbWrapper>{quest.blurb}</BlurbWrapper>
+                </QuestOverview>
+                <JustifyEnd style={{ gridArea: 'perc' }}>
+                  {(isXXXSmall ? (quest.progress).toFixed(0) : (quest.progress).toFixed(1)) + '%'}
                 </JustifyEnd>
+                {!isXXXSmall && <QuestType><img src={require('../../assets/images/' + quest.type + '.svg')} alt={quest.type} /></QuestType>}
+                {!isExtraSmall && <Track>{quest.category}</Track>}
+                {!isXXXSmall && <Points style={{ gridArea: 'points' }}>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>}
+                {<Description isOpen={OpenQuest === quest}>{quest.description}</Description>}
               </Quest>
             )
           }
           return true
         })}
       </QuestWrapper>
-      <SectionHeading>
-        <div>Completed</div>
-      </SectionHeading>
+
+
+      <Heading>
+        <div>Tracks<span>Progress through each application’s track and earn rewards</span></div>
+      </Heading>
       <QuestWrapper>
         {quests.map((quest, i) => {
-          if (quest.progress === 100) {
+          if (quest.progress >= 100) {
             return (
               <Quest
                 key={i}
+                isOpen={OpenQuest === quest}
                 onClick={() => {
                   setOpenQuest(quest)
-                  toggleModal(true)
                 }}
               >
+
+                <Collapser isOpen={OpenQuest === quest} src={require('../../assets/images/carat.svg')}></Collapser>
                 <Icon>
                   <img src={require('../../assets/images/' + quest.imgPath)} alt="" />
                 </Icon>
-                {!isMedium && <QuestName>{quest.name}</QuestName>}
-                <BlurbWrapper>{quest.blurb}</BlurbWrapper>
-                {!isExtraSmall && (
-                  <FlagGroup>
-                    {!isSmall && <Flag color={quest.color}>{quest.platform}</Flag>}
-                    <Flag color="#7BB189">{quest.category}</Flag>
-                  </FlagGroup>
-                )}
-                {!isXXXSmall && <JustifyEnd>{quest.points + ' points'}</JustifyEnd>}
-                <JustifyEnd style={{ color: 'green' }}>{isXXXSmall ? '✓' : 'Completed'}</JustifyEnd>
+                <QuestOverview>
+                  <Platform color={quest.color}>{quest.platform}</Platform>
+                  <BlurbWrapper>{quest.blurb}</BlurbWrapper>
+                </QuestOverview>
+                <JustifyEnd style={{ gridArea: 'perc' }}>
+                  {(isXXXSmall ? (quest.progress).toFixed(0) : (quest.progress).toFixed(1)) + '%'}
+                </JustifyEnd>
+                {!isXXXSmall && <QuestType><img src={require('../../assets/images/' + quest.type + '.svg')} alt={quest.type} /></QuestType>}
+                {!isExtraSmall && <Track>{quest.category}</Track>}
+                {!isXXXSmall && <Points style={{ gridArea: 'points' }}>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>}
+                {<Description isOpen={OpenQuest === quest}>{quest.description}</Description>}
               </Quest>
             )
           }

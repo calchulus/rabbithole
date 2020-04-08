@@ -11,9 +11,11 @@ const questList = {
       'Ethereum Name Service (ENS) is a distributed, extensible naming system based on the Ethereum blockchain that can be used to resolve a wide variety of resources such as Ethereum addresses.',
     resource: 'app.ens.domains/',
     platform: 'ENS',
-    category: 'Other',
+    category: 'Profile',
+    categoryColor: '#6955F6',
     color: '#5183FE',
     imgPath: 'enspng.png',
+    type: 'side-quest',
     points: 100,
     progress: 0
   },
@@ -25,8 +27,10 @@ const questList = {
     resource: 'www.uniswap.exchange',
     platform: 'Uniswap',
     category: 'Finance',
+    categoryColor: '#8DFBC9',
     color: '#DC6BE5',
     imgPath: 'uniswap.png',
+    type: 'track',
     points: 200,
     progress: 0
   },
@@ -38,8 +42,10 @@ const questList = {
     resource: 'www.uniswap.exchange',
     platform: 'Uniswap',
     category: 'Finance',
+    categoryColor: '#8DFBC9',
     color: '#DC6BE5',
     imgPath: 'uniswap.png',
+    type: 'track',
     points: 200,
     progress: 0
   },
@@ -51,8 +57,10 @@ const questList = {
     resource: 'https://opensea.io/assets/poap-v2',
     platform: 'POAP',
     category: 'Events',
+    categoryColor: '#8DFBC9',
     color: '#DC6BE5',
     imgPath: 'poap.png',
+    type: 'track',
     points: 1000,
     progress: 0
   },
@@ -65,8 +73,10 @@ const questList = {
     resource: 'https://www.tokensets.com/',
     platform: 'Set Protocol',
     category: 'Finance',
+    categoryColor: '#8DFBC9',
     color: '#ECC251',
     imgPath: 'set.svg',
+    type: 'track',
     points: 100,
     progress: 0
   },
@@ -79,8 +89,10 @@ const questList = {
     resource: 'https://nexusmutual.io/',
     platform: 'Nexus Mutual',
     category: 'Insurance',
+    categoryColor: '#8DFBC9',
     color: '#60D3A2',
     imgPath: 'nexus.jpg',
+    type: 'track',
     points: 200,
     progress: 0
   },
@@ -92,9 +104,11 @@ const questList = {
       'Decentraland is a virtual reality platform powered by the Ethereum blockchain that allows users to create, experience, and monetize content and applications',
     resource: 'https://decentraland.org/',
     platform: 'Decentraland',
-    category: 'other',
+    category: 'Games',
+    categoryColor: '#E5B010',
     color: '#FF0055',
     imgPath: 'mana.svg',
+    type: 'track',
     points: 200,
     progress: 0
   },
@@ -105,9 +119,11 @@ const questList = {
     description: 'Ethmoji is an avatar that you can digitally own.',
     resource: 'https://ethmoji.io/',
     platform: 'Ethmoji',
-    category: 'other',
+    category: 'Profile',
+    categoryColor: '#8DFBC9',
     color: '#E052B8',
     imgPath: 'ethmoji.png',
+    type: 'side-quest',
     points: 300,
     progress: 0
   }
@@ -157,9 +173,8 @@ export const fetchQuests = async function(ENSName, account) {
           Object.keys(result.data.userExchangeDatas).map(key => {
             let exchange = result.data.userExchangeDatas[key]
             supplied += parseFloat(exchange.ethDeposited)
-            return true
           })
-          quest.progress = parseFloat(supplied) / 0.5
+          quest.progress = parseFloat(supplied) / 0.5 * 100
         }
       }
       if (key === 'POAP') {
