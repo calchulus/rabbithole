@@ -46,7 +46,7 @@ const theme = darkMode => ({
   regular: '16px',
 
   // for setting css on <html>
-  backgroundColor: darkMode ? '#131313' : white,
+  backgroundColor: darkMode ? '#111111' : white,
 
   modalBackground: darkMode ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.3)',
   inputBackground: darkMode ? '#202124' : white,
@@ -73,6 +73,7 @@ const theme = darkMode => ({
 
   // purples
   wisteriaPurple: '#DC6BE5',
+  outlinePurple: '#564F7D',
   // reds
   salmonRed: '#FF6871',
   // orange
@@ -95,7 +96,7 @@ const theme = darkMode => ({
 
 export const GlobalStyle = createGlobalStyle`
   @supports (font-variation-settings: normal) {
-    html { font-family: 'Roboto Mono', serif;}
+    html { font-family: 'Open Sans', 'Roboto Mono', serif;}
   }
   
   html,
