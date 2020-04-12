@@ -7,42 +7,37 @@ const questList = {
     name: 'ENS-101',
     blurb: 'Register an ENS name',
     task: 'Register an ENS name to your Ethereum address.',
-    description:
-      'Ethereum Name Service (ENS) is a distributed, extensible naming system based on the Ethereum blockchain that can be used to resolve a wide variety of resources such as Ethereum addresses.',
-    resource: 'app.ens.domains/',
+    description: 'ENS is managed through the ENS Manager currently. Go register a .eth domain and set the resolver to your address.',
+    resource: 'manager.ens.domains/',
     platform: 'ENS',
-    category: 'Profile',
-    categoryColor: '#6955F6',
     color: '#5183FE',
     imgPath: 'enspng.png',
     type: 'side-quest',
+    requisites: [],
     points: 100,
     progress: 0
   },
-  UNI_POOL: {
+  UNI1: {
     name: 'UNI-101',
     blurb: 'Supply liquidity in Uniswap',
     task: 'Supply liquidity to at least 1 pool on Uniswap.',
-    description: 'Uniswap is a protocol for automated token exchange on Ethereum.',
+    description: 'To supply liquidity, head over to uniswap.exchange/pool. You can select any currency to supply liquidity for this challenge.',
     resource: 'www.uniswap.exchange',
     platform: 'Uniswap',
-    category: 'Finance',
-    categoryColor: '#8DFBC9',
     color: '#DC6BE5',
     imgPath: 'uniswap.png',
     type: 'track',
+    requisites: [],
     points: 200,
     progress: 0
   },
-  UNI_POOL_ADVANCED: {
-    name: 'UNI-300',
+  UNI2: {
+    name: 'UNI-301',
     blurb: 'Supply 0.5ETH liquidity in Uniswap',
     task: 'Supply at least 0.5 ETH on Uniswap.',
-    description: 'Uniswap is a protocol for automated token exchange on Ethereum.',
+    description: 'Supply a total liquidity of 0.5 ETH to complete this challenge. Head over to uniswap.exchange/pool to get started.',
     resource: 'www.uniswap.exchange',
     platform: 'Uniswap',
-    category: 'Finance',
-    categoryColor: '#8DFBC9',
     color: '#DC6BE5',
     imgPath: 'uniswap.png',
     type: 'track',
@@ -53,18 +48,16 @@ const questList = {
     name: 'POAP-100',
     blurb: 'Attend an EF event',
     task: 'Acquire a POAP NFT for attending an EF event.',
-    description: 'POAP is a proof-of-attendance-protocol.',
+    description: 'When at an Ethereum Foundation event find a POAP representative to receive your badge and NFT.',
     resource: 'https://opensea.io/assets/poap-v2',
     platform: 'POAP',
-    category: 'Events',
-    categoryColor: '#8DFBC9',
     color: '#DC6BE5',
     imgPath: 'poap.png',
-    type: 'track',
+    type: 'side-quest',
     points: 1000,
     progress: 0
   },
-  SET: {
+  SET1: {
     name: 'SET-101',
     blurb: 'Buy a token set on Set Protocol',
     task: 'Buy a token set on Set Protocol.',
@@ -72,8 +65,6 @@ const questList = {
       'Set Protocol is a platform on Ethereum that enhances your portfolio with automated asset management strategies.',
     resource: 'https://www.tokensets.com/',
     platform: 'Set Protocol',
-    category: 'Finance',
-    categoryColor: '#8DFBC9',
     color: '#ECC251',
     imgPath: 'set.svg',
     type: 'track',
@@ -88,8 +79,6 @@ const questList = {
       'Nexus Mutual uses the power of Ethereum so people can share risk together without the need for an insurance company.',
     resource: 'https://nexusmutual.io/',
     platform: 'Nexus Mutual',
-    category: 'Insurance',
-    categoryColor: '#8DFBC9',
     color: '#60D3A2',
     imgPath: 'nexus.jpg',
     type: 'track',
@@ -104,8 +93,6 @@ const questList = {
       'Decentraland is a virtual reality platform powered by the Ethereum blockchain that allows users to create, experience, and monetize content and applications',
     resource: 'https://decentraland.org/',
     platform: 'Decentraland',
-    category: 'Games',
-    categoryColor: '#E5B010',
     color: '#FF0055',
     imgPath: 'mana.svg',
     type: 'track',
@@ -119,13 +106,71 @@ const questList = {
     description: 'Ethmoji is an avatar that you can digitally own.',
     resource: 'https://ethmoji.io/',
     platform: 'Ethmoji',
-    category: 'Profile',
-    categoryColor: '#8DFBC9',
     color: '#E052B8',
     imgPath: 'ethmoji.png',
     type: 'side-quest',
     points: 300,
     progress: 0
+  }
+}
+
+const trackList = {
+  DEFI1: {
+    quests: [
+      'COM-101',
+      'UNI-101',
+      'SET-101'
+    ],
+    requisites: []
+  },
+  GAMES1: {
+    quests: [
+      'KITTY-101',
+      'SEA-101',
+    ],
+    requisites: []
+  },
+  PROFILE1: {
+    quests: [
+      '3BOX-101',
+      'ENS-101',
+      'MOJI-101'
+    ],
+    requisites: []
+  },
+  COMPOUND: {
+    quests: [
+      'COM-102',
+      'COM-205',
+      'COM-212'
+    ],
+    requisites: [
+      'COM-101'
+    ]
+  },
+  POOL: {
+    quests: [
+      'POOL-101',
+      'POOL-204',
+      'POOL-406'
+    ],
+    requisites: ['COM-102']
+  },
+  VOXELS: {
+    quests: [
+      'VOXELS-101',
+      'VOXELS-205',
+      'VOXELS-301'
+    ],
+    requisites: ['KITTY-101']
+  },
+  MAKER: {
+    quests: [
+      'MKR-101',
+      'MKR-201',
+      'MKR-301'
+    ],
+    requisites: ['COM-102','SET-101']
   }
 }
 
@@ -138,7 +183,7 @@ export const fetchQuests = async function(ENSName, account) {
           quest.progress = 100
         }
       }
-      if (key === 'UNI_POOL') {
+      if (key === 'UNI1') {
         let result = await uniClient.query({
           query: UNI_POOL_QUERY,
           fetchPolicy: 'cache-first',
@@ -160,7 +205,7 @@ export const fetchQuests = async function(ENSName, account) {
           }
         }
       }
-      if (key === 'UNI_POOL_ADVANCED') {
+      if (key === 'UNI2') {
         let result = await uniClient.query({
           query: UNI_POOL_QUERY,
           fetchPolicy: 'cache-first',
@@ -192,7 +237,7 @@ export const fetchQuests = async function(ENSName, account) {
           }
         })
       }
-      if (key === 'SET') {
+      if (key === 'SET1') {
         let result = await setClient.query({
           query: SET_OWNER_QUERY,
           fetchPolicy: 'cache-first',

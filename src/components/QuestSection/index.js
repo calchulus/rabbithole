@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { fetchQuests } from '../../quests'
 import { useWeb3React } from '@web3-react/core'
 import { useENSName } from '../../hooks'
-import Web3Status from '../Web3Status'
 import useMedia from 'use-media'
 import Modal from '../Modal'
 const EthmojiAPI = require('ethmoji-js').default
@@ -35,18 +34,6 @@ const Heading = styled.div`
     font-size: 18px;
     margin-top: 5px;
     color: #A1A4B1;
-  }
-`
-
-const SectionHeading = styled.div`
-  width: 100%;
-  height: 32px;
-  background-color: #35363b;
-  display: flex;
-  align-items: center;
-  font-weight: 700;
-  * {
-    margin-left: 32px;
   }
 `
 
@@ -136,11 +123,8 @@ const Icon = styled.div`
 
 const Platform = styled.div`
   font-size: 10px;
-`
-
-const QuestName = styled.div`
-  color: grey;
-  font-size: 18px;
+  color: ${({color}) => color};
+  text-transform: uppercase;
 `
 
 const Track = styled.div`
@@ -174,6 +158,7 @@ const JustifyEnd = styled.div`
 `
 
 const Points = styled.div`
+  grid-area: points;
   border: 1px solid rgba(141, 251, 201, 0.4);
   border-radius: 15px;
   color: #8DFBC9;
@@ -224,11 +209,6 @@ const MojiWrapper = styled.div`
     height: 70px;
     width: 70px;
   }
-`
-
-const LoginWrapper = styled.div`
-  width: 140px;
-  padding-right: 1rem;
 `
 
 const Description = styled.div`
@@ -341,7 +321,7 @@ export default function QuestSection() {
                 </JustifyEnd>
                 {!isXXXSmall && <QuestType><img src={require('../../assets/images/' + quest.type + '.svg')} alt={quest.type} /></QuestType>}
                 {!isExtraSmall && <Track>{quest.category}</Track>}
-                {!isXXXSmall && <Points style={{ gridArea: 'points' }}>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>}
+                {!isXXXSmall && <Points>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>}
                 {<Description isOpen={OpenQuest === quest}>{quest.description}</Description>}
               </Quest>
             )

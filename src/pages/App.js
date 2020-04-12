@@ -4,7 +4,9 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
 import Web3ReactManager from '../components/Web3ReactManager'
 
+import Nav from '../components/Nav'
 import Home from '../components/Home'
+import ActivityHistory from '../components/ActivityHistory'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -35,7 +37,9 @@ export default function App() {
             <Web3ReactManager>
               <BrowserRouter>
                 <Suspense fallback={null}>
+                  <Nav />
                   <Switch>
+                    <Route exact strict path="/activity" component={() => <ActivityHistory />} />
                     <Route exact strict path="/" component={() => <Home />} />
                     <Redirect to="/" />
                   </Switch>

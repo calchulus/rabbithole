@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Web3Status from '../Web3Status'
-import theme from '../../theme'
 
 const NavWrapper = styled.div`
   display: flex;
