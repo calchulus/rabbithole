@@ -3,6 +3,62 @@ import { UNI_POOL_QUERY, SET_OWNER_QUERY, NEXUS_QUERY, MANA_QUERY } from '../apo
 const EthmojiAPI = require('ethmoji-js').default
 
 const questList = {
+  BOX: {
+    name: '3BOX-101',
+    blurb: 'Create a Profile',
+    task: '',
+    description: '',
+    resource: '',
+    platform: '3Box',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'track',
+    requisites: [],
+    points: 100,
+    progress: 0
+  },
+  COMP1: {
+    name: 'COMP-101',
+    blurb: 'Supply tokens to Compound',
+    task: '',
+    description: 'Under the hood, when a user contributes their assets to a large pool of liquidity (a “market”) that is available for other users to borrow, they share in the interest that borrowers pay back to the pool.',
+    resource: '',
+    platform: 'Compound Finance',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'track',
+    requisites: [],
+    points: 100,
+    progress: 0
+  },
+  COMP2: {
+    name: 'COMP-102',
+    blurb: 'Supply tokens to Compound',
+    task: '',
+    description: 'Under the hood, when a user contributes their assets to a large pool of liquidity (a “market”) that is available for other users to borrow, they share in the interest that borrowers pay back to the pool.',
+    resource: '',
+    platform: 'Compound Finance',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'track',
+    requisites: [],
+    points: 100,
+    progress: 0
+  },
+  COMP3: {
+    name: 'COMP-201',
+    blurb: 'Accrue 10 DAI worth of interest from supplying tokens',
+    task: '',
+    description: 'At every Ethereum block, your supplied assets earn interest paid by borrowers. Now see if you can earn 10 DAI worth of interest with your supplied assets!',
+    resource: '',
+    platform: 'Compound Finance',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'track',
+    requisites: [],
+    points: 100,
+    progress: 0
+  },
   ENS: {
     name: 'ENS-101',
     blurb: 'Register an ENS name',
@@ -12,90 +68,216 @@ const questList = {
     platform: 'ENS',
     color: '#5183FE',
     imgPath: 'enspng.png',
-    type: 'side-quest',
+    type: 'track',
     requisites: [],
     points: 100,
     progress: 0
   },
-  UNI1: {
-    name: 'UNI-101',
-    blurb: 'Supply liquidity in Uniswap',
-    task: 'Supply liquidity to at least 1 pool on Uniswap.',
-    description: 'To supply liquidity, head over to uniswap.exchange/pool. You can select any currency to supply liquidity for this challenge.',
-    resource: 'www.uniswap.exchange',
-    platform: 'Uniswap',
-    color: '#DC6BE5',
-    imgPath: 'uniswap.png',
-    type: 'track',
-    requisites: [],
-    points: 200,
-    progress: 0
-  },
-  UNI2: {
-    name: 'UNI-301',
-    blurb: 'Supply 0.5ETH liquidity in Uniswap',
-    task: 'Supply at least 0.5 ETH on Uniswap.',
-    description: 'Supply a total liquidity of 0.5 ETH to complete this challenge. Head over to uniswap.exchange/pool to get started.',
-    resource: 'www.uniswap.exchange',
-    platform: 'Uniswap',
-    color: '#DC6BE5',
-    imgPath: 'uniswap.png',
-    type: 'track',
-    points: 200,
-    progress: 0
-  },
-  POAP: {
-    name: 'POAP-100',
-    blurb: 'Attend an EF event',
-    task: 'Acquire a POAP NFT for attending an EF event.',
-    description: 'When at an Ethereum Foundation event find a POAP representative to receive your badge and NFT.',
-    resource: 'https://opensea.io/assets/poap-v2',
-    platform: 'POAP',
-    color: '#DC6BE5',
+  KITTY1: {
+    name: 'KITTY-101',
+    blurb: 'Breed a CryptoKitty',
+    task: '',
+    description: 'CryptoKitties is one of the world’s first blockchain games. Each kitty has a unique genome that defines its appearance and traits. Players can breed their kitties to create new furry friends and unlock rare cattributes.',
+    resource: '',
+    platform: 'CryptoKitties',
+    color: '',
     imgPath: 'poap.png',
-    type: 'side-quest',
-    points: 1000,
-    progress: 0
-  },
-  SET1: {
-    name: 'SET-101',
-    blurb: 'Buy a token set on Set Protocol',
-    task: 'Buy a token set on Set Protocol.',
-    description:
-      'Set Protocol is a platform on Ethereum that enhances your portfolio with automated asset management strategies.',
-    resource: 'https://www.tokensets.com/',
-    platform: 'Set Protocol',
-    color: '#ECC251',
-    imgPath: 'set.svg',
     type: 'track',
+    requisites: [],
     points: 100,
-    progress: 0
-  },
-  NEXUS: {
-    name: 'NEXUS-101',
-    blurb: 'Own a piece of nexus mutual',
-    task: 'Buy NXM from Nexus Mutual to become a backer in the system.',
-    description:
-      'Nexus Mutual uses the power of Ethereum so people can share risk together without the need for an insurance company.',
-    resource: 'https://nexusmutual.io/',
-    platform: 'Nexus Mutual',
-    color: '#60D3A2',
-    imgPath: 'nexus.jpg',
-    type: 'track',
-    points: 200,
     progress: 0
   },
   MANA: {
     name: 'MANA-101',
-    blurb: 'Own a parcel of Decentraland',
-    task: 'Obtain at least 1 LAND parcel in your wallet.',
+    blurb: 'Create your Decentraland Passport',
+    task: 'Create your Decentraland Passport',
     description:
-      'Decentraland is a virtual reality platform powered by the Ethereum blockchain that allows users to create, experience, and monetize content and applications',
-    resource: 'https://decentraland.org/',
+      'Customize your look, grab your Passport to manage your digital identity, and set off on an adventure. A single sign-on to connect all of your experiences in Decentraland.',
+    resource: 'https://avatars.decentraland.org/',
     platform: 'Decentraland',
     color: '#FF0055',
     imgPath: 'mana.svg',
     type: 'track',
+    requisites: [],
+    points: 200,
+    progress: 0
+  },
+  MKR1: {
+    name: 'MKR-101',
+    blurb: 'Lock Dai in DSR and earn 1$ in interest',
+    task: 'Lock Dai in DSR and earn 1$ in interest',
+    description: 'The Dai Savings Rate (DSR) is a variable rate of accrual earned by locking Dai in the DSR smart contract. Dai holders can earn savings automatically and natively while retaining control of their Dai.',
+    resource: 'https://oasis.app/save',
+    platform: 'Maker Protocol',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'track',
+    requisites: [],
+    points: 100,
+    progress: 0
+  },
+  MKR2: {
+    name: 'MKR-102',
+    blurb: 'Open a Vault',
+    task: 'Open a Vault and create at least 1 Dai',
+    description:
+      'Any user who wishes to generate Dai may deposit Collateral into a Vault and do so, paying a Stability Fee on the generated Dai balance.',
+    resource: 'https://oasis.app/borrow',
+    platform: 'Maker Protocol',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'side-quest',
+    requisites: ['MKR-101'],
+    points: 200,
+    progress: 0
+  },
+  MKR3: {
+    name: 'MKR-103',
+    blurb: 'Vote on Governance Poll',
+    task: 'Vote on Governance Poll',
+    description:
+      'These occur on-chain and can be accessed through the Maker Foundation\'s Voting Portal. Governance Polls measure the sentiment of MKR voters.',
+    resource: 'https://vote.makerdao.com/',
+    platform: 'Maker Protocol',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'side-quest',
+    requisites: ['MKR-102'],
+    points: 200,
+    progress: 0
+  },
+  MKR4: {
+    name: 'MKR-104',
+    blurb: 'Vote on Executive Spell',
+    task: 'Vote on Executive Spell',
+    description:
+      'Executive Votes "execute" technical changes to the Maker Protocol. When active, each Executive Vote has a proposed set of changes being made on the Maker Protocol\'s smart-contracts. Unlike the other types of votes, Executive Votes use a \'Continuous Approval Voting\' model.',
+    resource: 'https://vote.makerdao.com/',
+    platform: 'Maker Protocol',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'track',
+    requisites: [],
+    points: 200,
+    progress: 0
+  },
+  MKR5: {
+    name: 'MKR-105',
+    blurb: 'Bid on Flipper Auction',
+    task: 'Bid on Flipper Auction',
+    description:
+      'Collateral Auctions are used to sell collateral from Vaults that have become undercollateralized in order to preserve the collateralization of the system. The Cat sends bitten collateral to the Flip module to be auctioned off to keepers.',
+    resource: 'https://auctions.makerdao.com/',
+    platform: 'Maker Protocol',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'track',
+    requisites: [],
+    points: 200,
+    progress: 0
+  },
+  MKR6: {
+    name: 'MKR-106',
+    blurb: 'Lock MKR in Chief for 3 months',
+    task: 'Lock MKR in Chief for 3 months',
+    description:
+      'Continuous Approval Voting secures the current proposal with the hat. Locking MKR in Chief helps secure the hat at the highest possible bar. "Vote or Dai" as we always say, if you\'re not voting with your MKR then you should be hodling Dai.',
+    resource: 'https://vote.makerdao.com/',
+    platform: 'Maker Protocol',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'side-quest',
+    requisites: ['MKR-104'],
+    points: 200,
+    progress: 0
+  },
+  MKR7: {
+    name: 'MKR-107',
+    blurb: 'Lock MKR in Chief for 12 months',
+    task: 'Lock MKR in Chief for 12 months',
+    description:
+      'Continuous Approval Voting secures the current proposal with the hat. Locking MKR in Chief helps secure the hat at the highest possible bar. "Vote or Dai" as we always say, if you\'re not voting with your MKR then you should be hodling Dai.',
+    resource: 'https://vote.makerdao.com/',
+    platform: 'Maker Protocol',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'side-quest',
+    requisites: ['MKR-106'],
+    points: 200,
+    progress: 0
+  },
+  MKR8: {
+    name: 'MKR-108',
+    blurb: 'Vote on 20 Executive Votes',
+    task: 'Vote on 20 Executive Votes',
+    description:
+      'A vital piece of governance is reliable voters and delegators. Thanks for doing your part out there. Happy voting!',
+    resource: 'https://vote.makerdao.com/',
+    platform: 'Maker Protocol',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'side-quest',
+    requisites: ['MKR-106'],
+    points: 200,
+    progress: 0
+  },
+  MKR9: {
+    name: 'MKR-109',
+    blurb: 'Cast a Spell',
+    task: 'Cast a Spell',
+    description:
+      'You\'re a wizard Harry! When an open spell has enough MKR to have the hat, schedule the proposal for governance.',
+    resource: 'https://etherscan.io/CHIEF',
+    platform: 'Maker Protocol',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'side-quest',
+    requisites: ['MKR-108'],
+    points: 200,
+    progress: 0
+  },
+  MKR10: {
+    name: 'MKR-110',
+    blurb: 'Vote on Spell within 1 hour of creation',
+    task: 'Vote on Spell within 1 hour of creation',
+    description:
+      'This feels like that one time I camped outside the shop to get a brand new of kicks. But only now it\'s some drip.',
+    resource: 'https://vote.makerdao.com/',
+    platform: 'Maker Protocol',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'side-quest',
+    requisites: ['MKR-104'],
+    points: 200,
+    progress: 0
+  },
+  MKR11: {
+    name: 'MKR-111',
+    blurb: 'Create a Spell that gets 10 (addresses) votes',
+    task: 'Create a Spell that gets 10 (addresses) votes',
+    description:
+      'Is this what it feels like to be popular?',
+    resource: 'https://vote.makerdao.com/',
+    platform: 'Maker Protocol',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'side-quest',
+    requisites: ['MKR-109'],
+    points: 200,
+    progress: 0
+  },
+  MKR12: {
+    name: 'MKR-112',
+    blurb: 'Create a Spell that is cast',
+    task: 'Create a Spell that is cast',
+    description:
+      'You\'re about to make the change on the world of DeFi.',
+    resource: 'https://vote.makerdao.com/',
+    platform: 'Maker Protocol',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'side-quest',
+    requisites: ['MKR-111'],
     points: 200,
     progress: 0
   },
@@ -109,13 +291,189 @@ const questList = {
     color: '#E052B8',
     imgPath: 'ethmoji.png',
     type: 'side-quest',
+    requisites: [],
     points: 300,
+    progress: 0
+  },
+  NEXUS: {
+    name: 'NEXUS-101',
+    blurb: 'Own a piece of nexus mutual',
+    task: 'Buy NXM from Nexus Mutual to become a backer in the system.',
+    description:
+      'Secure risk and potential bugs in smart contract code. Be covered for events like The DAO hack or Parity multi-sig wallet issues.',
+    resource: 'https://nexusmutual.io/',
+    platform: 'Nexus Mutual',
+    color: '#60D3A2',
+    imgPath: 'nexus.jpg',
+    type: 'side-quest',
+    requisites: [],
+    points: 200,
+    progress: 0
+  },
+  POAP1: {
+    name: 'POAP-101',
+    blurb: 'Attend an Ethereum virtual meetup',
+    task: 'Attend an Ethereum virtual meetup during social distancing',
+    description: 'When at an Ethereum Foundation event find a POAP representative to receive your badge and NFT.',
+    resource: 'https://opensea.io/assets/poap-v2',
+    platform: 'POAP',
+    color: '#DC6BE5',
+    imgPath: 'poap.png',
+    type: 'weekly',
+    requisites: [],
+    points: 200,
+    progress: 0
+  },
+  POAP2: {
+    name: 'POAP-201',
+    blurb: 'Attend an EF event',
+    task: 'Acquire a POAP NFT for attending an EF event.',
+    description: 'When at an Ethereum Foundation event find a POAP representative to receive your badge and NFT.',
+    resource: 'https://opensea.io/assets/poap-v2',
+    platform: 'POAP',
+    color: '#DC6BE5',
+    imgPath: 'poap.png',
+    type: 'side-quest',
+    requisites: [],
+    points: 1000,
+    progress: 0
+  },
+  POOL1: {
+    name: 'POOL-101',
+    blurb: 'Enter the no-loss lottery, PoolTogether',
+    task: 'Enter the no-loss lottery, PoolTogether',
+    description:
+      'On PoolTogether, each savings ticket gives you a chance to win a prize, but even if you don’t win, you keep all your money! PoolTogether lets you have the best of both worlds -- saving money and the chance to win a prize!',
+    resource: 'https://app.pooltogether.com/',
+    platform: 'PoolTogether',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'track',
+    requisites: [],
+    points: 200,
+    progress: 0
+  },
+  POOL2: {
+    name: 'POOL-201',
+    blurb: 'Chill in the Pool for 5 drawings',
+    task: 'Chill in the Pool for 5 drawings',
+    description:
+      'You can automatically re-join the weekly pool by leaving your assets in PoolTogether. Chill in the pool and cross your fingers!',
+    resource: 'https://app.pooltogether.com/',
+    platform: 'PoolTogether',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'track',
+    requisites: [],
+    points: 200,
+    progress: 0
+  },
+  POOL3: {
+    name: 'POOL-301',
+    blurb: 'Stay in the pool for 20 draws',
+    task: 'Stay in the pool for 20 draws',
+    description:
+      'Stay in the pool for 20 draws',
+    resource: 'https://app.pooltogether.com/',
+    platform: 'PoolTogether',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'track',
+    requisites: [],
+    points: 200,
+    progress: 0
+  },
+  SEA1: {
+    name: 'SEA-101',
+    blurb: 'Successfully auction an item on OpenSea',
+    task: 'Successfully auction an item on OpenSea',
+    description:
+      'The sea is full of so many shiny kitties. Maybe I\'ll find one that I  like. Yours sure does look purrty.',
+    resource: 'https://opensea.io/',
+    platform: 'OpenSea',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'track',
+    requisites: [],
+    points: 200,
+    progress: 0
+  },
+  SEA2: {
+    name: 'SEA-201',
+    blurb: 'Bid on an item on OpenSea',
+    task: 'Bid on an item on OpenSea',
+    description:
+      'You know what they say on the open seas. Bidders are winners.',
+    resource: 'https://opensea.io/',
+    platform: 'OpenSea',
+    color: '',
+    imgPath: 'poap.png',
+    type: 'track',
+    requisites: ['SEA-101'],
+    points: 200,
+    progress: 0
+  },
+  SET1: {
+    name: 'SET-101',
+    blurb: 'Buy a token set on Set Protocol',
+    task: 'Buy a token set on Set Protocol.',
+    description:
+      'Set Protocol is a platform on Ethereum that enhances your portfolio with automated asset management strategies.',
+    resource: 'https://www.tokensets.com/',
+    platform: 'Set Protocol',
+    color: '#ECC251',
+    imgPath: 'set.svg',
+    type: 'track',
+    requisites: [],
+    points: 100,
+    progress: 0
+  },
+  UNI1: {
+    name: 'UNI-101',
+    blurb: 'Exchange tokens on Uniswap',
+    task: 'Exchange tokens on Uniswap',
+    description: 'Uniswap is a fully decentralized protocol for automated liquidity provision on Ethereum.',
+    resource: 'https://www.uniswap.exchange/swap',
+    platform: 'Uniswap',
+    color: '#DC6BE5',
+    imgPath: 'uniswap.png',
+    type: 'track',
+    points: 200,
+    progress: 0
+  },
+  UNI2: {
+    name: 'UNI-201',
+    blurb: 'Supply liquidity in Uniswap',
+    task: 'Supply liquidity to at least 1 pool on Uniswap.',
+    description: 'In order to make the unicorn run, you need to supply some assets into the liquidity pool.',
+    resource: 'https://www.uniswap.exchange/add-liquidity',
+    platform: 'Uniswap',
+    color: '#DC6BE5',
+    imgPath: 'uniswap.png',
+    type: 'side-quest',
+    requisites: ['SET-101'],
+    points: 200,
+    progress: 0
+  },
+  UNI3: {
+    name: 'UNI-301',
+    blurb: 'Own a Unisocks token',
+    task: 'Own a Unisocks token',
+    description: 'I heard you\'re a big fan of Supreme. Well, there\'s these things called Unisocks, and they\'re selling like hot pockets. Go get yourself a pair.',
+    resource: 'https://unisocks.exchange/',
+    platform: 'Uniswap',
+    color: '#DC6BE5',
+    imgPath: 'uniswap.png',
+    type: 'side-quest',
+    requisites: ['uni-201'],
+    points: 200,
     progress: 0
   }
 }
 
 const trackList = {
   DEFI1: {
+    name: 'Introduction to Decentralized Finance',
     quests: [
       'COM-101',
       'UNI-101',
@@ -124,6 +482,7 @@ const trackList = {
     requisites: []
   },
   GAMES1: {
+    name: 'The Genesis of Blockchain Games',
     quests: [
       'KITTY-101',
       'SEA-101',
@@ -131,6 +490,7 @@ const trackList = {
     requisites: []
   },
   PROFILE1: {
+    name: 'Your Distributed Profile',
     quests: [
       '3BOX-101',
       'ENS-101',
@@ -139,6 +499,7 @@ const trackList = {
     requisites: []
   },
   COMPOUND: {
+    name: 'Compounding your Growth',
     quests: [
       'COM-102',
       'COM-205',
@@ -149,6 +510,7 @@ const trackList = {
     ]
   },
   POOL: {
+    name: 'The No-Loss Lottery',
     quests: [
       'POOL-101',
       'POOL-204',
@@ -157,6 +519,7 @@ const trackList = {
     requisites: ['COM-102']
   },
   VOXELS: {
+    name: 'Explore the Metaverse',
     quests: [
       'VOXELS-101',
       'VOXELS-205',
@@ -165,6 +528,7 @@ const trackList = {
     requisites: ['KITTY-101']
   },
   MAKER: {
+    name: 'Keeping it stable with MakerDAO',
     quests: [
       'MKR-101',
       'MKR-201',
@@ -181,6 +545,73 @@ export const fetchQuests = async function(ENSName, account) {
       if (key === 'ENS') {
         if (ENSName) {
           quest.progress = 100
+        }
+      }
+      if (key === 'MANA') {
+        let result = await manaClient.query({
+          query: MANA_QUERY,
+          fetchPolicy: 'cache-first',
+          variables: {
+            user: account
+          }
+        })
+        if (result.data.parcels) {
+          quest.progress = 100
+        }
+      }
+      if (key === 'MOJI') {
+        const ethmojiAPI = new EthmojiAPI(global.web3.currentProvider)
+        try {
+          await ethmojiAPI.init()
+          const avatar = await ethmojiAPI.getAvatar(account)
+          if (avatar) {
+            quest.progress = 100
+          }
+        } catch (error) {
+          console.log(error.message)
+        }
+      }
+      if (key === 'NEXUS') {
+        try {
+          let result = await nexusClient.query({
+            query: NEXUS_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: account
+            }
+          })
+          if (result.data.member) {
+            quest.progress = 100
+          }
+        } catch (e) {}
+      }
+      if (key === 'POAP2') {
+        var request = require('request')
+        var options = { method: 'GET', url: 'https://api.opensea.io/api/v1/collections?asset_owner=' + account }
+        request(options, function(error, response, body) {
+          if (!error && body.length > 0) {
+            var result = JSON.parse(body)
+            result.map(item => {
+              if (item.name === 'POAP') {
+                quest.progress = 100
+              }
+              return true
+            })
+          }
+        })
+      }
+      if (key === 'SET1') {
+        let result = await setClient.query({
+          query: SET_OWNER_QUERY,
+          fetchPolicy: 'cache-first',
+          variables: {
+            user: account
+          }
+        })
+        if (result.data) {
+          if (result.data.issuances && result.data.issuances.length > 0) {
+            quest.progress = 100
+          }
         }
       }
       if (key === 'UNI1') {
@@ -222,73 +653,7 @@ export const fetchQuests = async function(ENSName, account) {
           quest.progress = parseFloat(supplied) / 0.5 * 100
         }
       }
-      if (key === 'POAP') {
-        var request = require('request')
-        var options = { method: 'GET', url: 'https://api.opensea.io/api/v1/collections?asset_owner=' + account }
-        request(options, function(error, response, body) {
-          if (!error && body.length > 0) {
-            var result = JSON.parse(body)
-            result.map(item => {
-              if (item.name === 'POAP') {
-                quest.progress = 100
-              }
-              return true
-            })
-          }
-        })
-      }
-      if (key === 'SET1') {
-        let result = await setClient.query({
-          query: SET_OWNER_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: account
-          }
-        })
-        if (result.data) {
-          if (result.data.issuances && result.data.issuances.length > 0) {
-            quest.progress = 100
-          }
-        }
-      }
-      if (key === 'NEXUS') {
-        try {
-          let result = await nexusClient.query({
-            query: NEXUS_QUERY,
-            fetchPolicy: 'cache-first',
-            variables: {
-              user: account
-            }
-          })
-          if (result.data.member) {
-            quest.progress = 100
-          }
-        } catch (e) {}
-      }
-      if (key === 'MANA') {
-        let result = await manaClient.query({
-          query: MANA_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: account
-          }
-        })
-        if (result.data.parcels) {
-          quest.progress = 100
-        }
-      }
-      if (key === 'MOJI') {
-        const ethmojiAPI = new EthmojiAPI(global.web3.currentProvider)
-        try {
-          await ethmojiAPI.init()
-          const avatar = await ethmojiAPI.getAvatar(account)
-          if (avatar) {
-            quest.progress = 100
-          }
-        } catch (error) {
-          console.log(error.message)
-        }
-      }
+      
       return quest
     })
   )

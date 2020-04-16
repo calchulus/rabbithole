@@ -7,6 +7,8 @@ import Web3ReactManager from '../components/Web3ReactManager'
 import Nav from '../components/Nav'
 import Home from '../components/Home'
 import ActivityHistory from '../components/ActivityHistory'
+import Rewards from '../components/Rewards'
+import FAQ from '../components/Faq'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -39,9 +41,10 @@ export default function App() {
                 <Suspense fallback={null}>
                   <Nav />
                   <Switch>
-                    <Route exact strict path="/activity" component={() => <ActivityHistory />} />
-                    <Route exact strict path="/" component={() => <Home />} />
-                    <Redirect to="/" />
+                    <Route path="/activity" component={ActivityHistory} />
+                    <Route path="/rewards" component={Rewards} />
+                    <Route path="/faq" component={FAQ} />
+                    <Route path="/" component={() => <Home />} />
                   </Switch>
                 </Suspense>
               </BrowserRouter>
