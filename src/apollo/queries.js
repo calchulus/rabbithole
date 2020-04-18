@@ -1,18 +1,35 @@
 import gql from 'graphql-tag'
 
-export const COMPOUND_BORROWING = gql`
-  query acount {
-    account(id: "0x00000000af5a61acaf76190794e3fdf1289288a1") {
+export const COMPOUND_QUERY = gql`
+  query account($user: ID!) {
+    account(id: $user) {
       id
+      totalBorrowValueInEth
+      totalCollateralValueInEth
     }
   }
 `
 
-export const POOL_TOGETHER = gql`
+export const COMPOUND_INTEREST_QUERY = gql`
+  query account($user: ID!) {
+    account(id: $user) {
+      id
+      tokens {
+        id
+        lifetimeSupplyInterestAccrued
+      }
+    }
+  }
+`
+
+export const POOL_TOGETHER_QUERY = gql`
   query player($user: String!) {
     player(id: $user) {
       id
-      entries
+      consolidatedBalance
+      latestBalance
+      firstDepositDrawId
+      latestDrawId
     }
   }
 `
@@ -48,6 +65,18 @@ export const MANA_QUERY = gql`
   query user($user: String!) {
     user(id: $user) {
       parcels
+    }
+  }
+`
+
+export const KITTIES_BRED_QUERY = gql`
+  query births($user: String!) {
+    births(where: { owner: $user }) {
+      id
+      kittyId
+      sireId
+      matronId
+      owner
     }
   }
 `

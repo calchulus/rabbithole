@@ -1,5 +1,22 @@
-import { setClient, uniClient, nexusClient, manaClient } from '../apollo/client'
-import { UNI_POOL_QUERY, SET_OWNER_QUERY, NEXUS_QUERY, MANA_QUERY } from '../apollo/queries'
+import { 
+  setClient, 
+  uniClient, 
+  nexusClient, 
+  manaClient,
+  cryptoKittiesClient,
+  compoundClient,
+  poolTogetherClient
+} from '../apollo/client'
+import { 
+  UNI_POOL_QUERY, 
+  SET_OWNER_QUERY, 
+  NEXUS_QUERY, 
+  MANA_QUERY, 
+  KITTIES_BRED_QUERY,
+  COMPOUND_QUERY,
+  COMPOUND_INTEREST_QUERY,
+  POOL_TOGETHER_QUERY
+} from '../apollo/queries'
 const EthmojiAPI = require('ethmoji-js').default
 
 const questList = {
@@ -11,7 +28,7 @@ const questList = {
     resource: '',
     platform: '3Box',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: '3box.png',
     type: 'track',
     requisites: [],
     points: 100,
@@ -25,7 +42,7 @@ const questList = {
     resource: '',
     platform: 'Compound Finance',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'compound.png',
     type: 'track',
     requisites: [],
     points: 100,
@@ -33,13 +50,13 @@ const questList = {
   },
   COMP2: {
     name: 'COMP-102',
-    blurb: 'Supply tokens to Compound',
+    blurb: 'Borrow tokens on Compound',
     task: '',
     description: 'Under the hood, when a user contributes their assets to a large pool of liquidity (a “market”) that is available for other users to borrow, they share in the interest that borrowers pay back to the pool.',
     resource: '',
     platform: 'Compound Finance',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'compound.png',
     type: 'track',
     requisites: [],
     points: 100,
@@ -53,7 +70,7 @@ const questList = {
     resource: '',
     platform: 'Compound Finance',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'compound.png',
     type: 'track',
     requisites: [],
     points: 100,
@@ -81,7 +98,7 @@ const questList = {
     resource: '',
     platform: 'CryptoKitties',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'cryptokitties.png',
     type: 'track',
     requisites: [],
     points: 100,
@@ -110,7 +127,7 @@ const questList = {
     resource: 'https://oasis.app/save',
     platform: 'Maker Protocol',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'makerdao.png',
     type: 'track',
     requisites: [],
     points: 100,
@@ -125,7 +142,7 @@ const questList = {
     resource: 'https://oasis.app/borrow',
     platform: 'Maker Protocol',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'makerdao.png',
     type: 'side-quest',
     requisites: ['MKR-101'],
     points: 200,
@@ -140,7 +157,7 @@ const questList = {
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'makerdao.png',
     type: 'side-quest',
     requisites: ['MKR-102'],
     points: 200,
@@ -155,7 +172,7 @@ const questList = {
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'makerdao.png',
     type: 'track',
     requisites: [],
     points: 200,
@@ -170,7 +187,7 @@ const questList = {
     resource: 'https://auctions.makerdao.com/',
     platform: 'Maker Protocol',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'makerdao.png',
     type: 'track',
     requisites: [],
     points: 200,
@@ -185,7 +202,7 @@ const questList = {
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'makerdao.png',
     type: 'side-quest',
     requisites: ['MKR-104'],
     points: 200,
@@ -200,7 +217,7 @@ const questList = {
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'makerdao.png',
     type: 'side-quest',
     requisites: ['MKR-106'],
     points: 200,
@@ -215,7 +232,7 @@ const questList = {
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'makerdao.png',
     type: 'side-quest',
     requisites: ['MKR-106'],
     points: 200,
@@ -230,7 +247,7 @@ const questList = {
     resource: 'https://etherscan.io/CHIEF',
     platform: 'Maker Protocol',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'makerdao.png',
     type: 'side-quest',
     requisites: ['MKR-108'],
     points: 200,
@@ -245,7 +262,7 @@ const questList = {
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'makerdao.png',
     type: 'side-quest',
     requisites: ['MKR-104'],
     points: 200,
@@ -260,7 +277,7 @@ const questList = {
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'makerdao.png',
     type: 'side-quest',
     requisites: ['MKR-109'],
     points: 200,
@@ -275,7 +292,7 @@ const questList = {
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'makerdao.png',
     type: 'side-quest',
     requisites: ['MKR-111'],
     points: 200,
@@ -347,7 +364,7 @@ const questList = {
     resource: 'https://app.pooltogether.com/',
     platform: 'PoolTogether',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'pooltogether.jpg',
     type: 'track',
     requisites: [],
     points: 200,
@@ -362,7 +379,7 @@ const questList = {
     resource: 'https://app.pooltogether.com/',
     platform: 'PoolTogether',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'pooltogether.jpg',
     type: 'track',
     requisites: [],
     points: 200,
@@ -377,7 +394,7 @@ const questList = {
     resource: 'https://app.pooltogether.com/',
     platform: 'PoolTogether',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'pooltogether.jpg',
     type: 'track',
     requisites: [],
     points: 200,
@@ -392,7 +409,7 @@ const questList = {
     resource: 'https://opensea.io/',
     platform: 'OpenSea',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'opensea.jpg',
     type: 'track',
     requisites: [],
     points: 200,
@@ -407,7 +424,7 @@ const questList = {
     resource: 'https://opensea.io/',
     platform: 'OpenSea',
     color: '',
-    imgPath: 'poap.png',
+    imgPath: 'opensea.jpg',
     type: 'track',
     requisites: ['SEA-101'],
     points: 200,
@@ -651,6 +668,110 @@ export const fetchQuests = async function(ENSName, account) {
             supplied += parseFloat(exchange.ethDeposited)
           })
           quest.progress = parseFloat(supplied) / 0.5 * 100
+        }
+      }
+      if (key === 'KITTY1') {
+        let result = await cryptoKittiesClient.query({
+          query: KITTIES_BRED_QUERY,
+          fetchPolicy: 'cache-first',
+          variables: {
+            user: account
+          }
+        })
+        if (result.data.births) {
+          quest.progress = 100
+        }
+      }
+      if (key === 'COMP1') {
+        let result = await compoundClient.query({
+          query: COMPOUND_QUERY,
+          fetchPolicy: 'cache-first',
+          variables: {
+            user: account.toLowerCase()
+          }
+        })
+        if (result.data.account) {
+          if (parseFloat(result.data.account.totalCollateralValueInEth) > 0.005) {
+            quest.progress = 100
+          }
+        }
+      }
+      if (key === 'COMP2') {
+        let result = await compoundClient.query({
+          query: COMPOUND_QUERY,
+          fetchPolicy: 'cache-first',
+          variables: {
+            user: account.toLowerCase()
+          }
+        })
+        if (result.data.account) {
+          if (parseFloat(result.data.account.totalBorrowValueInEth) > 0.005) {
+            quest.progress = 100
+          }
+        }
+      }
+      if (key === 'COMP3') {
+        let result = await compoundClient.query({
+          query: COMPOUND_INTEREST_QUERY,
+          fetchPolicy: 'cache-first',
+          variables: {
+            user: account.toLowerCase()
+          }
+        })
+        if (result.data.account) {
+          let totalSupplyInterest = 0;
+          for (let i = 0; i < result.data.account.tokens.length; i++) {
+            totalSupplyInterest = totalSupplyInterest + parseFloat(result.data.account.tokens[i].lifetimeSupplyInterestAccrued)
+          } 
+          if (totalSupplyInterest > 0) {
+            quest.progress = totalSupplyInterest / 0.005 * 100
+          }
+        }
+      }
+
+      if (key === 'POOL1') {
+        let result = await poolTogetherClient.query({
+          query: POOL_TOGETHER_QUERY,
+          fetchPolicy: 'cache-first',
+          variables: {
+            user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
+          }
+        })
+        console.log(result.data)
+        if (result.data.player) {
+          if (parseInt(result.data.player.consolidatedBalance) / 10 ** 18 >= 1 && parseInt(result.data.player.latestBalance) / 10 ** 18 >= 1) {
+            quest.progress = 100
+          }
+        }
+      }
+      if (key === 'POOL2') {
+        let result = await poolTogetherClient.query({
+          query: POOL_TOGETHER_QUERY,
+          fetchPolicy: 'cache-first',
+          variables: {
+            user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
+          }
+        })
+        console.log(result.data)
+        if (result.data.player) {
+          if (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId) >= 5) {
+            quest.progress = 100
+          }
+        }
+      }
+      if (key === 'POOL3') {
+        let result = await poolTogetherClient.query({
+          query: POOL_TOGETHER_QUERY,
+          fetchPolicy: 'cache-first',
+          variables: {
+            user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
+          }
+        })
+        console.log(result.data)
+        if (result.data.player) {
+          if (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId) >= 20) {
+            quest.progress = 100
+          }
         }
       }
       
