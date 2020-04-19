@@ -16,6 +16,13 @@ export const cryptoKittiesClient = new ApolloClient({
   cache: new InMemoryCache()
 })
 
+export const ensClient = new ApolloClient({
+  link: new HttpLink({
+    uri: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens'
+  }),
+  cache: new InMemoryCache()
+})
+
 export const makerGovClient = new ApolloClient({
   link: new HttpLink({
     uri: 'https://api.thegraph.com/subgraphs/name/scottrepreneur/maker-governance'

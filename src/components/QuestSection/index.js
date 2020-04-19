@@ -259,10 +259,10 @@ export default function QuestSection() {
       let weeklyQuests = 0;
       let sideQuests = 0;
       data.map((quest) => {
-        if (quest.type === 'weekly') {
+        if (quest.type === 'weekly' && quest.progress < 100) {
           weeklyQuests += 1;
         } 
-        if (quest.type === 'side-quest') {
+        if (quest.type === 'side-quest' && quest.progress < 100) {
           sideQuests += 1;
         }
       })
@@ -288,7 +288,7 @@ export default function QuestSection() {
           <QuestWrapper>
             {quests.map((quest, i) => {
               let icon = require('../../assets/images/' + quest.imgPath)
-              if (quest.type === 'weekly') {
+              if (quest.type === 'weekly' && quest.progress < 100) {
                 return (
                   <Quest
                     key={i}

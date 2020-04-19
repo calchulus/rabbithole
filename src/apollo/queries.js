@@ -64,7 +64,23 @@ export const NEXUS_QUERY = gql`
 export const MANA_QUERY = gql`
   query user($user: String!) {
     user(id: $user) {
-      parcels
+      id
+      parcels {
+        id
+      }
+    }
+  }
+`
+
+export const DCL_ENS_QUERY = gql`
+  query domains($avatar_name: String!) {
+    domains(where: { name: $avatar_name }) {
+      owner {
+        id
+      }
+      resolvedAddress {
+        id
+      }
     }
   }
 `
@@ -79,4 +95,13 @@ export const KITTIES_BRED_QUERY = gql`
       owner
     }
   }
+`
+
+export const MKR_SPELL_VOTES_QUERY = gql`
+  query votingActions($user: String!) {
+    votingActions(where: {sender: $user }) {
+      id
+    }
+  }
+  
 `

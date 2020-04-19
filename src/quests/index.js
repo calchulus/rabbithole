@@ -5,7 +5,9 @@ import {
   manaClient,
   cryptoKittiesClient,
   compoundClient,
-  poolTogetherClient
+  poolTogetherClient,
+  ensClient,
+  makerGovClient
 } from '../apollo/client'
 import { 
   UNI_POOL_QUERY, 
@@ -15,9 +17,12 @@ import {
   KITTIES_BRED_QUERY,
   COMPOUND_QUERY,
   COMPOUND_INTEREST_QUERY,
-  POOL_TOGETHER_QUERY
+  POOL_TOGETHER_QUERY,
+  DCL_ENS_QUERY,
+  MKR_SPELL_VOTES_QUERY
 } from '../apollo/queries'
 const EthmojiAPI = require('ethmoji-js').default
+const Box = require('3box')
 
 const questList = {
   BOX: {
@@ -104,7 +109,7 @@ const questList = {
     points: 100,
     progress: 0
   },
-  MANA: {
+  MANA1: {
     name: 'MANA-101',
     blurb: 'Create your Decentraland Passport',
     task: 'Create your Decentraland Passport',
@@ -115,6 +120,21 @@ const questList = {
     color: '#FF0055',
     imgPath: 'mana.svg',
     type: 'track',
+    requisites: [],
+    points: 200,
+    progress: 0
+  },
+  MANA2: {
+    name: 'MANA-201',
+    blurb: 'Get yourself some LAND',
+    task: 'Get yourself some LAND',
+    description:
+      'Venturing into new territory. Grab some land and build up a scene to share with the 3d world inside Decentraland.',
+    resource: 'https://avatars.decentraland.org/',
+    platform: 'Decentraland',
+    color: '#FF0055',
+    imgPath: 'mana.svg',
+    type: 'side-quest',
     requisites: [],
     points: 200,
     progress: 0
@@ -556,23 +576,48 @@ const trackList = {
 }
 
 export const fetchQuests = async function(ENSName, account) {
+  var request = require('request')
+
+  var poapOptions = { method: 'GET', url: 'https://api.opensea.io/api/v1/assets?owner=' + account + '&asset_contract_address=0x22c1f6050e56d2876009903609a2cc3fef83b415' }
+  var openSeaOptions = { method: 'GET', url: 'https://api.opensea.io/api/v1/events?event_type=successful&account_address=' + account }
+
   return Promise.all(
     Object.keys(questList).map(async key => {
       let quest = questList[key]
+      if (key === 'BOX') {
+        const profile = await Box.getProfile(account)
+        if (profile.name) {
+          quest.progress = 100
+        }
+      }
       if (key === 'ENS') {
         if (ENSName) {
           quest.progress = 100
         }
       }
-      if (key === 'MANA') {
+      if (key === 'MANA1') {
+        if (ENSName) {
+          let result = await ensClient.query({
+            query: DCL_ENS_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              avatar_name: ENSName.replace('.eth', '.dcl.eth')
+            }
+          })
+          if (result.data.domains[0].owner.id === account.toLowerCase() || result.data.domains[0].resolvedAddress.id === account.toLowerCase()) {
+            quest.progress = 100
+          }
+        }
+      }
+      if (key === 'MANA2') {
         let result = await manaClient.query({
           query: MANA_QUERY,
           fetchPolicy: 'cache-first',
           variables: {
-            user: account
+            user: account.toLowerCase()
           }
         })
-        if (result.data.parcels) {
+        if (result.data.user.parcels) {
           quest.progress = 100
         }
       }
@@ -602,18 +647,27 @@ export const fetchQuests = async function(ENSName, account) {
           }
         } catch (e) {}
       }
-      if (key === 'POAP2') {
-        var request = require('request')
-        var options = { method: 'GET', url: 'https://api.opensea.io/api/v1/collections?asset_owner=' + account }
-        request(options, function(error, response, body) {
+      if (key === 'POAP1') {
+        request(poapOptions, function(error, response, body) {
           if (!error && body.length > 0) {
             var result = JSON.parse(body)
-            result.map(item => {
-              if (item.name === 'POAP') {
+            result.assets.map(badge => {
+              if (badge.name === 'Berlin Blockchain week - 2019') { // change to Topaz ceremony or other relevant meetup
                 quest.progress = 100
+                return true
               }
-              return true
             })
+          }
+        })
+      }
+      if (key === 'POAP2') {
+        request(poapOptions, function(error, response, body) {
+          if (!error && body.length > 0) {
+            var result = JSON.parse(body)
+            if (result.assets.length > 0) {
+              quest.progress = 100
+              return true
+            }
           }
         })
       }
@@ -720,15 +774,14 @@ export const fetchQuests = async function(ENSName, account) {
         })
         if (result.data.account) {
           let totalSupplyInterest = 0;
-          for (let i = 0; i < result.data.account.tokens.length; i++) {
-            totalSupplyInterest = totalSupplyInterest + parseFloat(result.data.account.tokens[i].lifetimeSupplyInterestAccrued)
-          } 
+          result.data.account.tokens.map(lentToken => {
+            totalSupplyInterest = totalSupplyInterest + parseFloat(lentToken.lifetimeSupplyInterestAccrued)
+          })
           if (totalSupplyInterest > 0) {
             quest.progress = totalSupplyInterest / 0.005 * 100
           }
         }
       }
-
       if (key === 'POOL1') {
         let result = await poolTogetherClient.query({
           query: POOL_TOGETHER_QUERY,
@@ -737,7 +790,6 @@ export const fetchQuests = async function(ENSName, account) {
             user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
           }
         })
-        console.log(result.data)
         if (result.data.player) {
           if (parseInt(result.data.player.consolidatedBalance) / 10 ** 18 >= 1 && parseInt(result.data.player.latestBalance) / 10 ** 18 >= 1) {
             quest.progress = 100
@@ -752,7 +804,6 @@ export const fetchQuests = async function(ENSName, account) {
             user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
           }
         })
-        console.log(result.data)
         if (result.data.player) {
           if (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId) >= 5) {
             quest.progress = 100
@@ -767,11 +818,56 @@ export const fetchQuests = async function(ENSName, account) {
             user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
           }
         })
-        console.log(result.data)
         if (result.data.player) {
           if (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId) >= 20) {
             quest.progress = 100
           }
+        }
+      }
+      if (key === 'SEA1') {
+        request(openSeaOptions, function(error, response, body) {
+          if (!error && body.length > 0) {
+            var result = JSON.parse(body)
+            var itemsSold = 0
+            result['asset_events'].map(event => {
+              if (event.seller.address === account.toLowerCase()) {
+                itemsSold += 1
+              }
+            })
+            if (itemsSold > 1) {
+              quest.progress = 100
+            }
+          }
+        })
+      }
+      if (key === 'SEA2') {
+        request(openSeaOptions, function(error, response, body) {
+          if (!error && body.length > 0) {
+            var result = JSON.parse(body)
+            if (result['asset_events']) {
+              quest.progress = 100
+                return true
+            }
+          }
+        })
+      }
+      if (key === 'MKR4') {
+        let result = await makerGovClient.query({
+          query: MKR_SPELL_VOTES_QUERY,
+          fetchPolicy: 'cache-first',
+          variables: {
+            user: account.toLowerCase()
+          }
+        })
+        var votes = 0
+
+        result.data.votingActions.map(action => {
+          if (action.id.search('ADD-ARRAY')) {
+            votes += 1
+          }
+        })
+        if (votes > 0) {
+          quest.progress = 100
         }
       }
       
