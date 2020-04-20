@@ -617,7 +617,7 @@ export const fetchQuests = async function(ENSName, account) {
             user: account.toLowerCase()
           }
         })
-        if (result.data.user.parcels) {
+        if (result.data.user && result.data.user.parcels) {
           quest.progress = 100
         }
       }
