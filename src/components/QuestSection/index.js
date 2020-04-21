@@ -4,21 +4,29 @@ import { fetchQuests } from '../../quests'
 import { useWeb3React } from '@web3-react/core'
 import { useENSName } from '../../hooks'
 import useMedia from 'use-media'
-import Modal from '../Modal'
 const EthmojiAPI = require('ethmoji-js').default
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  width: 80%;
+  width: 65%;
   margin: auto;
   align-items: flex-start;
   justify-content: center;
   padding-top: ${({ theme }) => theme.bigPadding};
 `
 
+const Section = styled.div`
+  display: grid;
+  grid-template-areas: "header header"\n"gutter quests";
+  grid-template-columns: 21px auto;
+  grid-template-rows: 115px auto;
+  width: 100%;
+`
+
 const Heading = styled.div`
+  grid-area: header;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -27,14 +35,20 @@ const Heading = styled.div`
   font-size: 24px;
   height: 80px;
   font-weight: bold;
+  margin-top: 15px;
   margin-bottom: 2rem;
 
   & > div > span {
     display: block;
-    font-size: 18px;
+    font-size: 16px;
     margin-top: 5px;
     color: #A1A4B1;
   }
+`
+
+const Gutter = styled.div`
+  grid-area: gutter;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
 `
 
 const Quest = styled.div`
@@ -55,6 +69,10 @@ const Quest = styled.div`
   &:hover {
     cursor: pointer;
     background-color: #202020;
+  }
+
+  &:first-of-type {
+    margin-top: 10px;
   }
 
   @media (max-width: 1400px) {
@@ -143,7 +161,7 @@ const Track = styled.div`
 `
 
 const QuestWrapper = styled.div`
-  width: 100%;
+  grid-area: quests;
 `
 
 const QuestOverview = styled.div`
@@ -167,37 +185,18 @@ const Points = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: Inter;
   font-size 13px;
   font-weight: bold;
 `
 
 const DripSymbol = styled.img`
   height: 15px;
-  margin-left: 2px;
+  margin-left: 3px;
 `
 
 const QuestType = styled.div`
   grid-area: type;
-`
-
-const ModalContent = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 0 2rem 3rem 2rem;
-`
-
-const ModalRow = styled.div`
-  padding-top: 2rem;
-  display: grid;
-  row-gap: 20px;
-`
-
-const ContentHeader = styled.div`
-  font-weight: 600;
-`
-
-const ContentBody = styled.span`
-  color: #bebfc1;
 `
 
 const MojiWrapper = styled.div`
@@ -221,11 +220,13 @@ const Description = styled.div`
 export default function QuestSection() {
   const [quests, setQuests] = useState([])
 
+  const [weeklyQuests, setWeeklyQuests] = useState([])
+
+  const [sideQuests, setSideQuests] = useState([])
+
   const { account } = useWeb3React()
 
   const ENSName = useENSName(account)
-
-  const [modalOpen, toggleModal] = useState(false)
 
   const [OpenQuest, setOpenQuest] = useState()
 
@@ -255,118 +256,159 @@ export default function QuestSection() {
 
   useEffect(() => {
     fetchQuests(ENSName, account).then(data => {
+      let weeklyQuests = 0;
+      let sideQuests = 0;
+      data.map((quest) => {
+        if (quest.type === 'weekly' && quest.progress < 100) {
+          weeklyQuests += 1;
+        } 
+        if (quest.type === 'side-quest' && quest.progress < 100) {
+          sideQuests += 1;
+        }
+      })
+      setSideQuests(sideQuests)
+      setWeeklyQuests(weeklyQuests)
       setQuests(data)
     })
   }, [ENSName, account])
 
   return (
     <Wrapper>
-      <Modal
-        isOpen={modalOpen}
-        onDismiss={() => {
-          toggleModal(false)
-        }}
-      >
-        <ModalContent>
-          {OpenQuest && (
-            <>
-              <ModalRow>
-                <span style={{ color: '#00D395' }}>{OpenQuest.name}</span>
-              </ModalRow>
-              <ModalRow>
-                <ContentHeader>Platform</ContentHeader>
-                <ContentBody>{OpenQuest.description}</ContentBody>
-              </ModalRow>
-              <ModalRow>
-                <ContentHeader>Challenge</ContentHeader>
-                <ContentBody>{OpenQuest.task}</ContentBody>
-              </ModalRow>
-              <ModalRow>
-                <ContentHeader>Where to Start</ContentHeader>
-                <ContentBody>{OpenQuest.resource}</ContentBody>
-              </ModalRow>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-      <Heading>
-        <div>Weekly Quests<span>Complete these challenges before they expire</span></div>
-        {!isXXSmall ? (
-          <MojiWrapper style={{ paddingRight: '1rem' }}>{ethMoji && <img src={ethMoji.imageUrl} alt="" />}</MojiWrapper>
-        ) : null}
-      </Heading>
+      {weeklyQuests > 0 ?
+        <Section>
+          <Heading>
+            <div>Weekly Quests<span>Complete these challenges before they expire</span></div>
+            {!isXXSmall ? (
+              <MojiWrapper style={{ paddingRight: '1rem' }}>{ethMoji && <img src={ethMoji.imageUrl} alt="" />}</MojiWrapper>
+            ) : null}
+          </Heading>
 
-      <QuestWrapper>
-        {quests.map((quest, i) => {
-          let icon = require('../../assets/images/' + quest.imgPath)
-          if (quest.progress < 100) {
-            return (
-              <Quest
-                key={i}
-                isOpen={OpenQuest === quest}
-                onClick={() => {
-                  setOpenQuest(quest)
-                }}
-              >
-                <Collapser isOpen={OpenQuest === quest} src={require('../../assets/images/carat.svg')}></Collapser>
-                <Icon>
-                  <img src={icon} alt="" />
-                </Icon>
-                <QuestOverview>
-                  <Platform color={quest.color}>{quest.platform}</Platform>
-                  <BlurbWrapper>{quest.blurb}</BlurbWrapper>
-                </QuestOverview>
-                <JustifyEnd style={{ gridArea: 'perc' }}>
-                  {(isXXXSmall ? (quest.progress).toFixed(0) : (quest.progress).toFixed(1)) + '%'}
-                </JustifyEnd>
-                {!isXXXSmall && <QuestType><img src={require('../../assets/images/' + quest.type + '.svg')} alt={quest.type} /></QuestType>}
-                {!isExtraSmall && <Track>{quest.category}</Track>}
-                {!isXXXSmall && <Points>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>}
-                {<Description isOpen={OpenQuest === quest}>{quest.description}</Description>}
-              </Quest>
-            )
-          }
-          return true
-        })}
-      </QuestWrapper>
+          <Gutter />
 
+          <QuestWrapper>
+            {quests.map((quest, i) => {
+              let icon = require('../../assets/images/' + quest.imgPath)
+              if (quest.type === 'weekly' && quest.progress < 100) {
+                return (
+                  <Quest
+                    key={i}
+                    isOpen={OpenQuest === quest}
+                    onClick={() => {
+                      setOpenQuest(quest)
+                    }}
+                  >
+                    <Collapser isOpen={OpenQuest === quest} src={require('../../assets/images/carat.svg')}></Collapser>
+                    <Icon>
+                      <img src={icon} alt="" />
+                    </Icon>
+                    <QuestOverview>
+                      <Platform color={quest.color}>{quest.platform}</Platform>
+                      <BlurbWrapper>{quest.blurb}</BlurbWrapper>
+                    </QuestOverview>
+                    <JustifyEnd style={{ gridArea: 'perc' }}>
+                      {(isXXXSmall ? (quest.progress).toFixed(0) : (quest.progress).toFixed(1)) + '%'}
+                    </JustifyEnd>
+                    {!isXXXSmall && <QuestType><img src={require('../../assets/images/track.svg')} alt={quest.type} /></QuestType>}
+                    {!isExtraSmall && <Track>{quest.track}</Track>}
+                    {!isXXXSmall && <Points>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>}
+                    {<Description isOpen={OpenQuest === quest}>{quest.description}</Description>}
+                  </Quest>
+                )
+              }
+              return true
+            })}
+          </QuestWrapper>
+        </Section>
+       : null }
 
-      <Heading>
-        <div>Tracks<span>Progress through each application’s track and earn rewards</span></div>
-      </Heading>
-      <QuestWrapper>
-        {quests.map((quest, i) => {
-          if (quest.progress >= 100) {
-            return (
-              <Quest
-                key={i}
-                isOpen={OpenQuest === quest}
-                onClick={() => {
-                  setOpenQuest(quest)
-                }}
-              >
+      <Section>
+        <Heading>
+          <div>Tracks<span>Progress through each application’s track and earn rewards</span></div>
+        </Heading>
 
-                <Collapser isOpen={OpenQuest === quest} src={require('../../assets/images/carat.svg')}></Collapser>
-                <Icon>
-                  <img src={require('../../assets/images/' + quest.imgPath)} alt="" />
-                </Icon>
-                <QuestOverview>
-                  <Platform color={quest.color}>{quest.platform}</Platform>
-                  <BlurbWrapper>{quest.blurb}</BlurbWrapper>
-                </QuestOverview>
-                <JustifyEnd style={{ gridArea: 'perc' }}>
-                  {(isXXXSmall ? (quest.progress).toFixed(0) : (quest.progress).toFixed(1)) + '%'}
-                </JustifyEnd>
-                {!isXXXSmall && <QuestType><img src={require('../../assets/images/' + quest.type + '.svg')} alt={quest.type} /></QuestType>}
-                {!isExtraSmall && <Track>{quest.category}</Track>}
-                {!isXXXSmall && <Points style={{ gridArea: 'points' }}>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>}
-                {<Description isOpen={OpenQuest === quest}>{quest.description}</Description>}
-              </Quest>
-            )
-          }
-          return true
-        })}
-      </QuestWrapper>
+        <Gutter />
+
+        <QuestWrapper>
+          {quests.map((quest, i) => {
+            if (quest.type === 'track' && quest.progress < 100) {
+              return (
+                <Quest
+                  key={i}
+                  isOpen={OpenQuest === quest}
+                  onClick={() => {
+                    setOpenQuest(quest)
+                  }}
+                >
+
+                  <Collapser isOpen={OpenQuest === quest} src={require('../../assets/images/carat.svg')}></Collapser>
+                  <Icon>
+                    <img src={require('../../assets/images/' + quest.imgPath)} alt="" />
+                  </Icon>
+                  <QuestOverview>
+                    <Platform color={quest.color}>{quest.platform}</Platform>
+                    <BlurbWrapper>{quest.blurb}</BlurbWrapper>
+                  </QuestOverview>
+                  <JustifyEnd style={{ gridArea: 'perc' }}>
+                    {(isXXXSmall ? (quest.progress).toFixed(0) : (quest.progress).toFixed(1)) + '%'}
+                  </JustifyEnd>
+                  {!isXXXSmall && <QuestType><img src={require('../../assets/images/' + quest.type + '.svg')} alt={quest.type} /></QuestType>}
+                  {!isExtraSmall && <Track>{quest.category}</Track>}
+                  {!isXXXSmall && <Points style={{ gridArea: 'points' }}>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>}
+                  {<Description isOpen={OpenQuest === quest}>{quest.description}</Description>}
+                </Quest>
+              )
+            }
+            return true
+          })}
+        </QuestWrapper>
+      </Section>
+
+      {sideQuests > 0 ?
+        <Section>
+          <Heading>
+            <div>Bonus Challenges<span>Complete these challenges before they expire</span></div>
+            {!isXXSmall ? (
+              <MojiWrapper style={{ paddingRight: '1rem' }}>{ethMoji && <img src={ethMoji.imageUrl} alt="" />}</MojiWrapper>
+            ) : null}
+          </Heading>
+
+          <Gutter />
+
+          <QuestWrapper>
+            {quests.map((quest, i) => {
+              let icon = require('../../assets/images/' + quest.imgPath)
+              if (quest.type === 'side-quest' && quest.progress < 100) {
+                return (
+                  <Quest
+                    key={i}
+                    isOpen={OpenQuest === quest}
+                    onClick={() => {
+                      setOpenQuest(quest)
+                    }}
+                  >
+                    <Collapser isOpen={OpenQuest === quest} src={require('../../assets/images/carat.svg')}></Collapser>
+                    <Icon>
+                      <img src={icon} alt="" />
+                    </Icon>
+                    <QuestOverview>
+                      <Platform color={quest.color}>{quest.platform}</Platform>
+                      <BlurbWrapper>{quest.blurb}</BlurbWrapper>
+                    </QuestOverview>
+                    <JustifyEnd style={{ gridArea: 'perc' }}>
+                      {(isXXXSmall ? (quest.progress).toFixed(0) : (quest.progress).toFixed(1)) + '%'}
+                    </JustifyEnd>
+                    {!isXXXSmall && <QuestType><img src={require('../../assets/images/' + quest.type + '.svg')} alt={quest.type} /></QuestType>}
+                    {!isExtraSmall && <Track>{quest.track}</Track>}
+                    {!isXXXSmall && <Points>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>}
+                    {<Description isOpen={OpenQuest === quest}>{quest.description}</Description>}
+                  </Quest>
+                )
+              }
+              return true
+            })}
+          </QuestWrapper>
+        </Section>
+       : null }
     </Wrapper>
   )
 }

@@ -9,23 +9,37 @@ export const compoundClient = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-export const poolTogetherClient = new ApolloClient({
+export const cryptoKittiesClient = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://api.thegraph.com/subgraphs/name/asselstine/pooltogether'
+    uri: 'https://api.thegraph.com/subgraphs/name/thomasproust/cryptokitties-explorer'
   }),
   cache: new InMemoryCache()
 })
 
-export const uniClient = new ApolloClient({
+export const ensClient = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://api.thegraph.com/subgraphs/name/graphprotocol/uniswap'
+    uri: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens'
   }),
   cache: new InMemoryCache()
 })
 
-export const setClient = new ApolloClient({
+export const makerGovClient = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://api.thegraph.com/subgraphs/name/destiner/token-sets'
+    uri: 'https://api.thegraph.com/subgraphs/name/scottrepreneur/maker-governance'
+  }),
+  cache: new InMemoryCache()
+})
+
+export const makerVaultsClient = new ApolloClient({
+  link: new HttpLink({
+    uri: 'https://api.thegraph.com/subgraphs/name/graphitetools/maker'
+  }),
+  cache: new InMemoryCache()
+})
+
+export const manaClient = new ApolloClient({
+  link: new HttpLink({
+    uri: 'https://api.thegraph.com/subgraphs/name/graphprotocol/decentraland'
   }),
   cache: new InMemoryCache()
 })
@@ -37,9 +51,23 @@ export const nexusClient = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-export const manaClient = new ApolloClient({
+export const poolTogetherClient = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://api.thegraph.com/subgraphs/name/graphprotocol/decentraland'
+    uri: 'https://api.thegraph.com/subgraphs/name/asselstine/pooltogether'
+  }),
+  cache: new InMemoryCache()
+})
+
+export const setClient = new ApolloClient({
+  link: new HttpLink({
+    uri: 'https://api.thegraph.com/subgraphs/name/destiner/token-sets'
+  }),
+  cache: new InMemoryCache()
+})
+
+export const uniClient = new ApolloClient({
+  link: new HttpLink({
+    uri: 'https://api.thegraph.com/subgraphs/name/graphprotocol/uniswap'
   }),
   cache: new InMemoryCache()
 })
