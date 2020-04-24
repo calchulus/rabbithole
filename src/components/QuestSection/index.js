@@ -258,17 +258,19 @@ export default function QuestSection() {
     fetchQuests(ENSName, account).then(data => {
       let weeklyQuests = 0;
       let sideQuests = 0;
-      data.map((quest) => {
-        if (quest.type === 'weekly' && quest.progress < 100) {
-          weeklyQuests += 1;
-        } 
-        if (quest.type === 'side-quest' && quest.progress < 100) {
-          sideQuests += 1;
-        }
-      })
-      setSideQuests(sideQuests)
-      setWeeklyQuests(weeklyQuests)
-      setQuests(data)
+      if (data) {
+        data.map((quest) => {
+          if (quest.type === 'weekly' && quest.progress < 100) {
+            weeklyQuests += 1;
+          } 
+          if (quest.type === 'side-quest' && quest.progress < 100) {
+            sideQuests += 1;
+          }
+        })
+        setSideQuests(sideQuests)
+        setWeeklyQuests(weeklyQuests)
+        setQuests(data)
+      }
     })
   }, [ENSName, account])
 

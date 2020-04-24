@@ -577,8 +577,9 @@ const trackList = {
 
 export const fetchQuests = async function(ENSName, account) {
   var request = require('request')
+  if (account) {
 
-  var poapOptions = { method: 'GET', url: 'https://api.opensea.io/api/v1/assets?owner=' + account + '&asset_contract_address=0x22c1f6050e56d2876009903609a2cc3fef83b415' }
+    var poapOptions = { method: 'GET', url: 'https://api.opensea.io/api/v1/assets?owner=' + account + '&asset_contract_address=0x22c1f6050e56d2876009903609a2cc3fef83b415' }
   var openSeaOptions = { method: 'GET', url: 'https://api.opensea.io/api/v1/events?event_type=successful&account_address=' + account }
 
   return Promise.all(
@@ -873,5 +874,5 @@ export const fetchQuests = async function(ENSName, account) {
       
       return quest
     })
-  )
+  )}
 }
