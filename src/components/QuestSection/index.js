@@ -234,7 +234,6 @@ export default function QuestSection() {
   const notificationThread = useNotificationThread(userSpace, account)
 
   const notificationPosts = useThreadPosts(notificationThread)
-  console.log(notificationPosts)
 
   const [notifyCompletedQuests, setNotifyCompletedQuests] = useState([])
 
