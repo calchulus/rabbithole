@@ -36,7 +36,7 @@ const questList = {
     imgPath: '3box.png',
     type: 'track',
     requisites: [],
-    points: 100,
+    points: 250,
     progress: 0
   },
   COMP1: {
@@ -50,7 +50,7 @@ const questList = {
     imgPath: 'compound.png',
     type: 'track',
     requisites: [],
-    points: 100,
+    points: 250,
     progress: 0
   },
   COMP2: {
@@ -64,7 +64,7 @@ const questList = {
     imgPath: 'compound.png',
     type: 'track',
     requisites: [],
-    points: 100,
+    points: 500,
     progress: 0
   },
   COMP3: {
@@ -78,7 +78,7 @@ const questList = {
     imgPath: 'compound.png',
     type: 'track',
     requisites: [],
-    points: 100,
+    points: 750,
     progress: 0
   },
   ENS: {
@@ -92,7 +92,7 @@ const questList = {
     imgPath: 'enspng.png',
     type: 'track',
     requisites: [],
-    points: 100,
+    points: 250,
     progress: 0
   },
   KITTY1: {
@@ -106,7 +106,7 @@ const questList = {
     imgPath: 'cryptokitties.png',
     type: 'track',
     requisites: [],
-    points: 100,
+    points: 250,
     progress: 0
   },
   MANA1: {
@@ -121,7 +121,7 @@ const questList = {
     imgPath: 'mana.svg',
     type: 'track',
     requisites: [],
-    points: 200,
+    points: 500,
     progress: 0
   },
   MANA2: {
@@ -136,7 +136,7 @@ const questList = {
     imgPath: 'mana.svg',
     type: 'side-quest',
     requisites: [],
-    points: 200,
+    points: 1000,
     progress: 0
   },
   MKR1: {
@@ -150,7 +150,7 @@ const questList = {
     imgPath: 'makerdao.png',
     type: 'track',
     requisites: [],
-    points: 100,
+    points: 250,
     progress: 0
   },
   MKR2: {
@@ -195,7 +195,7 @@ const questList = {
     imgPath: 'makerdao.png',
     type: 'track',
     requisites: [],
-    points: 200,
+    points: 500,
     progress: 0
   },
   MKR5: {
@@ -210,7 +210,7 @@ const questList = {
     imgPath: 'makerdao.png',
     type: 'track',
     requisites: [],
-    points: 200,
+    points: 750,
     progress: 0
   },
   MKR6: {
@@ -329,7 +329,7 @@ const questList = {
     imgPath: 'ethmoji.png',
     type: 'side-quest',
     requisites: [],
-    points: 300,
+    points: 500,
     progress: 0
   },
   NEXUS: {
@@ -344,7 +344,7 @@ const questList = {
     imgPath: 'nexus.jpg',
     type: 'side-quest',
     requisites: [],
-    points: 200,
+    points: 250,
     progress: 0
   },
   POAP1: {
@@ -358,7 +358,7 @@ const questList = {
     imgPath: 'poap.png',
     type: 'weekly',
     requisites: [],
-    points: 200,
+    points: 250,
     progress: 0
   },
   POAP2: {
@@ -387,7 +387,7 @@ const questList = {
     imgPath: 'pooltogether.jpg',
     type: 'track',
     requisites: [],
-    points: 200,
+    points: 250,
     progress: 0
   },
   POOL2: {
@@ -402,7 +402,7 @@ const questList = {
     imgPath: 'pooltogether.jpg',
     type: 'track',
     requisites: [],
-    points: 200,
+    points: 500,
     progress: 0
   },
   POOL3: {
@@ -417,7 +417,7 @@ const questList = {
     imgPath: 'pooltogether.jpg',
     type: 'track',
     requisites: [],
-    points: 200,
+    points: 750,
     progress: 0
   },
   SEA1: {
@@ -432,7 +432,7 @@ const questList = {
     imgPath: 'opensea.jpg',
     type: 'track',
     requisites: [],
-    points: 200,
+    points: 500,
     progress: 0
   },
   SEA2: {
@@ -447,7 +447,7 @@ const questList = {
     imgPath: 'opensea.jpg',
     type: 'track',
     requisites: ['SEA-101'],
-    points: 200,
+    points: 250,
     progress: 0
   },
   SET1: {
@@ -462,7 +462,7 @@ const questList = {
     imgPath: 'set.svg',
     type: 'track',
     requisites: [],
-    points: 100,
+    points: 500,
     progress: 0
   },
   UNI1: {
@@ -475,7 +475,7 @@ const questList = {
     color: '#DC6BE5',
     imgPath: 'uniswap.png',
     type: 'track',
-    points: 200,
+    points: 250,
     progress: 0
   },
   UNI2: {
@@ -489,7 +489,7 @@ const questList = {
     imgPath: 'uniswap.png',
     type: 'side-quest',
     requisites: ['SET-101'],
-    points: 200,
+    points: 500,
     progress: 0
   },
   UNI3: {
@@ -503,7 +503,7 @@ const questList = {
     imgPath: 'uniswap.png',
     type: 'side-quest',
     requisites: ['uni-201'],
-    points: 200,
+    points: 250,
     progress: 0
   }
 }
@@ -580,299 +580,299 @@ export const fetchQuests = async function(ENSName, account) {
   if (account) {
 
     var poapOptions = { method: 'GET', url: 'https://api.opensea.io/api/v1/assets?owner=' + account + '&asset_contract_address=0x22c1f6050e56d2876009903609a2cc3fef83b415' }
-  var openSeaOptions = { method: 'GET', url: 'https://api.opensea.io/api/v1/events?event_type=successful&account_address=' + account }
+    var openSeaOptions = { method: 'GET', url: 'https://api.opensea.io/api/v1/events?event_type=successful&account_address=' + account }
 
-  return Promise.all(
-    Object.keys(questList).map(async key => {
-      let quest = questList[key]
-      if (key === 'BOX') {
-        const profile = await Box.getProfile(account)
-        if (profile.name) {
-          quest.progress = 100
+    return Promise.all(
+      Object.keys(questList).map(async key => {
+        let quest = questList[key]
+        if (key === 'BOX') {
+          const profile = await Box.getProfile(account)
+          if (profile.name) {
+            quest.progress = 100
+          }
         }
-      }
-      if (key === 'ENS') {
-        if (ENSName) {
-          quest.progress = 100
+        if (key === 'ENS') {
+          if (ENSName) {
+            quest.progress = 100
+          }
         }
-      }
-      if (key === 'MANA1') {
-        if (ENSName) {
-          let result = await ensClient.query({
-            query: DCL_ENS_QUERY,
+        if (key === 'MANA1') {
+          if (ENSName) {
+            let result = await ensClient.query({
+              query: DCL_ENS_QUERY,
+              fetchPolicy: 'cache-first',
+              variables: {
+                avatar_name: ENSName.replace('.eth', '.dcl.eth')
+              }
+            })
+            if (result.data.domains[0].owner.id === account.toLowerCase() || result.data.domains[0].resolvedAddress.id === account.toLowerCase()) {
+              quest.progress = 100
+            }
+          }
+        }
+        if (key === 'MANA2') {
+          let result = await manaClient.query({
+            query: MANA_QUERY,
             fetchPolicy: 'cache-first',
             variables: {
-              avatar_name: ENSName.replace('.eth', '.dcl.eth')
+              user: account.toLowerCase()
             }
           })
-          if (result.data.domains[0].owner.id === account.toLowerCase() || result.data.domains[0].resolvedAddress.id === account.toLowerCase()) {
+          if (result.data.user && result.data.user.parcels) {
             quest.progress = 100
           }
         }
-      }
-      if (key === 'MANA2') {
-        let result = await manaClient.query({
-          query: MANA_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: account.toLowerCase()
+        if (key === 'MOJI') {
+          const ethmojiAPI = new EthmojiAPI(global.web3.currentProvider)
+          try {
+            await ethmojiAPI.init()
+            const avatar = await ethmojiAPI.getAvatar(account)
+            if (avatar) {
+              quest.progress = 100
+            }
+          } catch (error) {
+            console.log(error.message)
           }
-        })
-        if (result.data.user && result.data.user.parcels) {
-          quest.progress = 100
         }
-      }
-      if (key === 'MOJI') {
-        const ethmojiAPI = new EthmojiAPI(global.web3.currentProvider)
-        try {
-          await ethmojiAPI.init()
-          const avatar = await ethmojiAPI.getAvatar(account)
-          if (avatar) {
-            quest.progress = 100
-          }
-        } catch (error) {
-          console.log(error.message)
+        if (key === 'NEXUS') {
+          try {
+            let result = await nexusClient.query({
+              query: NEXUS_QUERY,
+              fetchPolicy: 'cache-first',
+              variables: {
+                user: account
+              }
+            })
+            if (result.data.member) {
+              quest.progress = 100
+            }
+          } catch (e) {}
         }
-      }
-      if (key === 'NEXUS') {
-        try {
-          let result = await nexusClient.query({
-            query: NEXUS_QUERY,
+        if (key === 'POAP1') {
+          request(poapOptions, function(error, response, body) {
+            if (!error && body.length > 0) {
+              var result = JSON.parse(body)
+              result.assets.map(badge => {
+                if (badge.name === 'Berlin Blockchain week - 2019') { // change to Topaz ceremony or other relevant meetup
+                  quest.progress = 100
+                  return true
+                }
+              })
+            }
+          })
+        }
+        if (key === 'POAP2') {
+          request(poapOptions, function(error, response, body) {
+            if (!error && body.length > 0) {
+              var result = JSON.parse(body)
+              if (result.assets.length > 0) {
+                quest.progress = 100
+                return true
+              }
+            }
+          })
+        }
+        if (key === 'SET1') {
+          let result = await setClient.query({
+            query: SET_OWNER_QUERY,
             fetchPolicy: 'cache-first',
             variables: {
               user: account
             }
           })
-          if (result.data.member) {
-            quest.progress = 100
-          }
-        } catch (e) {}
-      }
-      if (key === 'POAP1') {
-        request(poapOptions, function(error, response, body) {
-          if (!error && body.length > 0) {
-            var result = JSON.parse(body)
-            result.assets.map(badge => {
-              if (badge.name === 'Berlin Blockchain week - 2019') { // change to Topaz ceremony or other relevant meetup
-                quest.progress = 100
-                return true
-              }
-            })
-          }
-        })
-      }
-      if (key === 'POAP2') {
-        request(poapOptions, function(error, response, body) {
-          if (!error && body.length > 0) {
-            var result = JSON.parse(body)
-            if (result.assets.length > 0) {
+          if (result.data) {
+            if (result.data.issuances && result.data.issuances.length > 0) {
               quest.progress = 100
+            }
+          }
+        }
+        if (key === 'UNI1') {
+          let result = await uniClient.query({
+            query: UNI_POOL_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: account
+            }
+          })
+          if (result.data.userExchangeDatas) {
+            let supplied = false
+            Object.keys(result.data.userExchangeDatas).map(key => {
+              let exchange = result.data.userExchangeDatas[key]
+              if (exchange.tokensDeposited > 0) {
+                supplied = true
+              }
               return true
-            }
-          }
-        })
-      }
-      if (key === 'SET1') {
-        let result = await setClient.query({
-          query: SET_OWNER_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: account
-          }
-        })
-        if (result.data) {
-          if (result.data.issuances && result.data.issuances.length > 0) {
-            quest.progress = 100
-          }
-        }
-      }
-      if (key === 'UNI1') {
-        let result = await uniClient.query({
-          query: UNI_POOL_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: account
-          }
-        })
-        if (result.data.userExchangeDatas) {
-          let supplied = false
-          Object.keys(result.data.userExchangeDatas).map(key => {
-            let exchange = result.data.userExchangeDatas[key]
-            if (exchange.tokensDeposited > 0) {
-              supplied = true
-            }
-            return true
-          })
-          if (supplied) {
-            quest.progress = 100
-          }
-        }
-      }
-      if (key === 'UNI2') {
-        let result = await uniClient.query({
-          query: UNI_POOL_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: account
-          }
-        })
-        if (result.data.userExchangeDatas) {
-          let supplied = 0
-          Object.keys(result.data.userExchangeDatas).map(key => {
-            let exchange = result.data.userExchangeDatas[key]
-            supplied += parseFloat(exchange.ethDeposited)
-          })
-          quest.progress = parseFloat(supplied) / 0.5 * 100
-        }
-      }
-      if (key === 'KITTY1') {
-        let result = await cryptoKittiesClient.query({
-          query: KITTIES_BRED_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: account
-          }
-        })
-        if (result.data.births) {
-          quest.progress = 100
-        }
-      }
-      if (key === 'COMP1') {
-        let result = await compoundClient.query({
-          query: COMPOUND_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: account.toLowerCase()
-          }
-        })
-        if (result.data.account) {
-          if (parseFloat(result.data.account.totalCollateralValueInEth) > 0.005) {
-            quest.progress = 100
-          }
-        }
-      }
-      if (key === 'COMP2') {
-        let result = await compoundClient.query({
-          query: COMPOUND_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: account.toLowerCase()
-          }
-        })
-        if (result.data.account) {
-          if (parseFloat(result.data.account.totalBorrowValueInEth) > 0.005) {
-            quest.progress = 100
-          }
-        }
-      }
-      if (key === 'COMP3') {
-        let result = await compoundClient.query({
-          query: COMPOUND_INTEREST_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: account.toLowerCase()
-          }
-        })
-        if (result.data.account) {
-          let totalSupplyInterest = 0;
-          result.data.account.tokens.map(lentToken => {
-            totalSupplyInterest = totalSupplyInterest + parseFloat(lentToken.lifetimeSupplyInterestAccrued)
-          })
-          if (totalSupplyInterest > 0) {
-            quest.progress = totalSupplyInterest / 0.005 * 100
-          }
-        }
-      }
-      if (key === 'POOL1') {
-        let result = await poolTogetherClient.query({
-          query: POOL_TOGETHER_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
-          }
-        })
-        if (result.data.player) {
-          if (parseInt(result.data.player.consolidatedBalance) / 10 ** 18 >= 1 && parseInt(result.data.player.latestBalance) / 10 ** 18 >= 1) {
-            quest.progress = 100
-          }
-        }
-      }
-      if (key === 'POOL2') {
-        let result = await poolTogetherClient.query({
-          query: POOL_TOGETHER_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
-          }
-        })
-        if (result.data.player) {
-          if (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId) >= 5) {
-            quest.progress = 100
-          }
-        }
-      }
-      if (key === 'POOL3') {
-        let result = await poolTogetherClient.query({
-          query: POOL_TOGETHER_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
-          }
-        })
-        if (result.data.player) {
-          if (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId) >= 20) {
-            quest.progress = 100
-          }
-        }
-      }
-      if (key === 'SEA1') {
-        request(openSeaOptions, function(error, response, body) {
-          if (!error && body.length > 0) {
-            var result = JSON.parse(body)
-            var itemsSold = 0
-            result['asset_events'].map(event => {
-              if (event.seller.address === account.toLowerCase()) {
-                itemsSold += 1
-              }
             })
-            if (itemsSold > 1) {
+            if (supplied) {
               quest.progress = 100
             }
           }
-        })
-      }
-      if (key === 'SEA2') {
-        request(openSeaOptions, function(error, response, body) {
-          if (!error && body.length > 0) {
-            var result = JSON.parse(body)
-            if (result['asset_events']) {
-              quest.progress = 100
-                return true
-            }
-          }
-        })
-      }
-      if (key === 'MKR4') {
-        let result = await makerGovClient.query({
-          query: MKR_SPELL_VOTES_QUERY,
-          fetchPolicy: 'cache-first',
-          variables: {
-            user: account.toLowerCase()
-          }
-        })
-        var votes = 0
-
-        result.data.votingActions.map(action => {
-          if (action.id.search('ADD-ARRAY')) {
-            votes += 1
-          }
-        })
-        if (votes > 0) {
-          quest.progress = 100
         }
+        if (key === 'UNI2') {
+          let result = await uniClient.query({
+            query: UNI_POOL_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: account
+            }
+          })
+          if (result.data.userExchangeDatas) {
+            let supplied = 0
+            Object.keys(result.data.userExchangeDatas).map(key => {
+              let exchange = result.data.userExchangeDatas[key]
+              supplied += parseFloat(exchange.ethDeposited)
+            })
+            quest.progress = parseFloat(supplied) / 0.5 * 100
+          }
+        }
+        if (key === 'KITTY1') {
+          let result = await cryptoKittiesClient.query({
+            query: KITTIES_BRED_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: account
+            }
+          })
+          if (result.data.births) {
+            quest.progress = 100
+          }
+        }
+        if (key === 'COMP1') {
+          let result = await compoundClient.query({
+            query: COMPOUND_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: account.toLowerCase()
+            }
+          })
+          if (result.data.account) {
+            if (parseFloat(result.data.account.totalCollateralValueInEth) > 0.005) {
+              quest.progress = 100
+            }
+          }
+        }
+        if (key === 'COMP2') {
+          let result = await compoundClient.query({
+            query: COMPOUND_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: account.toLowerCase()
+            }
+          })
+          if (result.data.account) {
+            if (parseFloat(result.data.account.totalBorrowValueInEth) > 0.005) {
+              quest.progress = 100
+            }
+          }
+        }
+        if (key === 'COMP3') {
+          let result = await compoundClient.query({
+            query: COMPOUND_INTEREST_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: account.toLowerCase()
+            }
+          })
+          if (result.data.account) {
+            let totalSupplyInterest = 0;
+            result.data.account.tokens.map(lentToken => {
+              totalSupplyInterest = totalSupplyInterest + parseFloat(lentToken.lifetimeSupplyInterestAccrued)
+            })
+            if (totalSupplyInterest > 0) {
+              quest.progress = totalSupplyInterest / 0.005 * 100
+            }
+          }
+        }
+        if (key === 'POOL1') {
+          let result = await poolTogetherClient.query({
+            query: POOL_TOGETHER_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
+            }
+          })
+          if (result.data.player) {
+            if (parseInt(result.data.player.consolidatedBalance) / 10 ** 18 >= 1 && parseInt(result.data.player.latestBalance) / 10 ** 18 >= 1) {
+              quest.progress = 100
+            }
+          }
+        }
+        if (key === 'POOL2') {
+          let result = await poolTogetherClient.query({
+            query: POOL_TOGETHER_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
+            }
+          })
+          if (result.data.player) {
+            if (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId) >= 5) {
+              quest.progress = 100
+            }
+          }
+        }
+        if (key === 'POOL3') {
+          let result = await poolTogetherClient.query({
+            query: POOL_TOGETHER_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
+            }
+          })
+          if (result.data.player) {
+            if (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId) >= 20) {
+              quest.progress = 100
+            }
+          }
+        }
+        if (key === 'SEA1') {
+          request(openSeaOptions, function(error, response, body) {
+            if (!error && body.length > 0) {
+              var result = JSON.parse(body)
+              var itemsSold = 0
+              result['asset_events'].map(event => {
+                if (event.seller.address === account.toLowerCase()) {
+                  itemsSold += 1
+                }
+              })
+              if (itemsSold > 1) {
+                quest.progress = 100
+              }
+            }
+          })
+        }
+        if (key === 'SEA2') {
+          request(openSeaOptions, function(error, response, body) {
+            if (!error && body.length > 0) {
+              var result = JSON.parse(body)
+              if (result['asset_events']) {
+                quest.progress = 100
+                  return true
+              }
+            }
+          })
+        }
+        if (key === 'MKR4') {
+          let result = await makerGovClient.query({
+            query: MKR_SPELL_VOTES_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: account.toLowerCase()
+            }
+          })
+          var votes = 0
+
+          result.data.votingActions.map(action => {
+            if (action.id.search('ADD-ARRAY')) {
+              votes += 1
+            }
+          })
+          if (votes > 0) {
+            quest.progress = 100
+          }
+        }
+        
+        return quest
       }
-      
-      return quest
-    })
-  )}
+  ))}
 }

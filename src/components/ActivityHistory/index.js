@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { fetchQuests } from '../../quests'
+import { useWeb3React } from '@web3-react/core'
+import { useENSName } from '../../hooks'
 
 const Wrapper = styled.div`
   display: grid;
@@ -386,6 +389,17 @@ const theHistory = [
 export default function ActivityHistory() {
   const [quests, setQuests] = useState([])
 
+  const { account } = useWeb3React()
+
+  const ENSName = useENSName(account)
+
+  useEffect(() => {
+    fetchQuests(ENSName, account).then(data => {
+      console.log(data)
+      setQuests(data)
+    })
+  }, [ENSName, account])
+
   return (
     <Wrapper>
       <Leaderboard>
@@ -427,37 +441,24 @@ export default function ActivityHistory() {
           <img src={require('../../assets/images/clip.png')} alt="copy to clipboard" /> Copy link to clipboard
         </CopyLink>
         <div style={{ gridArea: 'activities' }}>
-          {theHistory.map((date) => {
-            return (
-              <Day key={date.date}>
-                <Date>
-                  {date.date}
-                </Date>
-
-                <Gutter />
-
-                <Activities>
-                  {date.activities.map((activity) => {
-                    return (
-                      <Activity key={activity.name}>
-                        <Icon>
-                          <img src={require('../../assets/images/' + activity.imgPath)} alt="" />
-                        </Icon>
-                        <QuestOverview>
-                          <Platform color={activity.color}>{activity.platform}</Platform>
-                          <BlurbWrapper>{activity.blurb}</BlurbWrapper>
-                        </QuestOverview>
-                        <Points style={{ gridArea: 'points' }}>{activity.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>
-                        <Link>
-                          <a href={activity.url}><img src={require('../../assets/images/globe.png')} alt="etherscan link" /></a>
-                        </Link>
-                      </Activity>
-                    )
-                  })}
-                </Activities>
-              </Day>
-            )
-          })}
+          {quests.map(quest => {
+            if (quest.progress >= 100) {
+              return (
+                <Activity key={quest.name}>
+                  <Icon>
+                    <img src={require('../../assets/images/' + quest.imgPath)} alt="" />
+                  </Icon>
+                  <QuestOverview>
+                    <Platform color={quest.color}>{quest.platform}</Platform>
+                    <BlurbWrapper>{quest.blurb}</BlurbWrapper>
+                  </QuestOverview>
+                  <Points style={{ gridArea: 'points' }}>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>
+                  <Link>
+                    <a href={quest.url}><img src={require('../../assets/images/globe.png')} alt="etherscan link" /></a>
+                  </Link>
+                </Activity>
+              )
+            }})}
         </div>
       </History>
     </Wrapper>

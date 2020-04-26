@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { fetchQuests } from '../../quests'
 import { useWeb3React } from '@web3-react/core'
-import { useENSName } from '../../hooks'
+import { useENSName, useBoxStorage, useNotificationThread, useThreadPosts } from '../../hooks'
+import { ToastMessage } from 'rimble-ui';
 import useMedia from 'use-media'
 const EthmojiAPI = require('ethmoji-js').default
 
@@ -227,6 +228,15 @@ export default function QuestSection() {
   const { account } = useWeb3React()
 
   const ENSName = useENSName(account)
+
+  const userSpace = useBoxStorage(account, global.web3.currentProvider)
+
+  const notificationThread = useNotificationThread(userSpace, account)
+
+  const notificationPosts = useThreadPosts(notificationThread)
+  console.log(notificationPosts)
+
+  const [notifyCompletedQuests, setNotifyCompletedQuests] = useState([])
 
   const [OpenQuest, setOpenQuest] = useState()
 
