@@ -68,7 +68,7 @@ const Quest = styled.div`
 
   &:hover {
     cursor: pointer;
-    background-color: #202020;
+    background-color: #444444;;
   }
 
   &:first-of-type {
