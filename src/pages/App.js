@@ -1,12 +1,13 @@
-import React, { Suspense } from 'react'
-import styled from 'styled-components'
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import React, { Suspense } from "react"
+import styled from "styled-components"
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
 
-import Web3ReactManager from '../components/Web3ReactManager'
+import Web3ReactManager from "../components/Web3ReactManager"
 
-import Nav from '../components/Nav'
-import Home from '../components/Home'
-import ActivityHistory from '../components/ActivityHistory'
+import Nav from "../components/Nav"
+import Home from "../components/Home"
+import Progress from "../pages/Progress"
+import ActivityHistory from "../components/ActivityHistory"
 
 const AppWrapper = styled.div`
   display: flex;
@@ -36,11 +37,22 @@ export default function App() {
           <BodyWrapper>
             <Web3ReactManager>
               <BrowserRouter>
+                <Nav />
                 <Suspense fallback={null}>
-                  <Nav />
                   <Switch>
-                    <Route exact strict path="/activity" component={() => <ActivityHistory />} />
+                    <Route
+                      exact
+                      strict
+                      path="/activity"
+                      component={() => <ActivityHistory />}
+                    />
                     <Route exact strict path="/" component={() => <Home />} />
+                    <Route
+                      exact
+                      strict
+                      path="/progress"
+                      component={() => <Progress />}
+                    />
                     <Redirect to="/" />
                   </Switch>
                 </Suspense>

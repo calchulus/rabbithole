@@ -1,199 +1,179 @@
-import { setClient, uniClient, nexusClient, manaClient } from '../apollo/client'
-import { UNI_POOL_QUERY, SET_OWNER_QUERY, NEXUS_QUERY, MANA_QUERY } from '../apollo/queries'
-const EthmojiAPI = require('ethmoji-js').default
+import { setClient, uniClient, nexusClient, manaClient } from "../apollo/client"
+import {
+  UNI_POOL_QUERY,
+  SET_OWNER_QUERY,
+  NEXUS_QUERY,
+  MANA_QUERY,
+} from "../apollo/queries"
+const EthmojiAPI = require("ethmoji-js").default
 
 const questList = {
   ENS: {
-    name: 'ENS-101',
-    blurb: 'Register an ENS name',
-    task: 'Register an ENS name to your Ethereum address.',
-    description: 'ENS is managed through the ENS Manager currently. Go register a .eth domain and set the resolver to your address.',
-    resource: 'manager.ens.domains/',
-    platform: 'ENS',
-    color: '#5183FE',
-    imgPath: 'enspng.png',
-    type: 'side-quest',
+    name: "ENS-101",
+    blurb: "Register an ENS name",
+    task: "Register an ENS name to your Ethereum address.",
+    description:
+      "ENS is managed through the ENS Manager currently. Go register a .eth domain and set the resolver to your address.",
+    resource: "manager.ens.domains/",
+    platform: "ENS",
+    color: "#5183FE",
+    imgPath: "enspng.png",
+    type: "side-quest",
     requisites: [],
     points: 100,
-    progress: 0
+    progress: 0,
   },
   UNI1: {
-    name: 'UNI-101',
-    blurb: 'Supply liquidity in Uniswap',
-    task: 'Supply liquidity to at least 1 pool on Uniswap.',
-    description: 'To supply liquidity, head over to uniswap.exchange/pool. You can select any currency to supply liquidity for this challenge.',
-    resource: 'www.uniswap.exchange',
-    platform: 'Uniswap',
-    color: '#DC6BE5',
-    imgPath: 'uniswap.png',
-    type: 'track',
+    name: "UNI-101",
+    blurb: "Supply liquidity in Uniswap",
+    task: "Supply liquidity to at least 1 pool on Uniswap.",
+    description:
+      "To supply liquidity, head over to uniswap.exchange/pool. You can select any currency to supply liquidity for this challenge.",
+    resource: "www.uniswap.exchange",
+    platform: "Uniswap",
+    color: "#DC6BE5",
+    imgPath: "uniswap.png",
+    type: "track",
     requisites: [],
     points: 200,
-    progress: 0
+    progress: 0,
   },
   UNI2: {
-    name: 'UNI-301',
-    blurb: 'Supply 0.5ETH liquidity in Uniswap',
-    task: 'Supply at least 0.5 ETH on Uniswap.',
-    description: 'Supply a total liquidity of 0.5 ETH to complete this challenge. Head over to uniswap.exchange/pool to get started.',
-    resource: 'www.uniswap.exchange',
-    platform: 'Uniswap',
-    color: '#DC6BE5',
-    imgPath: 'uniswap.png',
-    type: 'track',
+    name: "UNI-301",
+    blurb: "Supply 0.5ETH liquidity in Uniswap",
+    task: "Supply at least 0.5 ETH on Uniswap.",
+    description:
+      "Supply a total liquidity of 0.5 ETH to complete this challenge. Head over to uniswap.exchange/pool to get started.",
+    resource: "www.uniswap.exchange",
+    platform: "Uniswap",
+    color: "#DC6BE5",
+    imgPath: "uniswap.png",
+    type: "track",
     points: 200,
-    progress: 0
+    progress: 0,
   },
   POAP: {
-    name: 'POAP-100',
-    blurb: 'Attend an EF event',
-    task: 'Acquire a POAP NFT for attending an EF event.',
-    description: 'When at an Ethereum Foundation event find a POAP representative to receive your badge and NFT.',
-    resource: 'https://opensea.io/assets/poap-v2',
-    platform: 'POAP',
-    color: '#DC6BE5',
-    imgPath: 'poap.png',
-    type: 'side-quest',
+    name: "POAP-100",
+    blurb: "Attend an EF event",
+    task: "Acquire a POAP NFT for attending an EF event.",
+    description:
+      "When at an Ethereum Foundation event find a POAP representative to receive your badge and NFT.",
+    resource: "https://opensea.io/assets/poap-v2",
+    platform: "POAP",
+    color: "#DC6BE5",
+    imgPath: "poap.png",
+    type: "side-quest",
     points: 1000,
-    progress: 0
+    progress: 0,
   },
   SET1: {
-    name: 'SET-101',
-    blurb: 'Buy a token set on Set Protocol',
-    task: 'Buy a token set on Set Protocol.',
+    name: "SET-101",
+    blurb: "Buy a token set on Set Protocol",
+    task: "Buy a token set on Set Protocol.",
     description:
-      'Set Protocol is a platform on Ethereum that enhances your portfolio with automated asset management strategies.',
-    resource: 'https://www.tokensets.com/',
-    platform: 'Set Protocol',
-    color: '#ECC251',
-    imgPath: 'set.svg',
-    type: 'track',
+      "Set Protocol is a platform on Ethereum that enhances your portfolio with automated asset management strategies.",
+    resource: "https://www.tokensets.com/",
+    platform: "Set Protocol",
+    color: "#ECC251",
+    imgPath: "set.svg",
+    type: "track",
     points: 100,
-    progress: 0
+    progress: 0,
   },
   NEXUS: {
-    name: 'NEXUS-101',
-    blurb: 'Own a piece of nexus mutual',
-    task: 'Buy NXM from Nexus Mutual to become a backer in the system.',
+    name: "NEXUS-101",
+    blurb: "Own a piece of nexus mutual",
+    task: "Buy NXM from Nexus Mutual to become a backer in the system.",
     description:
-      'Nexus Mutual uses the power of Ethereum so people can share risk together without the need for an insurance company.',
-    resource: 'https://nexusmutual.io/',
-    platform: 'Nexus Mutual',
-    color: '#60D3A2',
-    imgPath: 'nexus.jpg',
-    type: 'track',
+      "Nexus Mutual uses the power of Ethereum so people can share risk together without the need for an insurance company.",
+    resource: "https://nexusmutual.io/",
+    platform: "Nexus Mutual",
+    color: "#60D3A2",
+    imgPath: "nexus.jpg",
+    type: "track",
     points: 200,
-    progress: 0
+    progress: 0,
   },
   MANA: {
-    name: 'MANA-101',
-    blurb: 'Own a parcel of Decentraland',
-    task: 'Obtain at least 1 LAND parcel in your wallet.',
+    name: "MANA-101",
+    blurb: "Own a parcel of Decentraland",
+    task: "Obtain at least 1 LAND parcel in your wallet.",
     description:
-      'Decentraland is a virtual reality platform powered by the Ethereum blockchain that allows users to create, experience, and monetize content and applications',
-    resource: 'https://decentraland.org/',
-    platform: 'Decentraland',
-    color: '#FF0055',
-    imgPath: 'mana.svg',
-    type: 'track',
+      "Decentraland is a virtual reality platform powered by the Ethereum blockchain that allows users to create, experience, and monetize content and applications",
+    resource: "https://decentraland.org/",
+    platform: "Decentraland",
+    color: "#FF0055",
+    imgPath: "mana.svg",
+    type: "track",
     points: 200,
-    progress: 0
+    progress: 0,
   },
   MOJI: {
-    name: 'MOJI-101',
-    blurb: 'Create an ethmoji',
-    task: 'Own at least 1 ethmoji.',
-    description: 'Ethmoji is an avatar that you can digitally own.',
-    resource: 'https://ethmoji.io/',
-    platform: 'Ethmoji',
-    color: '#E052B8',
-    imgPath: 'ethmoji.png',
-    type: 'side-quest',
+    name: "MOJI-101",
+    blurb: "Create an ethmoji",
+    task: "Own at least 1 ethmoji.",
+    description: "Ethmoji is an avatar that you can digitally own.",
+    resource: "https://ethmoji.io/",
+    platform: "Ethmoji",
+    color: "#E052B8",
+    imgPath: "ethmoji.png",
+    type: "side-quest",
     points: 300,
-    progress: 0
-  }
+    progress: 0,
+  },
 }
 
 const trackList = {
   DEFI1: {
-    quests: [
-      'COM-101',
-      'UNI-101',
-      'SET-101'
-    ],
-    requisites: []
+    quests: ["COM-101", "UNI-101", "SET-101"],
+    requisites: [],
   },
   GAMES1: {
-    quests: [
-      'KITTY-101',
-      'SEA-101',
-    ],
-    requisites: []
+    quests: ["KITTY-101", "SEA-101"],
+    requisites: [],
   },
   PROFILE1: {
-    quests: [
-      '3BOX-101',
-      'ENS-101',
-      'MOJI-101'
-    ],
-    requisites: []
+    quests: ["3BOX-101", "ENS-101", "MOJI-101"],
+    requisites: [],
   },
   COMPOUND: {
-    quests: [
-      'COM-102',
-      'COM-205',
-      'COM-212'
-    ],
-    requisites: [
-      'COM-101'
-    ]
+    quests: ["COM-102", "COM-205", "COM-212"],
+    requisites: ["COM-101"],
   },
   POOL: {
-    quests: [
-      'POOL-101',
-      'POOL-204',
-      'POOL-406'
-    ],
-    requisites: ['COM-102']
+    quests: ["POOL-101", "POOL-204", "POOL-406"],
+    requisites: ["COM-102"],
   },
   VOXELS: {
-    quests: [
-      'VOXELS-101',
-      'VOXELS-205',
-      'VOXELS-301'
-    ],
-    requisites: ['KITTY-101']
+    quests: ["VOXELS-101", "VOXELS-205", "VOXELS-301"],
+    requisites: ["KITTY-101"],
   },
   MAKER: {
-    quests: [
-      'MKR-101',
-      'MKR-201',
-      'MKR-301'
-    ],
-    requisites: ['COM-102','SET-101']
-  }
+    quests: ["MKR-101", "MKR-201", "MKR-301"],
+    requisites: ["COM-102", "SET-101"],
+  },
 }
 
 export const fetchQuests = async function(ENSName, account) {
   return Promise.all(
-    Object.keys(questList).map(async key => {
+    Object.keys(questList).map(async (key) => {
       let quest = questList[key]
-      if (key === 'ENS') {
+      if (key === "ENS") {
         if (ENSName) {
           quest.progress = 100
         }
       }
-      if (key === 'UNI1') {
+      if (key === "UNI1") {
         let result = await uniClient.query({
           query: UNI_POOL_QUERY,
-          fetchPolicy: 'cache-first',
+          fetchPolicy: "cache-first",
           variables: {
-            user: account
-          }
+            user: account,
+          },
         })
         if (result.data.userExchangeDatas) {
           let supplied = false
-          Object.keys(result.data.userExchangeDatas).map(key => {
+          Object.keys(result.data.userExchangeDatas).map((key) => {
             let exchange = result.data.userExchangeDatas[key]
             if (exchange.tokensDeposited > 0) {
               supplied = true
@@ -205,31 +185,35 @@ export const fetchQuests = async function(ENSName, account) {
           }
         }
       }
-      if (key === 'UNI2') {
+      if (key === "UNI2") {
         let result = await uniClient.query({
           query: UNI_POOL_QUERY,
-          fetchPolicy: 'cache-first',
+          fetchPolicy: "cache-first",
           variables: {
-            user: account
-          }
+            user: account,
+          },
         })
         if (result.data.userExchangeDatas) {
           let supplied = 0
-          Object.keys(result.data.userExchangeDatas).map(key => {
+          Object.keys(result.data.userExchangeDatas).map((key) => {
             let exchange = result.data.userExchangeDatas[key]
             supplied += parseFloat(exchange.ethDeposited)
           })
-          quest.progress = parseFloat(supplied) / 0.5 * 100
+          quest.progress = (parseFloat(supplied) / 0.5) * 100
         }
       }
-      if (key === 'POAP') {
-        var request = require('request')
-        var options = { method: 'GET', url: 'https://api.opensea.io/api/v1/collections?asset_owner=' + account }
+      if (key === "POAP") {
+        var request = require("request")
+        var options = {
+          method: "GET",
+          url:
+            "https://api.opensea.io/api/v1/collections?asset_owner=" + account,
+        }
         request(options, function(error, response, body) {
           if (!error && body.length > 0) {
             var result = JSON.parse(body)
-            result.map(item => {
-              if (item.name === 'POAP') {
+            result.map((item) => {
+              if (item.name === "POAP") {
                 quest.progress = 100
               }
               return true
@@ -237,13 +221,13 @@ export const fetchQuests = async function(ENSName, account) {
           }
         })
       }
-      if (key === 'SET1') {
+      if (key === "SET1") {
         let result = await setClient.query({
           query: SET_OWNER_QUERY,
-          fetchPolicy: 'cache-first',
+          fetchPolicy: "cache-first",
           variables: {
-            user: account
-          }
+            user: account,
+          },
         })
         if (result.data) {
           if (result.data.issuances && result.data.issuances.length > 0) {
@@ -251,33 +235,33 @@ export const fetchQuests = async function(ENSName, account) {
           }
         }
       }
-      if (key === 'NEXUS') {
+      if (key === "NEXUS") {
         try {
           let result = await nexusClient.query({
             query: NEXUS_QUERY,
-            fetchPolicy: 'cache-first',
+            fetchPolicy: "cache-first",
             variables: {
-              user: account
-            }
+              user: account,
+            },
           })
           if (result.data.member) {
             quest.progress = 100
           }
         } catch (e) {}
       }
-      if (key === 'MANA') {
+      if (key === "MANA") {
         let result = await manaClient.query({
           query: MANA_QUERY,
-          fetchPolicy: 'cache-first',
+          fetchPolicy: "cache-first",
           variables: {
-            user: account
-          }
+            user: account,
+          },
         })
         if (result.data.parcels) {
           quest.progress = 100
         }
       }
-      if (key === 'MOJI') {
+      if (key === "MOJI") {
         const ethmojiAPI = new EthmojiAPI(global.web3.currentProvider)
         try {
           await ethmojiAPI.init()
