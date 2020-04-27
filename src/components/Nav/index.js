@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Web3Status from '../Web3Status'
+import useMedia from 'use-media'
 
 const NavWrapper = styled.div`
   display: flex;
   width: 100%;
   height: 70px;
+  align-items: center;
+  
+  @media (max-width: 970px) {
+    justify-content: space-between;
+  }
 `
 
 const BrandWrapper = styled.div`
@@ -19,6 +25,7 @@ const BrandWrapper = styled.div`
 
 const Logo = styled.img`
   width: 150px;
+  margin 5px 0;
 `
 
 const NavList = styled.div`
@@ -63,7 +70,7 @@ const LoginWrapper = styled.div`
   height: 35px;
 `
 
-const DripScore = styled.div`
+const Score = styled.div`
   display: flex; 
   justify-content: center;
   align-items: center; 
@@ -75,6 +82,10 @@ const DripScore = styled.div`
   border: 1px solid #8DFBC9;
   border-radius: 30px;
 
+  @media (max-width: 580px) {
+    margin-right: 25px;
+  }
+
   & > img {
     height: 20px;
     margin-left: 4px;
@@ -83,24 +94,39 @@ const DripScore = styled.div`
 
 
 export default function Nav() {
+  const [sidebarOpen, toggleSidebarOpen] = useState([])
+
   const [locationPath, setLocationPath] = useState([])
 
-    return (
-      <NavWrapper>
-        <BrandWrapper href="/"><Logo src={require('../../assets/images/rabbithole.png')} alt="rabbithole logo" /></BrandWrapper>
+  const isMedium = useMedia({ maxWidth: '1400px' })
+
+  const isSmall = useMedia({ maxWidth: '1100px' })
+
+  const isExtraSmall = useMedia({ maxWidth: '970px' })
+
+  const isXXSmall = useMedia({ maxWidth: '930px' })
+
+  const isXXXSmall = useMedia({ maxWidth: '525px' })
+
+  return (
+    <NavWrapper>
+      <BrandWrapper href="/"><Logo src={require('../../assets/images/rabbithole.png')} alt="rabbithole logo" /></BrandWrapper>
+      { !isExtraSmall ?
         <NavList>
           <NavItem href="/" active={true}>Dashboard</NavItem>
           <NavItem href="/rewards" active={false}>Rewards</NavItem>
           <NavItem href="/activity" active={false}>Activity</NavItem>
           <NavItem href="/faq" active={false}>FAQ</NavItem>
         </NavList>
-        <AccountWrapper>
+      : null }
+      <AccountWrapper onClick={() => {toggleSidebarOpen(sidebarOpen)}}>
+        { !isExtraSmall ?
           <LoginWrapper>
             <Web3Status />
           </LoginWrapper>
-          <DripScore>200 <img src={require('../../assets/images/drip_symbol.svg')} alt="drip symbol" /></DripScore>
-        </AccountWrapper>
-        
-      </NavWrapper>
+        : null}
+        <Score>200 <img src={require('../../assets/images/drip_symbol.svg')} alt="score symbol" /></Score>
+      </AccountWrapper>
+    </NavWrapper>
   );
 }

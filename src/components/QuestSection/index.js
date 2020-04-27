@@ -17,6 +17,10 @@ const Wrapper = styled.div`
   align-items: flex-start;
   justify-content: center;
   padding-top: ${({ theme }) => theme.bigPadding};
+
+  @media (max-width: 970px) {
+    width: 100%;
+  }
 `
 
 const Section = styled.div`
@@ -25,6 +29,10 @@ const Section = styled.div`
   grid-template-columns: 21px auto;
   grid-template-rows: 115px auto;
   width: 100%;
+
+  @media (max-width: 525px) {
+    grid-template-areas: "header header"\n"quests quests";
+  }
 `
 
 const Heading = styled.div`
@@ -63,10 +71,16 @@ const Quest = styled.div`
   background-color: #1F1F1F;
   border: 1px solid ${({theme}) => theme.outlinePurple};
   border-radius: 10px;
-  grid-template-columns: 68px 120px auto 75px 75px auto 75px; 
+  grid-template-columns: 68px 120px auto 75px 75px 120px 75px; 
   grid-template-rows: ${({isOpen}) => isOpen ? '75px 50px' : '75px' };
   grid-template-areas: ${({isOpen}) => isOpen ? '"exp icon main points type track perc"\n"desc desc desc desc desc desc desc"' : '"exp icon main points type track perc"' };
   margin-bottom: 13px;
+
+  @media (max-width: 525px) {
+    width: 90%;
+    margin: auto;
+    margin-top: 10px;
+  }
 
   &:hover {
     cursor: pointer;
@@ -303,7 +317,7 @@ export default function QuestSection() {
                 ) : null}
               </Heading>
 
-              <Gutter />
+              {!isXXSmall ? <Gutter /> : null }
 
               <QuestWrapper>
                 {quests.map((quest, i) => {
@@ -346,7 +360,7 @@ export default function QuestSection() {
               <div>Tracks<span>Progress through each application’s track and earn rewards</span></div>
             </Heading>
 
-            <Gutter />
+            {!isXXSmall ? <Gutter /> : null }
 
             <QuestWrapper>
               {quests.map((quest, i) => {
@@ -392,7 +406,7 @@ export default function QuestSection() {
                 ) : null}
               </Heading>
 
-              <Gutter />
+              {!isXXSmall ? <Gutter /> : null }
 
               <QuestWrapper>
                 {quests.map((quest, i) => {
