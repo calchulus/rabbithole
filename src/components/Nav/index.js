@@ -89,7 +89,7 @@ class Nav extends React.Component {
 
     return (
       <NavWrapper>
-        <BrandWrapper><Logo src={require('../../assets/images/rabbithole.png')} alt="rabbithole logo" /></BrandWrapper>
+        <BrandWrapper href="/"><Logo src={require('../../assets/images/rabbithole.png')} alt="rabbithole logo" /></BrandWrapper>
         <NavList>
           <NavItem href="/" active={location.pathname === '/'}>Dashboard</NavItem>
           <NavItem href="/rewards" active={location.pathname === '/rewards'}>Rewards</NavItem>
