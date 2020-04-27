@@ -19,11 +19,10 @@ const BrandWrapper = styled.div`
 `
 
 const Logo = styled.img`
-  width: 75px;
-  height: 29px;
+  width: 150px;
 `
 
-const NavList = styled.ul`
+const NavList = styled.div`
   display: flex;
   width: 40%;
   padding: 0;
@@ -32,11 +31,13 @@ const NavList = styled.ul`
   align-items: center;
 `
 
-const NavItem = styled.li`
-  list-style: none;
+const NavItem = styled.a`
   font-weight: bold;
   padding: 15px 25px;
+  font-size: 16px;
+  text-decoration: none;
   margin-right: 5px;
+  color: ${({ active }) => (active ? "#EFEFEF" : "#A1A4B1")};
   background: ${({ active }) =>
     active
       ? "linear-gradient(180deg, rgba(141, 251, 201, 0) 0%, rgba(141, 251, 201, 0.1) 100%)"
@@ -47,6 +48,9 @@ const NavItem = styled.li`
 const NavLink = styled.a`
   font-size: 16px;
   text-decoration: none;
+  display: block;
+  width: 100%;
+  height: 100%;
   color: ${({ active }) => (active ? "#EFEFEF" : "#A1A4B1")};
 `
 
@@ -59,7 +63,7 @@ const AccountWrapper = styled.div`
 `
 
 const LoginWrapper = styled.div`
-  width: 150px;
+  max-width: 200px;
   height: 35px;
 `
 
@@ -67,55 +71,64 @@ const DripScore = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: Inter;
   font-weight: bold;
   width: 75px;
   height: 32px;
   color: #8dfbc9;
   border: 1px solid #8dfbc9;
   border-radius: 30px;
+
+  & > img {
+    height: 20px;
+    margin-left: 4px;
+  }
 `
 
-function Nav({ history }) {
-  const [active, setActive] = useState(true)
+class Nav extends React.Component {
+  render() {
+    const { location } = this.props
 
-  return (
-    <NavWrapper>
-      <BrandWrapper>
-        <Logo
-          src={require("../../assets/images/drip_logo.png")}
-          alt="drip logo"
-        />
-      </BrandWrapper>
-      <NavList>
-        <NavItem active={history.location.pathname === "/"}>
-          <NavLink href="/" active={active}>
+    return (
+      <NavWrapper>
+        <BrandWrapper>
+          <Logo
+            src={require("../../assets/images/rabbithole.png")}
+            alt="rabbithole logo"
+          />
+        </BrandWrapper>
+        <NavList>
+          <NavItem href="/" active={location.pathname === "/"}>
             Dashboard
-          </NavLink>
-        </NavItem>
-        <NavItem active={history.location.pathname === "/progress"}>
-          <NavLink href="/progress" active={false}>
-            Progress
-          </NavLink>
-        </NavItem>
-        <NavItem active={false}>
-          <NavLink href="/rewards" active={false}>
+          </NavItem>
+          <NavItem href="/rewards" active={location.pathname === "/rewards"}>
             Rewards
-          </NavLink>
-        </NavItem>
-        <NavItem active={false}>
-          <NavLink href="/faq" active={false}>
+          </NavItem>
+          <NavItem href="/activity" active={location.pathname === "/activity"}>
+            Activity
+          </NavItem>
+          <NavItem href="/progress" active={location.pathname === "/progress"}>
+            Progress
+          </NavItem>
+          <NavItem href="/faq" active={location.pathname === "/faq"}>
             FAQ
-          </NavLink>
-        </NavItem>
-      </NavList>
-      <AccountWrapper>
-        <LoginWrapper>
-          <Web3Status />
-        </LoginWrapper>
-        <DripScore>200 D</DripScore>
-      </AccountWrapper>
-    </NavWrapper>
-  )
+          </NavItem>
+        </NavList>
+        <AccountWrapper>
+          <LoginWrapper>
+            <Web3Status />
+          </LoginWrapper>
+          <DripScore>
+            200{" "}
+            <img
+              src={require("../../assets/images/drip_symbol.svg")}
+              alt="drip symbol"
+            />
+          </DripScore>
+        </AccountWrapper>
+      </NavWrapper>
+    )
+  }
 }
 
 export default withRouter(Nav)

@@ -8,6 +8,8 @@ import Nav from "../components/Nav"
 import Home from "../components/Home"
 import Progress from "../pages/Progress"
 import ActivityHistory from "../components/ActivityHistory"
+import Rewards from "../components/Rewards"
+import FAQ from "../components/Faq"
 
 const AppWrapper = styled.div`
   display: flex;
@@ -54,6 +56,9 @@ export default function App() {
                       component={() => <Progress />}
                     />
                     <Redirect to="/" />
+                    <Route path="/rewards" component={Rewards} />
+                    <Route path="/faq" component={FAQ} />
+                    <Route path="/" component={() => <Home />} />
                   </Switch>
                 </Suspense>
               </BrowserRouter>

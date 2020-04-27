@@ -1,6 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { withRouter } from "react-router-dom"
+import { useWeb3React } from "@web3-react/core"
+import { fetchQuests } from "../quests"
+import { useENSName } from "../hooks"
 
 import Confetti from "canvas-confetti"
 import Star from "../assets/images/star.png"
@@ -248,7 +251,7 @@ const mockData = {
     children: ["quest3"],
   },
   quest2: {
-    children: ["quest4", "quest3", "quest3"],
+    children: ["quest4", "quest3"],
   },
   quest3: {
     children: null,
@@ -278,6 +281,23 @@ function Progress({ history }) {
   const [showModal, setShowModal] = useState(false)
   const [activeSection, setActiveSection] = useState("finance")
 
+  const [quests, setQuests] = useState()
+  const { account } = useWeb3React()
+  const ENSName = useENSName(account)
+
+  console.log(fetchQuests)
+
+  useEffect(() => {
+    fetchQuests(ENSName, account).then((data) => {
+      console.log(data)
+      if (data) {
+        setQuests(data)
+      }
+    })
+  }, [ENSName, account])
+
+  console.log(quests)
+
   function triggerConfetti() {
     Confetti({
       particleCount: 100,
@@ -289,18 +309,13 @@ function Progress({ history }) {
   const textColorLight = activeSection === "finance" ? "#62CF9E" : "#463512"
   const textColorDark = activeSection === "finance" ? "#275440" : "#463512"
 
-  const Item = ({
-    onClick,
-    locked = false,
-    complete = false,
-    offset = false,
-  }) => {
+  const Item = ({ onClick, locked = false, complete = false, offset }) => {
     return (
       <TrackCard
         onClick={onClick}
         locked={locked}
         complete={complete}
-        offset={offset}
+        offset={offset ? "offset" : ""}
         type={activeSection}
       >
         {locked && (

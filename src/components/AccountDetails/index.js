@@ -11,6 +11,7 @@ import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import FortmaticIcon from '../../assets/images/fortmaticIcon.png'
 import Identicon from '../Identicon'
+import ProfileHover from 'profile-hover';
 
 import { Link } from '../../theme'
 
@@ -260,16 +261,12 @@ export default function AccountDetails({
               <AccountGroupingRow>
                 {ENSName ? (
                   <AccountControl hasENS={!!ENSName} isENS={true}>
-                    <StyledLink hasENS={!!ENSName} isENS={true} href={getEtherscanLink(chainId, ENSName, 'address')}>
-                      {ENSName} ↗{' '}
-                    </StyledLink>
+                    <ProfileHover address={account} showName={true} />
                     <Copy toCopy={ENSName} />
                   </AccountControl>
                 ) : (
                   <AccountControl hasENS={!!ENSName} isENS={false}>
-                    <StyledLink hasENS={!!ENSName} isENS={false} href={getEtherscanLink(chainId, account, 'address')}>
-                      {account} ↗{' '}
-                    </StyledLink>
+                    <ProfileHover address={account} displayFull={true}  />
                     <Copy toCopy={account} />
                   </AccountControl>
                 )}
