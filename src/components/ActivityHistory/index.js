@@ -4,6 +4,7 @@ import { fetchQuests } from '../../quests'
 import { useWeb3React } from '@web3-react/core'
 import { useENSName } from '../../hooks'
 import Copy from '../AccountDetails/Copy'
+import Spinner from '../Spinner'
 
 const Wrapper = styled.div`
   display: grid;
@@ -170,6 +171,12 @@ const Link = styled.div`
   }
 `
 
+const Loading = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`
+
 export default function ActivityHistory() {
   const [quests, setQuests] = useState([])
 
@@ -185,46 +192,47 @@ export default function ActivityHistory() {
   }, [ENSName, account])
 
   return (
-    <Wrapper>
-      <Leaderboard>
-        <img src={require('../../assets/images/drip_symbol.svg')} alt="Drip" />
-        <div>
-          Leaderboard
-          <SubHeading>Who's got more drip?</SubHeading>
-        </div>
-      </Leaderboard>
-      <History>
-        <div style={{ gridArea: 'header' }}>
-          History
-          <SubHeading>Ode to the journey</SubHeading>
-        </div>
-        <CopyLink>
+    <> { quests.length > 0 ?
+      <Wrapper>
+        <Leaderboard>
+          <img src={require('../../assets/images/drip_symbol.svg')} alt="Drip" />
           <div>
-            Copy link <Copy toCopy={'https://rabithole.gg/' + account} />
+            Leaderboard
+            <SubHeading>Who's got more drip?</SubHeading>
           </div>
-        </CopyLink>
-        <div style={{ gridArea: 'activities' }}>
-          {quests ?
-          quests.map(quest => {
-            if (quest.progress >= 100) {
-              return (
-                <Activity key={quest.name}>
-                  <Icon>
-                    <img src={require('../../assets/images/' + quest.imgPath)} alt="" />
-                  </Icon>
-                  <QuestOverview>
-                    <Platform color={quest.color}>{quest.platform}</Platform>
-                    <BlurbWrapper>{quest.blurb}</BlurbWrapper>
-                  </QuestOverview>
-                  <Points style={{ gridArea: 'points' }}>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>
-                  <Link>
-                    <a href={quest.url}><img src={require('../../assets/images/globe.png')} alt="etherscan link" /></a>
-                  </Link>
-                </Activity>
-              )
-            }}) : null}
-        </div>
-      </History>
-    </Wrapper>
-  );
+        </Leaderboard>
+        <History>
+          <div style={{ gridArea: 'header' }}>
+            History
+            <SubHeading>Ode to the journey</SubHeading>
+          </div>
+          <CopyLink>
+            <div>
+              Copy link <Copy toCopy={'https://rabithole.gg/' + account} />
+            </div>
+          </CopyLink>
+          <div style={{ gridArea: 'activities' }}>
+            {quests ?
+            quests.map(quest => {
+              if (quest.progress >= 100) {
+                return (
+                  <Activity key={quest.name}>
+                    <Icon>
+                      <img src={require('../../assets/images/' + quest.imgPath)} alt="" />
+                    </Icon>
+                    <QuestOverview>
+                      <Platform color={quest.color}>{quest.platform}</Platform>
+                      <BlurbWrapper>{quest.blurb}</BlurbWrapper>
+                    </QuestOverview>
+                    <Points style={{ gridArea: 'points' }}>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>
+                    <Link>
+                      <a href={quest.url}><img src={require('../../assets/images/globe.png')} alt="etherscan link" /></a>
+                    </Link>
+                  </Activity>
+                )
+              }}) : null}
+          </div>
+        </History>
+    </Wrapper> : <Loading><Spinner /></Loading>}
+  </>);
 }

@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Web3Status from '../Web3Status'
-import { withRouter } from 'react-router-dom'
 
 const NavWrapper = styled.div`
   display: flex;
@@ -83,18 +82,17 @@ const DripScore = styled.div`
 `
 
 
-class Nav extends React.Component {
-  render() {
-    const { location } = this.props
+export default function Nav() {
+  const [locationPath, setLocationPath] = useState([])
 
     return (
       <NavWrapper>
         <BrandWrapper href="/"><Logo src={require('../../assets/images/rabbithole.png')} alt="rabbithole logo" /></BrandWrapper>
         <NavList>
-          <NavItem href="/" active={location.pathname === '/'}>Dashboard</NavItem>
-          <NavItem href="/rewards" active={location.pathname === '/rewards'}>Rewards</NavItem>
-          <NavItem href="/activity" active={location.pathname === '/activity'}>Activity</NavItem>
-          <NavItem href="/faq" active={location.pathname === '/faq'}>FAQ</NavItem>
+          <NavItem href="/" active={true}>Dashboard</NavItem>
+          <NavItem href="/rewards" active={false}>Rewards</NavItem>
+          <NavItem href="/activity" active={false}>Activity</NavItem>
+          <NavItem href="/faq" active={false}>FAQ</NavItem>
         </NavList>
         <AccountWrapper>
           <LoginWrapper>
@@ -104,8 +102,5 @@ class Nav extends React.Component {
         </AccountWrapper>
         
       </NavWrapper>
-    );
-    }
+  );
 }
-
-export default withRouter(Nav)
