@@ -25,7 +25,7 @@ const EthmojiAPI = require('ethmoji-js').default
 const Box = require('3box')
 
 const questList = {
-  BOX: {
+  BOX1: {
     name: '3BOX-101',
     blurb: 'Create a Profile',
     task: '',
@@ -38,6 +38,34 @@ const questList = {
     requisites: [],
     points: 250,
     progress: 0
+  },
+  BOX2: {
+    name: '3BOX-102',
+    blurb: 'Add a verified Twitter or Github',
+    task: '',
+    description: '',
+    resource: '',
+    platform: '3Box',
+    color: '',
+    imgPath: '3box.png',
+    type: 'track',
+    requisites: [],
+    points: 400,
+    progress: 0 
+  },
+  BOX3: {
+    name: '3BOX-103',
+    blurb: 'Join 4 spaces on 3Box',
+    task: '',
+    description: '',
+    resource: '',
+    platform: '3Box',
+    color: '',
+    imgPath: '3box.png',
+    type: 'track',
+    requisites: [],
+    points: 400,
+    progress: 0 
   },
   COMP1: {
     name: 'COMP-101',
@@ -585,12 +613,32 @@ export const fetchQuests = async function(ENSName, account) {
     return Promise.all(
       Object.keys(questList).map(async key => {
         let quest = questList[key]
-        if (key === 'BOX') {
+        if (key === 'BOX1') {
           const profile = await Box.getProfile(account)
+          // check if user has a username set - confirm if user can have account without name - default should be address name
           if (profile.name) {
             quest.progress = 100
           }
         }
+        if (key === 'BOX2') {
+          const profile = await Box.getProfile(account)
+          const verifiedAccounts = await Box.getVerifiedAccounts(profile)
+          // check if user has either a verified github or verified twitter
+          if (verifiedAccounts.github || verifiedAccounts.twitter) {
+            quest.progress = 100
+          }
+        }
+        if (key === 'BOX3') {
+          const spaceList = await Box.listSpaces(account)
+          // spaceList contains all the spaces they are in. Everyone should have MyFollowing, so they have at least 1/4.
+          // TODO: give user a hint that they can join spaces via drip
+          if (spaceList) {
+            quest.progress = Math.min(Math.round(spaceList.length/4 * 100), 100)
+            // This math is to test out the logic to make sure if a user has more than 4 rooms, he just has 100% progress
+          }
+        }
+
+
         if (key === 'ENS') {
           if (ENSName) {
             quest.progress = 100
