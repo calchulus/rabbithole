@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { fetchQuests } from '../../quests'
 import { useWeb3React } from '@web3-react/core'
-import { useENSName } from '../../hooks'
+import { useENSName, useBoxStorage, useNotificationThread, useThreadPosts } from '../../hooks'
+import { ToastMessage } from 'rimble-ui';
 import useMedia from 'use-media'
 const EthmojiAPI = require('ethmoji-js').default
 
@@ -68,7 +69,7 @@ const Quest = styled.div`
 
   &:hover {
     cursor: pointer;
-    background-color: #202020;
+    background-color: #444444;;
   }
 
   &:first-of-type {
@@ -228,6 +229,14 @@ export default function QuestSection() {
 
   const ENSName = useENSName(account)
 
+  const userSpace = useBoxStorage(account, global.web3.currentProvider)
+
+  const notificationThread = useNotificationThread(userSpace, account)
+
+  const notificationPosts = useThreadPosts(notificationThread)
+
+  const [notifyCompletedQuests, setNotifyCompletedQuests] = useState([])
+
   const [OpenQuest, setOpenQuest] = useState()
 
   const [ethMoji, setEthmoji] = useState()
@@ -258,17 +267,19 @@ export default function QuestSection() {
     fetchQuests(ENSName, account).then(data => {
       let weeklyQuests = 0;
       let sideQuests = 0;
-      data.map((quest) => {
-        if (quest.type === 'weekly' && quest.progress < 100) {
-          weeklyQuests += 1;
-        } 
-        if (quest.type === 'side-quest' && quest.progress < 100) {
-          sideQuests += 1;
-        }
-      })
-      setSideQuests(sideQuests)
-      setWeeklyQuests(weeklyQuests)
-      setQuests(data)
+      if (data) {
+        data.map((quest) => {
+          if (quest.type === 'weekly' && quest.progress < 100) {
+            weeklyQuests += 1;
+          } 
+          if (quest.type === 'side-quest' && quest.progress < 100) {
+            sideQuests += 1;
+          }
+        })
+        setSideQuests(sideQuests)
+        setWeeklyQuests(weeklyQuests)
+        setQuests(data)
+      }
     })
   }, [ENSName, account])
 

@@ -6,6 +6,8 @@ import ERC20_ABI from '../constants/abis/erc20'
 import { getContract, getFactoryContract, getExchangeContract, isAddress } from '../utils'
 import { injected } from '../connectors'
 
+const Box = require('3box')
+
 export function useWeb3React() {
   const context = useWeb3ReactCore()
   const contextNetwork = useWeb3ReactCore('NETWORK')
@@ -240,4 +242,78 @@ export function usePrevious(value) {
 
   // Return previous value (happens before update in useEffect above)
   return ref.current
+}
+
+export function useBoxStorage(address, provider) {
+  const [userSpace, setUserSpace] = useState()
+
+  useEffect(() => {
+    async function setBoxSpace() {
+      const box = await Box.openBox(address, provider)
+      const space = await box.openSpace("quests")
+      if (space) {
+        setUserSpace(space)
+      }
+    }
+    setBoxSpace()
+    
+  }, [address, provider])
+
+  return userSpace
+}
+
+export function useNotificationThread(space, account) {
+  const [notificationThread, setNotificationThread] = useState()
+
+  useEffect(() => {
+    if (space) {
+      async function _setNotificationThread() {
+        const notificationThread = await space.createConfidentialThread(account.toLowerCase() + 'notificationThread', {
+          members: true
+        })
+        if (notificationThread) {
+          setNotificationThread(notificationThread)
+        }
+      }
+      _setNotificationThread()
+    }
+  }, [space, account])
+
+  return notificationThread
+}
+
+export function useThreadPosts(thread) {
+  const [threadPosts, setThreadPosts] = useState()
+
+  useEffect(() => {
+    if (thread) {
+      async function _setThreadPosts() {
+        const posts = await thread.getPosts()
+        setThreadPosts(posts)
+      }
+      _setThreadPosts()
+    }
+  }, [thread])
+
+  return threadPosts
+}
+
+export function useQuestThreads(space, quests) {
+  const [questThreads, setQuestThreads] = useState()
+
+  useEffect(() => {
+    let questThreads = []
+    Promise.all(
+      Object.keys(quests).map((quest) => {
+        async function getQuestThread() {
+          const thread = await space.joinThread(quest.id, { firstModerator: 'some3ID', members: true })
+          questThreads.push(thread)
+        }
+        getQuestThread()
+      }))
+    setQuestThreads(questThreads)
+    
+  }, [space, quests])
+
+  return questThreads
 }

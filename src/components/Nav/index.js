@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Web3Status from '../Web3Status'
+import { withRouter } from 'react-router-dom'
 
 const NavWrapper = styled.div`
   display: flex;
@@ -18,8 +19,7 @@ const BrandWrapper = styled.div`
 `
 
 const Logo = styled.img`
-  width: 75px;
-  height: 29px;
+  width: 150px;
 `
 
 const NavList = styled.div`
@@ -60,7 +60,7 @@ const AccountWrapper = styled.div`
 `
 
 const LoginWrapper = styled.div`
-  width: 150px;
+  max-width: 200px;
   height: 35px;
 `
 
@@ -82,25 +82,30 @@ const DripScore = styled.div`
   }
 `
 
-export default function Nav() {
-  const [active, setActive] = useState(true)
 
-  return (
-    <NavWrapper>
-      <BrandWrapper><Logo src={require('../../assets/images/drip_logo.png')} alt="drip logo" /></BrandWrapper>
-      <NavList>
-        <NavItem href="/" active={active}>Dashboard</NavItem>
-        <NavItem href="/rewards" active={false}>Rewards</NavItem>
-        <NavItem href="/activity" active={false}>Activity</NavItem>
-        <NavItem href="/faq" active={false}>FAQ</NavItem>
-      </NavList>
-      <AccountWrapper>
-        <LoginWrapper>
-          <Web3Status />
-        </LoginWrapper>
-        <DripScore>200 <img src={require('../../assets/images/drip_symbol.svg')} alt="drip symbol" /></DripScore>
-      </AccountWrapper>
-      
-    </NavWrapper>
-  );
+class Nav extends React.Component {
+  render() {
+    const { location } = this.props
+
+    return (
+      <NavWrapper>
+        <BrandWrapper><Logo src={require('../../assets/images/rabbithole.png')} alt="rabbithole logo" /></BrandWrapper>
+        <NavList>
+          <NavItem href="/" active={location.pathname === '/'}>Dashboard</NavItem>
+          <NavItem href="/rewards" active={location.pathname === '/rewards'}>Rewards</NavItem>
+          <NavItem href="/activity" active={location.pathname === '/activity'}>Activity</NavItem>
+          <NavItem href="/faq" active={location.pathname === '/faq'}>FAQ</NavItem>
+        </NavList>
+        <AccountWrapper>
+          <LoginWrapper>
+            <Web3Status />
+          </LoginWrapper>
+          <DripScore>200 <img src={require('../../assets/images/drip_symbol.svg')} alt="drip symbol" /></DripScore>
+        </AccountWrapper>
+        
+      </NavWrapper>
+    );
+    }
 }
+
+export default withRouter(Nav)

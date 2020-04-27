@@ -261,19 +261,12 @@ export default function AccountDetails({
               <AccountGroupingRow>
                 {ENSName ? (
                   <AccountControl hasENS={!!ENSName} isENS={true}>
-                    <ProfileHover address={account}>
-                      <StyledLink hasENS={!!ENSName} isENS={true} href={getEtherscanLink(chainId, ENSName, 'address')}>
-                        {ENSName} ↗{' '}
-                      </StyledLink>
-                      <Copy toCopy={ENSName} />
-                    </ProfileHover>
-                    
+                    <ProfileHover address={account} showName={true} />
+                    <Copy toCopy={ENSName} />
                   </AccountControl>
                 ) : (
                   <AccountControl hasENS={!!ENSName} isENS={false}>
-                    <StyledLink hasENS={!!ENSName} isENS={false} href={getEtherscanLink(chainId, account, 'address')}>
-                      {account} ↗{' '}
-                    </StyledLink>
+                    <ProfileHover address={account} displayFull={true}  />
                     <Copy toCopy={account} />
                   </AccountControl>
                 )}
