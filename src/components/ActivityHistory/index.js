@@ -84,6 +84,10 @@ const Activity = styled.div`
   margin-bottom: 20px;
   vertical-align: center;
 
+  &: hover {
+    background-color: #141516;
+  }
+
   &:last-of-type {
     margin-bottom: 0;
   }

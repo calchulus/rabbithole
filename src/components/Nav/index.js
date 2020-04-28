@@ -6,7 +6,7 @@ import useMedia from 'use-media'
 const NavWrapper = styled.div`
   display: flex;
   width: 100%;
-  height: 70px;
+  height: 55px;
   align-items: center;
   
   @media (max-width: 970px) {
@@ -25,7 +25,6 @@ const BrandWrapper = styled.div`
 
 const Logo = styled.img`
   width: 150px;
-  margin 5px 0;
 `
 
 const NavList = styled.div`
@@ -110,7 +109,7 @@ export default function Nav() {
 
   return (
     <NavWrapper>
-      <BrandWrapper href="/"><Logo src={require('../../assets/images/rabbithole.png')} alt="rabbithole logo" /></BrandWrapper>
+      <BrandWrapper ><a href="/"><Logo src={require('../../assets/images/rabbithole.png')} alt="rabbithole logo" /></a></BrandWrapper>
       { !isExtraSmall ?
         <NavList>
           <NavItem href="/" active={true}>Dashboard</NavItem>
