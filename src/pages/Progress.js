@@ -243,9 +243,9 @@ const mockQuests = {
 
 const rootId = "quest0"
 
-const mockData = {
-  quest0: {
-    children: ["quest1", "quest2"],
+const trackStructure = {
+  "COMP-101": {
+    children: ["POOL-101", "MKR-101"],
   },
   quest1: {
     children: ["quest3"],
@@ -285,18 +285,13 @@ function Progress({ history }) {
   const { account } = useWeb3React()
   const ENSName = useENSName(account)
 
-  console.log(fetchQuests)
-
   useEffect(() => {
     fetchQuests(ENSName, account).then((data) => {
-      console.log(data)
       if (data) {
         setQuests(data)
       }
     })
   }, [ENSName, account])
-
-  console.log(quests)
 
   function triggerConfetti() {
     Confetti({
@@ -406,9 +401,9 @@ function Progress({ history }) {
           />
         )}
         {locked && <Item key={questId} locked={true} type={activeSection} />}
-        {mockData[questId].children && (
+        {trackStructure[questId].children && (
           <ul>
-            {mockData[questId].children.map((childQuest) => {
+            {trackStructure[questId].children.map((childQuest) => {
               return renderQuest(
                 childQuest,
                 mockQuests[questId].progress !== 100

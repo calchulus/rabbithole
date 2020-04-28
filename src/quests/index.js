@@ -25,8 +25,7 @@ const EthmojiAPI = require("ethmoji-js").default
 const Box = require("3box")
 
 const questList = {
-  BOX: {
-    name: "3BOX-101",
+  "3BOX-101": {
     blurb: "Create a Profile",
     task: "",
     description: "",
@@ -39,8 +38,7 @@ const questList = {
     points: 250,
     progress: 0,
   },
-  COMP1: {
-    name: "COMP-101",
+  "COMP-101": {
     blurb: "Supply tokens to Compound",
     task: "",
     description:
@@ -54,8 +52,7 @@ const questList = {
     points: 250,
     progress: 0,
   },
-  COMP2: {
-    name: "COMP-102",
+  "COMP-102": {
     blurb: "Borrow tokens on Compound",
     task: "",
     description:
@@ -69,8 +66,7 @@ const questList = {
     points: 500,
     progress: 0,
   },
-  COMP3: {
-    name: "COMP-201",
+  "COMP-201": {
     blurb: "Accrue 10 DAI worth of interest from supplying tokens",
     task: "",
     description:
@@ -84,8 +80,7 @@ const questList = {
     points: 750,
     progress: 0,
   },
-  ENS: {
-    name: "ENS-101",
+  "ENS-101": {
     blurb: "Register an ENS name",
     task: "Register an ENS name to your Ethereum address.",
     description:
@@ -99,8 +94,7 @@ const questList = {
     points: 250,
     progress: 0,
   },
-  KITTY1: {
-    name: "KITTY-101",
+  "KITTY-101": {
     blurb: "Breed a CryptoKitty",
     task: "",
     description:
@@ -114,8 +108,7 @@ const questList = {
     points: 250,
     progress: 0,
   },
-  MANA1: {
-    name: "MANA-101",
+  "MANA-101": {
     blurb: "Create your Decentraland Passport",
     task: "Create your Decentraland Passport",
     description:
@@ -129,8 +122,7 @@ const questList = {
     points: 500,
     progress: 0,
   },
-  MANA2: {
-    name: "MANA-201",
+  "MANA-201": {
     blurb: "Get yourself some LAND",
     task: "Get yourself some LAND",
     description:
@@ -144,8 +136,7 @@ const questList = {
     points: 1000,
     progress: 0,
   },
-  MKR1: {
-    name: "MKR-101",
+  "MKR-101": {
     blurb: "Lock Dai in DSR and earn 1$ in interest",
     task: "Lock Dai in DSR and earn 1$ in interest",
     description:
@@ -159,8 +150,7 @@ const questList = {
     points: 250,
     progress: 0,
   },
-  MKR2: {
-    name: "MKR-102",
+  "MKR-102": {
     blurb: "Open a Vault",
     task: "Open a Vault and create at least 1 Dai",
     description:
@@ -174,8 +164,7 @@ const questList = {
     points: 200,
     progress: 0,
   },
-  MKR3: {
-    name: "MKR-103",
+  "MKR-103": {
     blurb: "Vote on Governance Poll",
     task: "Vote on Governance Poll",
     description:
@@ -189,8 +178,7 @@ const questList = {
     points: 200,
     progress: 0,
   },
-  MKR4: {
-    name: "MKR-104",
+  "MKR-104": {
     blurb: "Vote on Executive Spell",
     task: "Vote on Executive Spell",
     description:
@@ -204,8 +192,7 @@ const questList = {
     points: 500,
     progress: 0,
   },
-  MKR5: {
-    name: "MKR-105",
+  "MKR-105": {
     blurb: "Bid on Flipper Auction",
     task: "Bid on Flipper Auction",
     description:
@@ -219,8 +206,7 @@ const questList = {
     points: 750,
     progress: 0,
   },
-  MKR6: {
-    name: "MKR-106",
+  "MKR-106": {
     blurb: "Lock MKR in Chief for 3 months",
     task: "Lock MKR in Chief for 3 months",
     description:
@@ -234,8 +220,7 @@ const questList = {
     points: 200,
     progress: 0,
   },
-  MKR7: {
-    name: "MKR-107",
+  "MKR-107": {
     blurb: "Lock MKR in Chief for 12 months",
     task: "Lock MKR in Chief for 12 months",
     description:
@@ -249,8 +234,7 @@ const questList = {
     points: 200,
     progress: 0,
   },
-  MKR8: {
-    name: "MKR-108",
+  "MKR-108": {
     blurb: "Vote on 20 Executive Votes",
     task: "Vote on 20 Executive Votes",
     description:
@@ -264,8 +248,7 @@ const questList = {
     points: 200,
     progress: 0,
   },
-  MKR9: {
-    name: "MKR-109",
+  "MKR-109": {
     blurb: "Cast a Spell",
     task: "Cast a Spell",
     description:
@@ -279,8 +262,7 @@ const questList = {
     points: 200,
     progress: 0,
   },
-  MKR10: {
-    name: "MKR-110",
+  "MKR-110": {
     blurb: "Vote on Spell within 1 hour of creation",
     task: "Vote on Spell within 1 hour of creation",
     description:
@@ -294,8 +276,7 @@ const questList = {
     points: 200,
     progress: 0,
   },
-  MKR11: {
-    name: "MKR-111",
+  "MKR-111": {
     blurb: "Create a Spell that gets 10 (addresses) votes",
     task: "Create a Spell that gets 10 (addresses) votes",
     description: "Is this what it feels like to be popular?",
@@ -308,8 +289,7 @@ const questList = {
     points: 200,
     progress: 0,
   },
-  MKR12: {
-    name: "MKR-112",
+  "MKR-112": {
     blurb: "Create a Spell that is cast",
     task: "Create a Spell that is cast",
     description: "You're about to make the change on the world of DeFi.",
@@ -322,8 +302,7 @@ const questList = {
     points: 200,
     progress: 0,
   },
-  MOJI: {
-    name: "MOJI-101",
+  "MOJI-101": {
     blurb: "Create an ethmoji",
     task: "Own at least 1 ethmoji.",
     description: "Ethmoji is an avatar that you can digitally own.",
@@ -336,8 +315,7 @@ const questList = {
     points: 500,
     progress: 0,
   },
-  NEXUS: {
-    name: "NEXUS-101",
+  "NEXUS-101": {
     blurb: "Own a piece of nexus mutual",
     task: "Buy NXM from Nexus Mutual to become a backer in the system.",
     description:
@@ -351,8 +329,7 @@ const questList = {
     points: 250,
     progress: 0,
   },
-  POAP1: {
-    name: "POAP-101",
+  "POAP-101": {
     blurb: "Attend an Ethereum virtual meetup",
     task: "Attend an Ethereum virtual meetup during social distancing",
     description:
@@ -366,8 +343,7 @@ const questList = {
     points: 250,
     progress: 0,
   },
-  POAP2: {
-    name: "POAP-201",
+  "POAP-201": {
     blurb: "Attend an EF event",
     task: "Acquire a POAP NFT for attending an EF event.",
     description:
@@ -381,8 +357,7 @@ const questList = {
     points: 1000,
     progress: 0,
   },
-  POOL1: {
-    name: "POOL-101",
+  "POOL-101": {
     blurb: "Enter the no-loss lottery, PoolTogether",
     task: "Enter the no-loss lottery, PoolTogether",
     description:
@@ -396,8 +371,7 @@ const questList = {
     points: 250,
     progress: 0,
   },
-  POOL2: {
-    name: "POOL-201",
+  "POOL-201": {
     blurb: "Chill in the Pool for 5 drawings",
     task: "Chill in the Pool for 5 drawings",
     description:
@@ -411,8 +385,7 @@ const questList = {
     points: 500,
     progress: 0,
   },
-  POOL3: {
-    name: "POOL-301",
+  "POOL-301": {
     blurb: "Stay in the pool for 20 draws",
     task: "Stay in the pool for 20 draws",
     description: "Stay in the pool for 20 draws",
@@ -425,8 +398,7 @@ const questList = {
     points: 750,
     progress: 0,
   },
-  SEA1: {
-    name: "SEA-101",
+  "SEA-101": {
     blurb: "Successfully auction an item on OpenSea",
     task: "Successfully auction an item on OpenSea",
     description:
@@ -440,8 +412,7 @@ const questList = {
     points: 500,
     progress: 0,
   },
-  SEA2: {
-    name: "SEA-201",
+  "SEA-201": {
     blurb: "Bid on an item on OpenSea",
     task: "Bid on an item on OpenSea",
     description:
@@ -455,8 +426,7 @@ const questList = {
     points: 250,
     progress: 0,
   },
-  SET1: {
-    name: "SET-101",
+  "SET-101": {
     blurb: "Buy a token set on Set Protocol",
     task: "Buy a token set on Set Protocol.",
     description:
@@ -470,8 +440,7 @@ const questList = {
     points: 500,
     progress: 0,
   },
-  UNI1: {
-    name: "UNI-101",
+  "UNI-101": {
     blurb: "Exchange tokens on Uniswap",
     task: "Exchange tokens on Uniswap",
     description:
@@ -484,8 +453,7 @@ const questList = {
     points: 250,
     progress: 0,
   },
-  UNI2: {
-    name: "UNI-201",
+  "UNI-201": {
     blurb: "Supply liquidity in Uniswap",
     task: "Supply liquidity to at least 1 pool on Uniswap.",
     description:
@@ -499,8 +467,7 @@ const questList = {
     points: 500,
     progress: 0,
   },
-  UNI3: {
-    name: "UNI-301",
+  "UNI-301": {
     blurb: "Own a Unisocks token",
     task: "Own a Unisocks token",
     description:
@@ -516,46 +483,9 @@ const questList = {
   },
 }
 
-const trackList = {
-  DEFI1: {
-    name: "Introduction to Decentralized Finance",
-    quests: ["COM-101", "UNI-101", "SET-101"],
-    requisites: [],
-  },
-  GAMES1: {
-    name: "The Genesis of Blockchain Games",
-    quests: ["KITTY-101", "SEA-101"],
-    requisites: [],
-  },
-  PROFILE1: {
-    name: "Your Distributed Profile",
-    quests: ["3BOX-101", "ENS-101", "MOJI-101"],
-    requisites: [],
-  },
-  COMPOUND: {
-    name: "Compounding your Growth",
-    quests: ["COM-102", "COM-205", "COM-212"],
-    requisites: ["COM-101"],
-  },
-  POOL: {
-    name: "The No-Loss Lottery",
-    quests: ["POOL-101", "POOL-204", "POOL-406"],
-    requisites: ["COM-102"],
-  },
-  VOXELS: {
-    name: "Explore the Metaverse",
-    quests: ["VOXELS-101", "VOXELS-205", "VOXELS-301"],
-    requisites: ["KITTY-101"],
-  },
-  MAKER: {
-    name: "Keeping it stable with MakerDAO",
-    quests: ["MKR-101", "MKR-201", "MKR-301"],
-    requisites: ["COM-102", "SET-101"],
-  },
-}
-
 export const fetchQuests = async function(ENSName, account) {
   var request = require("request")
+
   if (account) {
     var poapOptions = {
       method: "GET",
@@ -570,7 +500,6 @@ export const fetchQuests = async function(ENSName, account) {
         "https://api.opensea.io/api/v1/events?event_type=successful&account_address=" +
         account,
     }
-
     return Promise.all(
       Object.keys(questList).map(async (key) => {
         let quest = questList[key]
@@ -595,8 +524,8 @@ export const fetchQuests = async function(ENSName, account) {
               },
             })
             if (
-              result.data.domains[0].owner.id === account.toLowerCase() ||
-              result.data.domains[0].resolvedAddress.id ===
+              result?.data?.domains[0]?.owner.id === account?.toLowerCase() ||
+              result.data?.domains[0]?.resolvedAddress?.id ===
                 account.toLowerCase()
             ) {
               quest.progress = 100
@@ -890,7 +819,6 @@ export const fetchQuests = async function(ENSName, account) {
             quest.progress = 100
           }
         }
-
         return quest
       })
     )
