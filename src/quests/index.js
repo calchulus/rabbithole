@@ -27,90 +27,109 @@ const Box = require('3box')
 const questList = {
   BOX1: {
     name: '3BOX-101',
+    type: 'track',
     blurb: 'Create a Profile',
     task: '',
     description: '',
     resource: '',
     platform: '3Box',
-    color: '',
+    color: '#1168df',
     imgPath: '3box.png',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Profile',
+    categoryColor: '#4c6ae0',
+    prerequisite: '',
     points: 250,
     progress: 0
   },
   BOX2: {
     name: '3BOX-102',
+    type: 'track',
     blurb: 'Add a verified Twitter or Github',
     task: '',
     description: '',
     resource: '',
     platform: '3Box',
-    color: '',
+    color: '#1168df',
     imgPath: '3box.png',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Profile',
+    categoryColor: '#4c6ae0',
+    prerequisite: '',
     points: 400,
     progress: 0 
   },
   BOX3: {
-    name: '3BOX-103',
+    name: '3BOX-201',
+    type: 'track',
     blurb: 'Join 4 spaces on 3Box',
     task: '',
     description: '',
     resource: '',
     platform: '3Box',
-    color: '',
+    color: '#1168df',
     imgPath: '3box.png',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Profile',
+    categoryColor: '#4c6ae0',
+    prerequisite: '',
     points: 400,
     progress: 0 
   },
   COMP1: {
     name: 'COMP-101',
+    type: 'track',
     blurb: 'Supply tokens to Compound',
     task: '',
     description: 'Under the hood, when a user contributes their assets to a large pool of liquidity (a “market”) that is available for other users to borrow, they share in the interest that borrowers pay back to the pool.',
     resource: '',
     platform: 'Compound Finance',
-    color: '',
+    color: '#4dffca',
     imgPath: 'compound.png',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: '',
     points: 250,
     progress: 0
   },
   COMP2: {
     name: 'COMP-102',
+    type: 'track',
     blurb: 'Borrow tokens on Compound',
     task: '',
     description: 'Under the hood, when a user contributes their assets to a large pool of liquidity (a “market”) that is available for other users to borrow, they share in the interest that borrowers pay back to the pool.',
     resource: '',
     platform: 'Compound Finance',
-    color: '',
+    color: '#4dffca',
     imgPath: 'compound.png',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: '',
     points: 500,
     progress: 0
   },
   COMP3: {
     name: 'COMP-201',
+    type: 'track',
     blurb: 'Accrue 10 DAI worth of interest from supplying tokens',
     task: '',
     description: 'At every Ethereum block, your supplied assets earn interest paid by borrowers. Now see if you can earn 10 DAI worth of interest with your supplied assets!',
     resource: '',
     platform: 'Compound Finance',
-    color: '',
+    color: '#4dffca',
     imgPath: 'compound.png',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: '',
     points: 750,
     progress: 0
   },
-  ENS: {
+  ENS1: {
     name: 'ENS-101',
+    type: 'track',
     blurb: 'Register an ENS name',
     task: 'Register an ENS name to your Ethereum address.',
     description: 'ENS is managed through the ENS Manager currently. Go register a .eth domain and set the resolver to your address.',
@@ -118,27 +137,33 @@ const questList = {
     platform: 'ENS',
     color: '#5183FE',
     imgPath: 'enspng.png',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Profile',
+    categoryColor: '#4c6ae0',
+    prerequisite: '',
     points: 250,
     progress: 0
   },
   KITTY1: {
     name: 'KITTY-101',
+    type: 'track',
     blurb: 'Breed a CryptoKitty',
     task: '',
     description: 'CryptoKitties is one of the world’s first blockchain games. Each kitty has a unique genome that defines its appearance and traits. Players can breed their kitties to create new furry friends and unlock rare cattributes.',
     resource: '',
     platform: 'CryptoKitties',
-    color: '',
+    color: '#e96bd4',
     imgPath: 'cryptokitties.png',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Games',
+    categoryColor: '#f29b44',
+    prerequisite: '',
     points: 250,
     progress: 0
   },
   MANA1: {
     name: 'MANA-101',
+    type: 'track',
     blurb: 'Create your Decentraland Passport',
     task: 'Create your Decentraland Passport',
     description:
@@ -147,13 +172,16 @@ const questList = {
     platform: 'Decentraland',
     color: '#FF0055',
     imgPath: 'mana.svg',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Games',
+    categoryColor: '#f29b44',
+    prerequisite: '',
     points: 500,
     progress: 0
   },
   MANA2: {
     name: 'MANA-201',
+    type: 'side-quest',
     blurb: 'Get yourself some LAND',
     task: 'Get yourself some LAND',
     description:
@@ -162,192 +190,231 @@ const questList = {
     platform: 'Decentraland',
     color: '#FF0055',
     imgPath: 'mana.svg',
-    type: 'side-quest',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Games',
+    categoryColor: '#f29b44',
+    prerequisite: '',
     points: 1000,
     progress: 0
   },
   MKR1: {
     name: 'MKR-101',
+    type: 'track',
     blurb: 'Lock Dai in DSR and earn 1$ in interest',
     task: 'Lock Dai in DSR and earn 1$ in interest',
     description: 'The Dai Savings Rate (DSR) is a variable rate of accrual earned by locking Dai in the DSR smart contract. Dai holders can earn savings automatically and natively while retaining control of their Dai.',
     resource: 'https://oasis.app/save',
     platform: 'Maker Protocol',
-    color: '',
+    color: '#1aaa9b',
     imgPath: 'makerdao.png',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: '',
     points: 250,
     progress: 0
   },
   MKR2: {
     name: 'MKR-102',
+    type: 'side-quest',
     blurb: 'Open a Vault',
     task: 'Open a Vault and create at least 1 Dai',
     description:
       'Any user who wishes to generate Dai may deposit Collateral into a Vault and do so, paying a Stability Fee on the generated Dai balance.',
     resource: 'https://oasis.app/borrow',
     platform: 'Maker Protocol',
-    color: '',
+    color: '#1aaa9b',
     imgPath: 'makerdao.png',
-    type: 'side-quest',
-    requisites: ['MKR-101'],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: 'MKR-101',
     points: 200,
     progress: 0
   },
   MKR3: {
     name: 'MKR-103',
+    type: 'side-quest',
     blurb: 'Vote on Governance Poll',
     task: 'Vote on Governance Poll',
     description:
       'These occur on-chain and can be accessed through the Maker Foundation\'s Voting Portal. Governance Polls measure the sentiment of MKR voters.',
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
-    color: '',
+    color: '#1aaa9b',
     imgPath: 'makerdao.png',
-    type: 'side-quest',
-    requisites: ['MKR-102'],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: 'MKR-102',
     points: 200,
     progress: 0
   },
   MKR4: {
     name: 'MKR-104',
+    type: 'track',
     blurb: 'Vote on Executive Spell',
     task: 'Vote on Executive Spell',
     description:
       'Executive Votes "execute" technical changes to the Maker Protocol. When active, each Executive Vote has a proposed set of changes being made on the Maker Protocol\'s smart-contracts. Unlike the other types of votes, Executive Votes use a \'Continuous Approval Voting\' model.',
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
-    color: '',
+    color: '#1aaa9b',
     imgPath: 'makerdao.png',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: '',
     points: 500,
     progress: 0
   },
   MKR5: {
     name: 'MKR-105',
+    type: 'track',
     blurb: 'Bid on Flipper Auction',
     task: 'Bid on Flipper Auction',
     description:
       'Collateral Auctions are used to sell collateral from Vaults that have become undercollateralized in order to preserve the collateralization of the system. The Cat sends bitten collateral to the Flip module to be auctioned off to keepers.',
     resource: 'https://auctions.makerdao.com/',
     platform: 'Maker Protocol',
-    color: '',
+    color: '#1aaa9b',
     imgPath: 'makerdao.png',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: '',
     points: 750,
     progress: 0
   },
   MKR6: {
     name: 'MKR-106',
+    type: 'side-quest',
     blurb: 'Lock MKR in Chief for 3 months',
     task: 'Lock MKR in Chief for 3 months',
     description:
       'Continuous Approval Voting secures the current proposal with the hat. Locking MKR in Chief helps secure the hat at the highest possible bar. "Vote or Dai" as we always say, if you\'re not voting with your MKR then you should be hodling Dai.',
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
-    color: '',
+    color: '#1aaa9b',
     imgPath: 'makerdao.png',
-    type: 'side-quest',
-    requisites: ['MKR-104'],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: 'MKR-104',
     points: 200,
     progress: 0
   },
   MKR7: {
     name: 'MKR-107',
+    type: 'side-quest',
     blurb: 'Lock MKR in Chief for 12 months',
     task: 'Lock MKR in Chief for 12 months',
     description:
       'Continuous Approval Voting secures the current proposal with the hat. Locking MKR in Chief helps secure the hat at the highest possible bar. "Vote or Dai" as we always say, if you\'re not voting with your MKR then you should be hodling Dai.',
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
-    color: '',
+    color: '#1aaa9b',
     imgPath: 'makerdao.png',
-    type: 'side-quest',
-    requisites: ['MKR-106'],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: 'MKR-106',
     points: 200,
     progress: 0
   },
   MKR8: {
     name: 'MKR-108',
+    type: 'side-quest',
     blurb: 'Vote on 20 Executive Votes',
     task: 'Vote on 20 Executive Votes',
     description:
       'A vital piece of governance is reliable voters and delegators. Thanks for doing your part out there. Happy voting!',
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
-    color: '',
+    color: '#1aaa9b',
     imgPath: 'makerdao.png',
-    type: 'side-quest',
-    requisites: ['MKR-106'],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: 'MKR-106',
     points: 200,
     progress: 0
   },
   MKR9: {
     name: 'MKR-109',
+    type: 'side-quest',
     blurb: 'Cast a Spell',
     task: 'Cast a Spell',
     description:
       'You\'re a wizard Harry! When an open spell has enough MKR to have the hat, schedule the proposal for governance.',
     resource: 'https://etherscan.io/CHIEF',
     platform: 'Maker Protocol',
-    color: '',
+    color: '#1aaa9b',
     imgPath: 'makerdao.png',
-    type: 'side-quest',
-    requisites: ['MKR-108'],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: 'MKR-108',
     points: 200,
     progress: 0
   },
   MKR10: {
     name: 'MKR-110',
+    type: 'side-quest',
     blurb: 'Vote on Spell within 1 hour of creation',
     task: 'Vote on Spell within 1 hour of creation',
     description:
       'This feels like that one time I camped outside the shop to get a brand new of kicks. But only now it\'s some drip.',
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
-    color: '',
+    color: '#1aaa9b',
     imgPath: 'makerdao.png',
-    type: 'side-quest',
-    requisites: ['MKR-104'],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: 'MKR-104',
     points: 200,
     progress: 0
   },
   MKR11: {
     name: 'MKR-111',
+    type: 'side-quest',
     blurb: 'Create a Spell that gets 10 (addresses) votes',
     task: 'Create a Spell that gets 10 (addresses) votes',
     description:
       'Is this what it feels like to be popular?',
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
-    color: '',
+    color: '#1aaa9b',
     imgPath: 'makerdao.png',
-    type: 'side-quest',
-    requisites: ['MKR-109'],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: 'MKR-109',
     points: 200,
     progress: 0
   },
   MKR12: {
     name: 'MKR-112',
+    type: 'side-quest',
     blurb: 'Create a Spell that is cast',
     task: 'Create a Spell that is cast',
     description:
       'You\'re about to make the change on the world of DeFi.',
     resource: 'https://vote.makerdao.com/',
     platform: 'Maker Protocol',
-    color: '',
+    color: '#1aaa9b',
     imgPath: 'makerdao.png',
-    type: 'side-quest',
-    requisites: ['MKR-111'],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: 'MKR-111',
     points: 200,
     progress: 0
   },
-  MOJI: {
+  MOJI1: {
     name: 'MOJI-101',
+    type: 'side-quest',
     blurb: 'Create an ethmoji',
     task: 'Own at least 1 ethmoji.',
     description: 'Ethmoji is an avatar that you can digitally own.',
@@ -355,13 +422,16 @@ const questList = {
     platform: 'Ethmoji',
     color: '#E052B8',
     imgPath: 'ethmoji.png',
-    type: 'side-quest',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Profile',
+    categoryColor: '#4c6ae0',
+    prerequisite: '',
     points: 500,
     progress: 0
   },
-  NEXUS: {
+  NEXUS1: {
     name: 'NEXUS-101',
+    type: 'side-quest',
     blurb: 'Own a piece of nexus mutual',
     task: 'Buy NXM from Nexus Mutual to become a backer in the system.',
     description:
@@ -370,13 +440,16 @@ const questList = {
     platform: 'Nexus Mutual',
     color: '#60D3A2',
     imgPath: 'nexus.jpg',
-    type: 'side-quest',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: '',
     points: 250,
     progress: 0
   },
   POAP1: {
     name: 'POAP-101',
+    type: 'weekly',
     blurb: 'Attend an Ethereum virtual meetup',
     task: 'Attend an Ethereum virtual meetup during social distancing',
     description: 'When at an Ethereum Foundation event find a POAP representative to receive your badge and NFT.',
@@ -384,13 +457,16 @@ const questList = {
     platform: 'POAP',
     color: '#DC6BE5',
     imgPath: 'poap.png',
-    type: 'weekly',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Events',
+    categoryColor: '#e063c7',
+    prerequisite: '',
     points: 250,
     progress: 0
   },
   POAP2: {
     name: 'POAP-201',
+    type: 'side-quest',
     blurb: 'Attend an EF event',
     task: 'Acquire a POAP NFT for attending an EF event.',
     description: 'When at an Ethereum Foundation event find a POAP representative to receive your badge and NFT.',
@@ -398,88 +474,106 @@ const questList = {
     platform: 'POAP',
     color: '#DC6BE5',
     imgPath: 'poap.png',
-    type: 'side-quest',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Events',
+    categoryColor: '#e063c7',
+    prerequisite: '',
     points: 1000,
     progress: 0
   },
   POOL1: {
     name: 'POOL-101',
+    type: 'track',
     blurb: 'Enter the no-loss lottery, PoolTogether',
     task: 'Enter the no-loss lottery, PoolTogether',
     description:
       'On PoolTogether, each savings ticket gives you a chance to win a prize, but even if you don’t win, you keep all your money! PoolTogether lets you have the best of both worlds -- saving money and the chance to win a prize!',
     resource: 'https://app.pooltogether.com/',
     platform: 'PoolTogether',
-    color: '',
+    color: '#5029ab',
     imgPath: 'pooltogether.jpg',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: '',
     points: 250,
     progress: 0
   },
   POOL2: {
     name: 'POOL-201',
+    type: 'track',
     blurb: 'Chill in the Pool for 5 drawings',
     task: 'Chill in the Pool for 5 drawings',
     description:
       'You can automatically re-join the weekly pool by leaving your assets in PoolTogether. Chill in the pool and cross your fingers!',
     resource: 'https://app.pooltogether.com/',
     platform: 'PoolTogether',
-    color: '',
+    color: '#5029ab',
     imgPath: 'pooltogether.jpg',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: '',
     points: 500,
     progress: 0
   },
   POOL3: {
     name: 'POOL-301',
+    type: 'track',
     blurb: 'Stay in the pool for 20 draws',
     task: 'Stay in the pool for 20 draws',
     description:
       'Stay in the pool for 20 draws',
     resource: 'https://app.pooltogether.com/',
     platform: 'PoolTogether',
-    color: '',
+    color: '#5029ab',
     imgPath: 'pooltogether.jpg',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: '',
     points: 750,
     progress: 0
   },
   SEA1: {
     name: 'SEA-101',
+    type: 'track',
     blurb: 'Successfully auction an item on OpenSea',
     task: 'Successfully auction an item on OpenSea',
     description:
       'The sea is full of so many shiny kitties. Maybe I\'ll find one that I  like. Yours sure does look purrty.',
     resource: 'https://opensea.io/',
     platform: 'OpenSea',
-    color: '',
+    color: '#4ba1ef',
     imgPath: 'opensea.jpg',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: '',
     points: 500,
     progress: 0
   },
   SEA2: {
     name: 'SEA-201',
+    type: 'track',
     blurb: 'Bid on an item on OpenSea',
     task: 'Bid on an item on OpenSea',
     description:
       'You know what they say on the open seas. Bidders are winners.',
     resource: 'https://opensea.io/',
     platform: 'OpenSea',
-    color: '',
+    color: '#4ba1ef',
     imgPath: 'opensea.jpg',
-    type: 'track',
-    requisites: ['SEA-101'],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: 'SEA-101',
     points: 250,
     progress: 0
   },
   SET1: {
     name: 'SET-101',
+    type: 'track',
     blurb: 'Buy a token set on Set Protocol',
     task: 'Buy a token set on Set Protocol.',
     description:
@@ -488,13 +582,16 @@ const questList = {
     platform: 'Set Protocol',
     color: '#ECC251',
     imgPath: 'set.svg',
-    type: 'track',
-    requisites: [],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: '',
     points: 500,
     progress: 0
   },
   UNI1: {
     name: 'UNI-101',
+    type: 'track',
     blurb: 'Exchange tokens on Uniswap',
     task: 'Exchange tokens on Uniswap',
     description: 'Uniswap is a fully decentralized protocol for automated liquidity provision on Ethereum.',
@@ -502,12 +599,16 @@ const questList = {
     platform: 'Uniswap',
     color: '#DC6BE5',
     imgPath: 'uniswap.png',
-    type: 'track',
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: '',
     points: 250,
     progress: 0
   },
   UNI2: {
     name: 'UNI-201',
+    type: 'side-quest',
     blurb: 'Supply liquidity in Uniswap',
     task: 'Supply liquidity to at least 1 pool on Uniswap.',
     description: 'In order to make the unicorn run, you need to supply some assets into the liquidity pool.',
@@ -515,13 +616,16 @@ const questList = {
     platform: 'Uniswap',
     color: '#DC6BE5',
     imgPath: 'uniswap.png',
-    type: 'side-quest',
-    requisites: ['SET-101'],
+    badgeImgPath: '3box.png',
+    category: 'Finance',
+    categoryColor: '#6ed16b',
+    prerequisite: 'SET-101',
     points: 500,
     progress: 0
   },
   UNI3: {
     name: 'UNI-301',
+    type: 'side-quest',
     blurb: 'Own a Unisocks token',
     task: 'Own a Unisocks token',
     description: 'I heard you\'re a big fan of Supreme. Well, there\'s these things called Unisocks, and they\'re selling like hot pockets. Go get yourself a pair.',
@@ -529,8 +633,10 @@ const questList = {
     platform: 'Uniswap',
     color: '#DC6BE5',
     imgPath: 'uniswap.png',
-    type: 'side-quest',
-    requisites: ['uni-201'],
+    badgeImgPath: '3box.png',
+    category: 'Games',
+    categoryColor: '#f29b44',
+    prerequisite: 'UNI-201',
     points: 250,
     progress: 0
   }
@@ -637,10 +743,67 @@ export const fetchQuests = async function(ENSName, account) {
             // This math is to test out the logic to make sure if a user has more than 4 rooms, he just has 100% progress
           }
         }
-
-
-        if (key === 'ENS') {
+        if (key === 'COMP1') {
+          let result = await compoundClient.query({
+            query: COMPOUND_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: account.toLowerCase()
+            }
+          })
+          if (result.data.account) {
+            if (parseFloat(result.data.account.totalCollateralValueInEth) > 0.005) {
+              quest.progress = 100
+            }
+          }
+        }
+        if (key === 'COMP2') {
+          let result = await compoundClient.query({
+            query: COMPOUND_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: account.toLowerCase()
+            }
+          })
+          if (result.data.account) {
+            if (parseFloat(result.data.account.totalBorrowValueInEth) > 0.005) {
+              quest.progress = 100
+            }
+          }
+        }
+        if (key === 'COMP3') {
+          let result = await compoundClient.query({
+            query: COMPOUND_INTEREST_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: account.toLowerCase()
+            }
+          })
+          if (result.data.account) {
+            let totalSupplyInterest = 0;
+            result.data.account.tokens.map(lentToken => {
+              totalSupplyInterest = totalSupplyInterest + parseFloat(lentToken.lifetimeSupplyInterestAccrued)
+            })
+            if (totalSupplyInterest > 0) {
+              quest.progress = totalSupplyInterest / 0.005 * 100
+            }
+          }
+        }
+        
+        if (key === 'ENS1') {
           if (ENSName) {
+            quest.progress = 100
+          }
+        }
+        if (key === 'KITTY1') {
+          let result = await cryptoKittiesClient.query({
+            query: KITTIES_BRED_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: account
+            }
+          })
+          if (result.data.births) {
             quest.progress = 100
           }
         }
@@ -653,8 +816,10 @@ export const fetchQuests = async function(ENSName, account) {
                 avatar_name: ENSName.replace('.eth', '.dcl.eth')
               }
             })
-            if (result.data.domains[0].owner.id === account.toLowerCase() || result.data.domains[0].resolvedAddress.id === account.toLowerCase()) {
-              quest.progress = 100
+            if (result.data.domains.length >= 1) {
+              if (result.data.domains[0].owner.id === account.toLowerCase() || result.data.domains[0].resolvedAddress.id === account.toLowerCase()) {
+                quest.progress = 100
+              }
             }
           }
         }
@@ -670,7 +835,26 @@ export const fetchQuests = async function(ENSName, account) {
             quest.progress = 100
           }
         }
-        if (key === 'MOJI') {
+        if (key === 'MKR4') {
+          let result = await makerGovClient.query({
+            query: MKR_SPELL_VOTES_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: account.toLowerCase()
+            }
+          })
+          var votes = 0
+
+          result.data.votingActions.map(action => {
+            if (action.id.search('ADD-ARRAY')) {
+              votes += 1
+            }
+          })
+          if (votes > 0) {
+            quest.progress = 100
+          }
+        }
+        if (key === 'MOJI1') {
           const ethmojiAPI = new EthmojiAPI(global.web3.currentProvider)
           try {
             await ethmojiAPI.init()
@@ -682,7 +866,7 @@ export const fetchQuests = async function(ENSName, account) {
             console.log(error.message)
           }
         }
-        if (key === 'NEXUS') {
+        if (key === 'NEXUS1') {
           try {
             let result = await nexusClient.query({
               query: NEXUS_QUERY,
@@ -716,6 +900,71 @@ export const fetchQuests = async function(ENSName, account) {
               if (result.assets.length > 0) {
                 quest.progress = 100
                 return true
+              }
+            }
+          })
+        }
+        if (key === 'POOL1') {
+          let result = await poolTogetherClient.query({
+            query: POOL_TOGETHER_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
+            }
+          })
+          if (result.data.player) {
+            if (parseInt(result.data.player.consolidatedBalance) / 10 ** 18 >= 1 && parseInt(result.data.player.latestBalance) / 10 ** 18 >= 1) {
+              quest.progress = 100
+            }
+          }
+        }
+        if (key === 'POOL2') {
+          let result = await poolTogetherClient.query({
+            query: POOL_TOGETHER_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
+            }
+          })
+          if (result.data.player) {
+            quest.progress = (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId)) / 5 * 100
+          }
+        }
+        if (key === 'POOL3') {
+          let result = await poolTogetherClient.query({
+            query: POOL_TOGETHER_QUERY,
+            fetchPolicy: 'cache-first',
+            variables: {
+              user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
+            }
+          })
+          if (result.data.player) {
+            quest.progress = (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId)) / 20 * 100
+          }
+        }
+        if (key === 'SEA1') {
+          request(openSeaOptions, function(error, response, body) {
+            if (!error && body.length > 0) {
+              var result = JSON.parse(body)
+              var itemsSold = 0
+              result['asset_events'].map(event => {
+                if (event.seller.address === account.toLowerCase()) {
+                  itemsSold += 1
+                }
+              })
+              if (itemsSold > 1) {
+                quest.progress = 100
+              }
+            }
+          })
+        }
+        if (key === 'SEA2') {
+          request(openSeaOptions, function(error, response, body) {
+            if (!error && body.length > 0) {
+              var result = JSON.parse(body)
+              if (result['asset_events']) {
+                quest.progress = 100
+                  return true
               }
             }
           })
@@ -771,152 +1020,6 @@ export const fetchQuests = async function(ENSName, account) {
               supplied += parseFloat(exchange.ethDeposited)
             })
             quest.progress = parseFloat(supplied) / 0.5 * 100
-          }
-        }
-        if (key === 'KITTY1') {
-          let result = await cryptoKittiesClient.query({
-            query: KITTIES_BRED_QUERY,
-            fetchPolicy: 'cache-first',
-            variables: {
-              user: account
-            }
-          })
-          if (result.data.births) {
-            quest.progress = 100
-          }
-        }
-        if (key === 'COMP1') {
-          let result = await compoundClient.query({
-            query: COMPOUND_QUERY,
-            fetchPolicy: 'cache-first',
-            variables: {
-              user: account.toLowerCase()
-            }
-          })
-          if (result.data.account) {
-            if (parseFloat(result.data.account.totalCollateralValueInEth) > 0.005) {
-              quest.progress = 100
-            }
-          }
-        }
-        if (key === 'COMP2') {
-          let result = await compoundClient.query({
-            query: COMPOUND_QUERY,
-            fetchPolicy: 'cache-first',
-            variables: {
-              user: account.toLowerCase()
-            }
-          })
-          if (result.data.account) {
-            if (parseFloat(result.data.account.totalBorrowValueInEth) > 0.005) {
-              quest.progress = 100
-            }
-          }
-        }
-        if (key === 'COMP3') {
-          let result = await compoundClient.query({
-            query: COMPOUND_INTEREST_QUERY,
-            fetchPolicy: 'cache-first',
-            variables: {
-              user: account.toLowerCase()
-            }
-          })
-          if (result.data.account) {
-            let totalSupplyInterest = 0;
-            result.data.account.tokens.map(lentToken => {
-              totalSupplyInterest = totalSupplyInterest + parseFloat(lentToken.lifetimeSupplyInterestAccrued)
-            })
-            if (totalSupplyInterest > 0) {
-              quest.progress = totalSupplyInterest / 0.005 * 100
-            }
-          }
-        }
-        if (key === 'POOL1') {
-          let result = await poolTogetherClient.query({
-            query: POOL_TOGETHER_QUERY,
-            fetchPolicy: 'cache-first',
-            variables: {
-              user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
-            }
-          })
-          if (result.data.player) {
-            if (parseInt(result.data.player.consolidatedBalance) / 10 ** 18 >= 1 && parseInt(result.data.player.latestBalance) / 10 ** 18 >= 1) {
-              quest.progress = 100
-            }
-          }
-        }
-        if (key === 'POOL2') {
-          let result = await poolTogetherClient.query({
-            query: POOL_TOGETHER_QUERY,
-            fetchPolicy: 'cache-first',
-            variables: {
-              user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
-            }
-          })
-          if (result.data.player) {
-            if (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId) >= 5) {
-              quest.progress = 100
-            }
-          }
-        }
-        if (key === 'POOL3') {
-          let result = await poolTogetherClient.query({
-            query: POOL_TOGETHER_QUERY,
-            fetchPolicy: 'cache-first',
-            variables: {
-              user: "player-" + account.toLowerCase() + "_pool-0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958"
-            }
-          })
-          if (result.data.player) {
-            if (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId) >= 20) {
-              quest.progress = 100
-            }
-          }
-        }
-        if (key === 'SEA1') {
-          request(openSeaOptions, function(error, response, body) {
-            if (!error && body.length > 0) {
-              var result = JSON.parse(body)
-              var itemsSold = 0
-              result['asset_events'].map(event => {
-                if (event.seller.address === account.toLowerCase()) {
-                  itemsSold += 1
-                }
-              })
-              if (itemsSold > 1) {
-                quest.progress = 100
-              }
-            }
-          })
-        }
-        if (key === 'SEA2') {
-          request(openSeaOptions, function(error, response, body) {
-            if (!error && body.length > 0) {
-              var result = JSON.parse(body)
-              if (result['asset_events']) {
-                quest.progress = 100
-                  return true
-              }
-            }
-          })
-        }
-        if (key === 'MKR4') {
-          let result = await makerGovClient.query({
-            query: MKR_SPELL_VOTES_QUERY,
-            fetchPolicy: 'cache-first',
-            variables: {
-              user: account.toLowerCase()
-            }
-          })
-          var votes = 0
-
-          result.data.votingActions.map(action => {
-            if (action.id.search('ADD-ARRAY')) {
-              votes += 1
-            }
-          })
-          if (votes > 0) {
-            quest.progress = 100
           }
         }
         
