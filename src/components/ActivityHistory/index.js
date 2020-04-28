@@ -3,25 +3,59 @@ import styled from 'styled-components'
 import { fetchQuests } from '../../quests'
 import { useWeb3React } from '@web3-react/core'
 import { useENSName } from '../../hooks'
+import { useMedia } from 'use-media'
 import Copy from '../AccountDetails/Copy'
 import Spinner from '../Spinner'
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-areas: "leaderboard history";
+  grid-template-areas: "profile history";
   grid-template-rows: auto;
-  grid-template-columns: 500px 1fr;
+  grid-template-columns: 40% 60%;
+  width: 100%
+  
+  @media (max-width: 930px) {
+    grid-template-areas: "switch"\n"current";
+    grid-template-rows: 40px auto;
+    grid-template-columns: auto;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 550px) {
+    width: 100%;
+  }
 `
 
-const Leaderboard = styled.div`
-  grid-area: leaderboard;
-  width: 80%;
+const Switcher = styled.div`
+  grid-area: switch;
+  height: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  
+
+  & > div {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1F1F1F;
+    border-bottom: 1px solid ${({ theme }) => theme.outlinePurple};
+
+    &:first-of-type {
+      border-right: 1px solid ${({ theme }) => theme.outlinePurple};
+    }
+  }
+`
+
+const Profile = styled.div`
+  grid-area: profile;
   margin: auto;
   margin-top: 25px;
   font-size: 24px;
   font-weight: bold;
   text-align: center;
-
+  
   & > img {
     width: 45px;
     height: 58px;
@@ -30,6 +64,12 @@ const Leaderboard = styled.div`
   & > div {
     display: inline-block;
     margin-left: 15px;
+  }
+
+  @media (max-width: 930px) {
+    grid-area: current;
+    display: ${({ isCurrent }) => isCurrent ? 'block' : 'none'};
+    width: 90%;
   }
 `
 
@@ -48,8 +88,22 @@ const History = styled.div`
   font-weight: bold;
   display: grid;
   grid-template-areas: "header link"\n"activities activities";
-  grid-template-columns: 500px 160px;
+  grid-template-columns: 80% 20%;
   grid-template-rows: 100px auto;
+
+  @media (max-width: 930px) {
+    grid-area: current;
+    display: ${({ isCurrent }) => isCurrent ? 'grid' : 'none'};
+    grid-template-areas: "header"\n"activities";
+    grid-template-columns: auto;
+    grid-template-rows: 70px auto;
+    margin: auto;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 550px) {
+    width: 90%;
+  }
 `
 
 const CopyLink = styled.div`
@@ -73,16 +127,17 @@ const CopyLink = styled.div`
 `
 
 const Activity = styled.div`
-  display: grid
-  grid-template-columns: 75px auto 75px 75px; 
-  grid-template-areas: "icon main points link";
+  display: grid;
+  grid-template-columns: 75px auto 100px; 
+  grid-template-areas: "icon main points";
   border: 1px solid ${({ theme }) => theme.outlinePurple};
   border-radius: 10px;
   background: #1F1F1F;
   height: 75px;
   text-align: left;
-  margin-bottom: 20px;
-  vertical-align: center;
+  margin: 10px auto;
+  width: 95%
+
 
   &: hover {
     background-color: #141516;
@@ -188,6 +243,12 @@ export default function ActivityHistory() {
 
   const ENSName = useENSName(account)
 
+  const isExtraSmall = useMedia({ maxWidth: '970px' })
+
+  const isXXSmall = useMedia({ maxWidth: '930px' })
+
+  const isXXXSmall = useMedia({ maxWidth: '525px' })
+
   useEffect(() => {
     fetchQuests(ENSName, account).then(data => {
       console.log(data)
@@ -198,23 +259,30 @@ export default function ActivityHistory() {
   return (
     <> { quests.length > 0 ?
       <Wrapper>
-        <Leaderboard>
-          <img src={require('../../assets/images/drip_symbol.svg')} alt="Drip" />
+        {isXXSmall &&
+          <Switcher>
+            <div>Profile</div>
+            <div>History</div>
+          </Switcher>
+        }
+        <Profile isCurrent={true}>
           <div>
-            Leaderboard
-            <SubHeading>Who's got more drip?</SubHeading>
+            Profile
+            <SubHeading>Where you've been</SubHeading>
           </div>
-        </Leaderboard>
-        <History>
+        </Profile>
+        <History isCurrent={false}>
           <div style={{ gridArea: 'header' }}>
             History
             <SubHeading>Ode to the journey</SubHeading>
           </div>
-          <CopyLink>
-            <div>
-              Copy link <Copy toCopy={'https://rabithole.gg/' + account} />
-            </div>
-          </CopyLink>
+          {!isExtraSmall &&
+            <CopyLink>
+              <div>
+                Copy link <Copy toCopy={'https://rabithole.gg/' + account} />
+              </div>
+            </CopyLink>
+          }
           <div style={{ gridArea: 'activities' }}>
             {quests ?
             quests.map(quest => {
@@ -229,9 +297,11 @@ export default function ActivityHistory() {
                       <BlurbWrapper>{quest.blurb}</BlurbWrapper>
                     </QuestOverview>
                     <Points style={{ gridArea: 'points' }}>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>
-                    <Link>
-                      <a href={quest.url}><img src={require('../../assets/images/globe.png')} alt="etherscan link" /></a>
-                    </Link>
+                    {false && 
+                      <Link>
+                        <a href={quest.url}><img src={require('../../assets/images/globe.png')} alt="etherscan link" /></a>
+                      </Link>
+                    }
                   </Activity>
                 )
               }}) : null}

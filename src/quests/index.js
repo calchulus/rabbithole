@@ -816,8 +816,10 @@ export const fetchQuests = async function(ENSName, account) {
                 avatar_name: ENSName.replace('.eth', '.dcl.eth')
               }
             })
-            if (result.data.domains[0].owner.id === account.toLowerCase() || result.data.domains[0].resolvedAddress.id === account.toLowerCase()) {
-              quest.progress = 100
+            if (result.data.domains.length >= 1) {
+              if (result.data.domains[0].owner.id === account.toLowerCase() || result.data.domains[0].resolvedAddress.id === account.toLowerCase()) {
+                quest.progress = 100
+              }
             }
           }
         }
@@ -925,9 +927,7 @@ export const fetchQuests = async function(ENSName, account) {
             }
           })
           if (result.data.player) {
-            if (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId) >= 5) {
-              quest.progress = 100
-            }
+            quest.progress = (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId)) / 5 * 100
           }
         }
         if (key === 'POOL3') {
@@ -939,9 +939,7 @@ export const fetchQuests = async function(ENSName, account) {
             }
           })
           if (result.data.player) {
-            if (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId) >= 20) {
-              quest.progress = 100
-            }
+            quest.progress = (parseInt(result.data.player.latestDrawId) - parseInt(result.data.player.firstDepositDrawId)) / 20 * 100
           }
         }
         if (key === 'SEA1') {

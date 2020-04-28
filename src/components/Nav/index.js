@@ -91,6 +91,11 @@ const Score = styled.div`
   }
 `
 
+const Sidebar = styled.div`
+  display: ${({sidebarOpen}) => sidebarOpen ? 'flex': 'none' };
+  background: blue;
+`
+
 
 export default function Nav() {
   const [sidebarOpen, toggleSidebarOpen] = useState([])
@@ -108,24 +113,39 @@ export default function Nav() {
   const isXXXSmall = useMedia({ maxWidth: '525px' })
 
   return (
+    <>
     <NavWrapper>
       <BrandWrapper ><a href="/"><Logo src={require('../../assets/images/rabbithole.png')} alt="rabbithole logo" /></a></BrandWrapper>
-      { !isExtraSmall ?
+      { !isExtraSmall &&
         <NavList>
           <NavItem href="/" active={true}>Dashboard</NavItem>
           <NavItem href="/rewards" active={false}>Rewards</NavItem>
           <NavItem href="/activity" active={false}>Activity</NavItem>
           <NavItem href="/faq" active={false}>FAQ</NavItem>
         </NavList>
-      : null }
+      }
       <AccountWrapper onClick={() => {toggleSidebarOpen(sidebarOpen)}}>
-        { !isExtraSmall ?
+        { !isExtraSmall &&
           <LoginWrapper>
             <Web3Status />
           </LoginWrapper>
-        : null}
+        }
         <Score>200 <img src={require('../../assets/images/drip_symbol.svg')} alt="score symbol" /></Score>
       </AccountWrapper>
     </NavWrapper>
+    <Sidebar sidebarOpen={false}>
+      <BrandWrapper ><a href="/"><Logo src={require('../../assets/images/rabbithole.png')} alt="rabbithole logo" /></a></BrandWrapper>
+      <Score>200 <img src={require('../../assets/images/drip_symbol.svg')} alt="score symbol" /></Score>
+      <NavList>
+        <NavItem href="/" active={true}>Dashboard</NavItem>
+        <NavItem href="/rewards" active={false}>Rewards</NavItem>
+        <NavItem href="/activity" active={false}>Activity</NavItem>
+        <NavItem href="/faq" active={false}>FAQ</NavItem>
+      </NavList>
+      <LoginWrapper>
+        <Web3Status />
+      </LoginWrapper>
+    </Sidebar>
+    </>
   );
 }

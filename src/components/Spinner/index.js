@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledSpinner = styled.svg`
   animation: rotate 1s linear infinite;
-  margin: 40px auto;
+  margin: 75px auto;
   width: 75px;
   height: 75px;
 
