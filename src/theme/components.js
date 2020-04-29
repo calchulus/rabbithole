@@ -1,8 +1,8 @@
-import styled, { keyframes } from 'styled-components'
-import { darken } from 'polished'
+import styled, { keyframes } from "styled-components"
+import { darken } from "polished"
 
 export const Button = styled.button.attrs(({ warning, theme }) => ({
-  backgroundColor: warning ? theme.salmonRed : theme.royalBlue
+  backgroundColor: warning ? theme.salmonRed : theme.royalBlue,
 }))`
   padding: 1rem 2rem 1rem 2rem;
   border-radius: 3rem;
@@ -32,12 +32,12 @@ export const Button = styled.button.attrs(({ warning, theme }) => ({
 `
 
 export const Link = styled.a.attrs({
-  target: '_blank',
-  rel: 'noopener noreferrer'
+  target: "_blank",
+  rel: "noopener noreferrer",
 })`
   text-decoration: none;
   cursor: pointer;
-  color: ${({ theme }) => theme.royalBlue};
+  color: ${({ theme }) => theme.white};
 
   :focus {
     outline: none;
@@ -58,7 +58,7 @@ export const BorderlessInput = styled.input`
   width: 0;
   background-color: ${({ theme }) => theme.inputBackground};
 
-  [type='number'] {
+  [type="number"] {
     -moz-appearance: textfield;
   }
 

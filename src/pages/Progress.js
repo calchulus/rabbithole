@@ -6,11 +6,11 @@ import { fetchQuests } from "../quests"
 import { useENSName } from "../hooks"
 
 import Confetti from "canvas-confetti"
-import Star from "../assets/images/star.png"
 import Lock from "../assets/images/lock.png"
 import Modal from "../components//Modal"
 import { Text } from "rebass"
 import { AutoColumn } from "../components/Column"
+import { Link } from "../theme/components"
 import Row, { RowBetween } from "../components/Row"
 
 const ProgressWrapper = styled.div`
@@ -90,9 +90,11 @@ const TrackCard = styled.span`
 
   :hover {
     cursor: ${({ locked }) => !locked && "pointer"};
-    box-shadow: ${({ locked }) =>
+    box-shadow: ${({ locked, type }) =>
       !locked &&
-      "0 14px 28px rgba(122, 194, 168, 0.8),  0 6px 6px rgba(122, 194, 168, 0.8);"};
+      (type === "finance"
+        ? "0 14px 28px rgba(122, 194, 168, 0.4),  0 6px 6px rgba(122, 194, 168, 0.4);"
+        : "0 14px 28px rgba(215,175,75,1),  0 6px 6px rgba(215,175,75,1);")};
   }
 
   display: inline-block;
@@ -111,7 +113,7 @@ const TrackCardInner = styled(AutoColumn)`
   background-color: ${({ type }) =>
     type === "finance" ? "#7AC2A8" : "#D7AF4B"};
   border-radius: 10px;
-  min-height: 60px;
+  min-height: 100px;
 `
 
 const ScoreWrapper = styled.div`
@@ -223,57 +225,37 @@ const Tree = styled.ul`
   }
 `
 
-const mockQuests = {
-  quest0: {
-    progress: 100,
-  },
-  quest1: {
-    progress: 0,
-  },
-  quest2: {
-    progress: 0,
-  },
-  quest3: {
-    progress: 0,
-  },
-  quest4: {
-    progress: 0,
-  },
-}
-
-const rootId = "quest0"
-
-const trackStructure = {
+const financeTrack = {
   "COMP-101": {
-    children: ["POOL-101", "MKR-101"],
+    children: ["SET-101", "POOL-101"],
   },
-  quest1: {
-    children: ["quest3"],
+  "POOL-101": {
+    children: ["POOL-201", "MKR-101"],
   },
-  quest2: {
-    children: ["quest4", "quest3"],
+  "POOL-201": {
+    children: ["POOL-301"],
   },
-  quest3: {
-    children: null,
+  "SET-101": {
+    children: ["UNI-101"],
   },
-  quest4: {
-    children: null,
+  "UNI-101": {
+    children: ["UNI-201", "COMP-102"],
+  },
+  "COMP-102": {
+    children: ["COMP-201", "NEXUS-101"],
   },
 }
 
-const mockQuest = {
-  name: "MANA-101",
-  blurb: "Own a parcel of Decentraland",
-  task: "Obtain at least 1 LAND parcel in your wallet.",
-  description:
-    "Decentraland is a virtual reality platform powered by the Ethereum blockchain that allows users to create, experience, and monetize content and applications",
-  resource: "https://decentraland.org/",
-  platform: "Decentraland",
-  color: "#FF0055",
-  imgPath: "mana.svg",
-  type: "track",
-  points: 200,
-  progress: 0,
+const gamingTrack = {
+  "KITTY-101": {
+    children: ["MANA-101", "SEA-101"],
+  },
+  "MANA-101": {
+    children: ["MANA-201"],
+  },
+  "SEA-101": {
+    children: ["UNI-301"],
+  },
 }
 
 function Progress({ history }) {
@@ -282,8 +264,18 @@ function Progress({ history }) {
   const [activeSection, setActiveSection] = useState("finance")
 
   const [quests, setQuests] = useState()
+  const [formattedQuests, setFormattedQuests] = useState()
+
   const { account } = useWeb3React()
   const ENSName = useENSName(account)
+
+  const rootId = activeSection === "finance" ? "COMP-101" : "KITTY-101"
+  const trackStructure =
+    activeSection === "finance" ? financeTrack : gamingTrack
+
+  function toggleSection() {
+    setActiveSection(activeSection === "finance" ? "gaming" : "finance")
+  }
 
   useEffect(() => {
     fetchQuests(ENSName, account).then((data) => {
@@ -293,6 +285,16 @@ function Progress({ history }) {
     })
   }, [ENSName, account])
 
+  useEffect(() => {
+    if (quests) {
+      const newFormatted = {}
+      quests.map((quest) => {
+        return (newFormatted[quest.name] = quest)
+      })
+      setFormattedQuests(newFormatted)
+    }
+  }, [quests])
+
   function triggerConfetti() {
     Confetti({
       particleCount: 100,
@@ -301,10 +303,17 @@ function Progress({ history }) {
     })
   }
 
-  const textColorLight = activeSection === "finance" ? "#62CF9E" : "#463512"
-  const textColorDark = activeSection === "finance" ? "#275440" : "#463512"
+  const textColor = activeSection === "finance" ? "#275440" : "#463512"
 
-  const Item = ({ onClick, locked = false, complete = false, offset }) => {
+  const Item = ({
+    onClick,
+    questId,
+    locked = false,
+    complete = false,
+    offset,
+  }) => {
+    let icon = require("../assets/images/" +
+      formattedQuests[questId]?.badgeImgPath)
     return (
       <TrackCard
         onClick={onClick}
@@ -320,28 +329,35 @@ function Progress({ history }) {
         )}
         <AutoColumn gap="10px">
           <RowBetween>
-            <Text color={textColorLight} fontWeight={700} fontSize={"12px"}>
-              COMP-101
+            <Text color={textColor} fontWeight={700} fontSize={"12px"}>
+              {formattedQuests[questId]?.name}
             </Text>
-            <Text color={textColorLight} fontWeight={600} fontSize={"12px"}>
-              0%
-            </Text>
+            {!locked && (
+              <Text color={textColor} fontWeight={600} fontSize={"12px"}>
+                {parseFloat(formattedQuests[questId]?.progress) >= 100
+                  ? "100"
+                  : Math.round(
+                      parseFloat(formattedQuests[questId]?.progress) * 10
+                    ) / 10}
+                %
+              </Text>
+            )}
           </RowBetween>
           <TrackCardInner type={activeSection}>
             <AutoColumn gap="10px" justify="center">
               {!locked && (
                 <Text
                   fontWeight={600}
-                  color={textColorDark}
+                  color={textColor}
                   textAlign="center"
                   fontSize={"12px"}
                 >
-                  Supply assets to Compound.
+                  {formattedQuests[questId]?.blurb}
                 </Text>
               )}
               {!locked && (
                 <img
-                  src={Star}
+                  src={icon}
                   alt=""
                   style={{ height: "40px", width: "40px" }}
                 />
@@ -350,7 +366,7 @@ function Progress({ history }) {
           </TrackCardInner>
           {complete && (
             <Row style={{ justifyContent: "center" }}>
-              <Text fontWeight={600} color={textColorDark} textAlign="center">
+              <Text fontWeight={600} color={textColor} textAlign="center">
                 Redeemed
               </Text>
             </Row>
@@ -360,7 +376,7 @@ function Progress({ history }) {
               <div></div>
               <ScoreWrapper>
                 <Text color="#62CF9E" fontWeight={600} fontSize={"12px"}>
-                  100 XP
+                  {formattedQuests[questId]?.points} XP
                 </Text>
               </ScoreWrapper>
             </RowBetween>
@@ -373,11 +389,12 @@ function Progress({ history }) {
   function renderQuest(questId, locked) {
     return (
       <li key={questId}>
-        {mockQuests[questId].progress === 0 && !locked && (
+        {formattedQuests[questId]?.progress < 100 && !locked && (
           <ActiveWrapper type={activeSection}>
             <AutoColumn>
               <Item
                 key={questId}
+                questId={questId}
                 offset={true}
                 onClick={() => {
                   setOpenQuest(questId)
@@ -388,10 +405,11 @@ function Progress({ history }) {
             </AutoColumn>
           </ActiveWrapper>
         )}
-        {mockQuests[questId].progress === 100 && (
+        {formattedQuests[questId]?.progress >= 100 && !locked && (
           <Item
             key={questId}
             complete={true}
+            questId={questId}
             onClick={() => {
               setOpenQuest(questId)
               setShowModal(true)
@@ -400,13 +418,20 @@ function Progress({ history }) {
             type={activeSection}
           />
         )}
-        {locked && <Item key={questId} locked={true} type={activeSection} />}
-        {trackStructure[questId].children && (
+        {locked && (
+          <Item
+            key={questId}
+            locked={true}
+            type={activeSection}
+            questId={questId}
+          />
+        )}
+        {formattedQuests && trackStructure[questId]?.children && (
           <ul>
-            {trackStructure[questId].children.map((childQuest) => {
+            {trackStructure[questId]?.children?.map((childQuest) => {
               return renderQuest(
                 childQuest,
-                mockQuests[questId].progress !== 100
+                !(formattedQuests[questId]?.progress >= 100 && !locked)
               )
             })}
           </ul>
@@ -420,17 +445,22 @@ function Progress({ history }) {
       <div style={{ padding: "30px", paddingBottom: "60px" }}>
         <AutoColumn gap="20px">
           <Text fontWeight={800} color="#404040" fontSize={24}>
-            {mockQuest.name}
+            {openQuest}
           </Text>
           <AutoColumn gap="10px">
             <Text fontWeight={400} color="#CBC9BC" fontSize={16}>
               Quest Details
             </Text>
             <Text fontWeight={600} color="white" fontSize={16}>
-              CryptoKitties is one of the world’s first blockchain games. Each
-              kitty has a unique genome that defines its appearance and traits.
-              Players can breed their kitties to create new furry friends and
-              unlock rare cattributes.
+              {formattedQuests[openQuest]?.blurb}
+            </Text>
+          </AutoColumn>
+          <AutoColumn gap="10px">
+            <Text fontWeight={400} color="#CBC9BC" fontSize={16}>
+              Protocol Details
+            </Text>
+            <Text fontWeight={600} color="white" fontSize={16}>
+              {formattedQuests[openQuest]?.description}
             </Text>
           </AutoColumn>
           <AutoColumn gap="10px">
@@ -443,7 +473,20 @@ function Progress({ history }) {
           </AutoColumn>
           <AutoColumn gap="10px">
             <Text fontWeight={400} color="#CBC9BC" fontSize={16}>
+              Start here to complete
+            </Text>
+            <Text fontWeight={600} color="white" fontSize={16}>
+              <Link href={formattedQuests[openQuest]?.resource}>
+                {formattedQuests[openQuest]?.resource}
+              </Link>
+            </Text>
+          </AutoColumn>
+          <AutoColumn gap="10px">
+            <Text fontWeight={400} color="#CBC9BC" fontSize={16}>
               Reward
+            </Text>
+            <Text fontSize={"20px"} color="#62CF9E">
+              {formattedQuests[openQuest]?.points} XP
             </Text>
           </AutoColumn>
         </AutoColumn>
@@ -468,11 +511,7 @@ function Progress({ history }) {
           </Text>
           <Text>Progress through each track to earn rewards.</Text>
         </AutoColumn>
-        <Selector
-          onClick={() =>
-            setActiveSection(activeSection === "finance" ? "gaming" : "finance")
-          }
-        >
+        <Selector onClick={toggleSection}>
           <FinanceSelector active={activeSection === "finance"}>
             <Text
               fontWeight={600}
@@ -499,7 +538,9 @@ function Progress({ history }) {
       </RowBetween>
       <AutoColumn gap="40px" style={{ marginTop: "40px" }}>
         <TrackSection justify="center">
-          <Tree type={activeSection}>{renderQuest(rootId)}</Tree>
+          <Tree type={activeSection}>
+            {formattedQuests && renderQuest(rootId, false)}
+          </Tree>
         </TrackSection>
       </AutoColumn>
     </ProgressWrapper>
