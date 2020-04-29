@@ -146,7 +146,7 @@ const CopyLink = styled.div`
 
 const Activity = styled.div`
   display: grid;
-  grid-template-columns: 50px auto 100px;
+  grid-template-columns: 75px auto 100px;
   grid-template-areas: "icon main points";
   border: 1px solid ${({ theme }) => theme.outlinePurple};
   border-radius: 10px;
@@ -154,7 +154,7 @@ const Activity = styled.div`
   height: 75px;
   text-align: left;
   margin: 10px auto;
-  width: 95%
+  width: 90%;
 
   &: hover {
     background-color: #141516;
@@ -164,7 +164,13 @@ const Activity = styled.div`
     margin-bottom: 0;
   }
 
+  @media (min-width: 1440px) {
+    grid-template-columns: 100px auto 100px;
+    width: 80%;
+  }
+
   @media (max-width: 550px) {
+    grid-template-columns: 50px auto 100px;
     width: 100%;
     margin: 10px 0;
   }
