@@ -126,12 +126,6 @@ function Nav({ history }) {
               Dashboard
             </NavItem>
             <NavItem
-              onClick={() => history.push("/rewards")}
-              active={history.location.pathname === "/rewards"}
-            >
-              Rewards
-            </NavItem>
-            <NavItem
               onClick={() => history.push("/activity")}
               active={history.location.pathname === "/activity"}
             >
