@@ -242,11 +242,6 @@ const Points = styled.div`
   margin: auto;
 `
 
-const DripSymbol = styled.img`
-  height: 15px;
-  margin-left: 3px;
-`
-
 const Link = styled.div`
   grid-area: link;
   display: flex;
@@ -348,10 +343,7 @@ export default function ActivityHistory() {
                           <BlurbWrapper>{quest.blurb}</BlurbWrapper>
                         </QuestOverview>
                         <Points style={{ gridArea: "points" }}>
-                          {quest.points}
-                          <DripSymbol
-                            src={require("../../assets/images/drip_symbol.svg")}
-                          />
+                          {quest.points} XP
                         </Points>
                         {false && (
                           <Link>
