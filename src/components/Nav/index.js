@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import styled from "styled-components"
 import Web3Status from "../Web3Status"
 import useMedia from "use-media"
+import { useScore } from "../../contexts/Application"
+import { withRouter } from "react-router-dom"
 
 const NavWrapper = styled.div`
   display: flex;
@@ -36,7 +38,7 @@ const NavList = styled.div`
   align-items: center;
 `
 
-const NavItem = styled.a`
+const NavItem = styled.div`
   font-weight: bold;
   padding: 15px 25px;
   font-size: 16px;
@@ -47,16 +49,14 @@ const NavItem = styled.a`
     active
       ? "linear-gradient(180deg, rgba(141, 251, 201, 0) 0%, rgba(141, 251, 201, 0.1) 100%)"
       : "none"};
-  border-bottom: ${({ active }) => (active ? "1px solid #8DFBC9" : "none")};
-`
 
-const NavLink = styled.a`
-  font-size: 16px;
-  text-decoration: none;
-  display: block;
-  width: 100%;
-  height: 100%;
-  color: ${({ active }) => (active ? "#EFEFEF" : "#A1A4B1")};
+  border-bottom: ${({ active }) =>
+    active ? "1px solid #8DFBC9" : "1px solid transparent"};
+
+  :hover {
+    cursor: pointer;
+    border-bottom: 1px solid #8dfbc9;
+  }
 `
 
 const AccountWrapper = styled.div`
@@ -99,20 +99,12 @@ const Sidebar = styled.div`
   background: blue;
 `
 
-export default function Nav() {
+function Nav({ history }) {
   const [sidebarOpen, toggleSidebarOpen] = useState([])
-
-  const [locationPath, setLocationPath] = useState([])
-
-  const isMedium = useMedia({ maxWidth: "1400px" })
-
-  const isSmall = useMedia({ maxWidth: "1100px" })
 
   const isExtraSmall = useMedia({ maxWidth: "970px" })
 
-  const isXXSmall = useMedia({ maxWidth: "930px" })
-
-  const isXXXSmall = useMedia({ maxWidth: "525px" })
+  const score = useScore()
 
   return (
     <>
@@ -127,16 +119,34 @@ export default function Nav() {
         </BrandWrapper>
         {!isExtraSmall && (
           <NavList>
-            <NavItem href="/" active={true}>
+            <NavItem
+              onClick={() => history.push("/")}
+              active={history.location.pathname === "/"}
+            >
               Dashboard
             </NavItem>
-            <NavItem href="/rewards" active={false}>
+            <NavItem
+              onClick={() => history.push("/rewards")}
+              active={history.location.pathname === "/rewards"}
+            >
               Rewards
             </NavItem>
-            <NavItem href="/activity" active={false}>
+            <NavItem
+              onClick={() => history.push("/activity")}
+              active={history.location.pathname === "/activity"}
+            >
               Activity
             </NavItem>
-            <NavItem href="/faq" active={false}>
+            <NavItem
+              onClick={() => history.push("/progress")}
+              active={history.location.pathname === "/progress"}
+            >
+              Progress
+            </NavItem>
+            <NavItem
+              onClick={() => history.push("/faq")}
+              active={history.location.pathname === "/faq"}
+            >
               FAQ
             </NavItem>
           </NavList>
@@ -152,7 +162,7 @@ export default function Nav() {
             </LoginWrapper>
           )}
           <Score>
-            200{" "}
+            {score}
             <img
               src={require("../../assets/images/drip_symbol.svg")}
               alt="score symbol"
@@ -197,3 +207,5 @@ export default function Nav() {
     </>
   )
 }
+
+export default withRouter(Nav)

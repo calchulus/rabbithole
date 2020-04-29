@@ -1,16 +1,28 @@
-import React, { createContext, useContext, useReducer, useMemo, useCallback, useEffect } from 'react'
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useMemo,
+  useCallback,
+  useEffect,
+} from "react"
 
-import { useWeb3React } from '../hooks'
-import { safeAccess } from '../utils'
-import { getUSDPrice } from '../utils/price'
+import { fetchQuests } from "../quests"
+import { useWeb3React, useENSName } from "../hooks"
+import { safeAccess } from "../utils"
+import { getUSDPrice } from "../utils/price"
 
-const BLOCK_NUMBER = 'BLOCK_NUMBER'
-const USD_PRICE = 'USD_PRICE'
-const WALLET_MODAL_OPEN = 'WALLET_MODAL_OPEN'
+const BLOCK_NUMBER = "BLOCK_NUMBER"
+const USD_PRICE = "USD_PRICE"
+const WALLET_MODAL_OPEN = "WALLET_MODAL_OPEN"
+const SCORE = "SCORE"
+const QUESTS = "QUESTS"
 
-const UPDATE_BLOCK_NUMBER = 'UPDATE_BLOCK_NUMBER'
-const UPDATE_USD_PRICE = 'UPDATE_USD_PRICE'
-const TOGGLE_WALLET_MODAL = 'TOGGLE_WALLET_MODAL'
+const UPDATE_BLOCK_NUMBER = "UPDATE_BLOCK_NUMBER"
+const UPDATE_USD_PRICE = "UPDATE_USD_PRICE"
+const TOGGLE_WALLET_MODAL = "TOGGLE_WALLET_MODAL"
+const UPDATE_SCORE = "UPDATE_SCORE"
+const UPDATE_QUESTS = "UPDATE_QUESTS"
 
 const ApplicationContext = createContext()
 
@@ -26,8 +38,8 @@ function reducer(state, { type, payload }) {
         ...state,
         [BLOCK_NUMBER]: {
           ...(safeAccess(state, [BLOCK_NUMBER]) || {}),
-          [networkId]: blockNumber
-        }
+          [networkId]: blockNumber,
+        },
       }
     }
     case UPDATE_USD_PRICE: {
@@ -36,15 +48,31 @@ function reducer(state, { type, payload }) {
         ...state,
         [USD_PRICE]: {
           ...(safeAccess(state, [USD_PRICE]) || {}),
-          [networkId]: USDPrice
-        }
+          [networkId]: USDPrice,
+        },
+      }
+    }
+    case UPDATE_SCORE: {
+      const { score } = payload
+      return {
+        ...state,
+        [SCORE]: score,
+      }
+    }
+    case UPDATE_QUESTS: {
+      const { quests } = payload
+      return {
+        ...state,
+        [QUESTS]: quests,
       }
     }
     case TOGGLE_WALLET_MODAL: {
       return { ...state, [WALLET_MODAL_OPEN]: !state[WALLET_MODAL_OPEN] }
     }
     default: {
-      throw Error(`Unexpected action type in ApplicationContext reducer: '${type}'.`)
+      throw Error(
+        `Unexpected action type in ApplicationContext reducer: '${type}'.`
+      )
     }
   }
 }
@@ -53,7 +81,9 @@ export default function Provider({ children }) {
   const [state, dispatch] = useReducer(reducer, {
     [BLOCK_NUMBER]: {},
     [USD_PRICE]: {},
-    [WALLET_MODAL_OPEN]: false
+    [WALLET_MODAL_OPEN]: false,
+    [SCORE]: 0,
+    [QUESTS]: [],
   })
 
   const updateBlockNumber = useCallback((networkId, blockNumber) => {
@@ -68,14 +98,36 @@ export default function Provider({ children }) {
     dispatch({ type: TOGGLE_WALLET_MODAL })
   }, [])
 
+  const updateScore = useCallback((score) => {
+    dispatch({ type: UPDATE_SCORE, payload: { score } })
+  }, [])
+
+  const updateQuests = useCallback((quests) => {
+    dispatch({ type: UPDATE_QUESTS, payload: { quests } })
+  }, [])
+
   return (
     <ApplicationContext.Provider
-      value={useMemo(() => [state, { updateBlockNumber, updateUSDPrice, toggleWalletModal }], [
-        state,
-        updateBlockNumber,
-        updateUSDPrice,
-        toggleWalletModal
-      ])}
+      value={useMemo(
+        () => [
+          state,
+          {
+            updateBlockNumber,
+            updateUSDPrice,
+            toggleWalletModal,
+            updateScore,
+            updateQuests,
+          },
+        ],
+        [
+          state,
+          updateBlockNumber,
+          updateUSDPrice,
+          toggleWalletModal,
+          updateScore,
+          updateQuests,
+        ]
+      )}
     >
       {children}
     </ApplicationContext.Provider>
@@ -83,10 +135,15 @@ export default function Provider({ children }) {
 }
 
 export function Updater() {
-  const { library, chainId } = useWeb3React()
+  const { library, chainId, account } = useWeb3React()
+
+  const ENSName = useENSName(account)
 
   const globalBlockNumber = useBlockNumber()
-  const [, { updateBlockNumber, updateUSDPrice }] = useApplicationContext()
+  const [
+    ,
+    { updateBlockNumber, updateUSDPrice, updateQuests },
+  ] = useApplicationContext()
 
   // update usd price
   useEffect(() => {
@@ -115,7 +172,7 @@ export function Updater() {
       function update() {
         library
           .getBlockNumber()
-          .then(blockNumber => {
+          .then((blockNumber) => {
             if (!stale) {
               updateBlockNumber(chainId, blockNumber)
             }
@@ -128,14 +185,22 @@ export function Updater() {
       }
 
       update()
-      library.on('block', update)
+      library.on("block", update)
 
       return () => {
         stale = true
-        library.removeListener('block', update)
+        library.removeListener("block", update)
       }
     }
   }, [chainId, library, updateBlockNumber])
+
+  useEffect(() => {
+    fetchQuests(ENSName, account).then((data) => {
+      if (data) {
+        updateQuests(data)
+      }
+    })
+  }, [ENSName, account, updateQuests])
 
   return null
 }
@@ -166,4 +231,31 @@ export function useWalletModalToggle() {
   const [, { toggleWalletModal }] = useApplicationContext()
 
   return toggleWalletModal
+}
+
+export function useScore() {
+  const [state, { updateScore }] = useApplicationContext()
+
+  const quests = state?.[QUESTS]
+
+  useEffect(() => {
+    if (quests) {
+      let score = 0
+      quests.map((quest) => {
+        if (quest.progress >= 100) {
+          score += quest.points
+        }
+        return true
+      })
+      updateScore(score)
+    }
+  }, [quests, updateScore])
+
+  return state?.[SCORE]
+}
+
+export function useQuests() {
+  const [state] = useApplicationContext()
+
+  return state?.[QUESTS]
 }

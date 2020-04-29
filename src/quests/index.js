@@ -87,7 +87,7 @@ const questList = {
     platform: "Compound Finance",
     color: "#4dffca",
     imgPath: "compound.png",
-    badgeImgPath: "3box.png",
+    badgeImgPath: "COM-101-badge.svg",
     category: "Finance",
     categoryColor: "#6ed16b",
     prerequisite: "",
@@ -817,8 +817,8 @@ export const fetchQuests = async function(ENSName, account) {
         if (key === "MOJI1") {
           const ethmojiAPI = new EthmojiAPI(global.web3.currentProvider)
           try {
-            await ethmojiAPI.init()
-            const avatar = await ethmojiAPI.getAvatar(account)
+            await ethmojiAPI?.init()
+            const avatar = await ethmojiAPI?.getAvatar(account)
             if (avatar) {
               quest.progress = 100
             }
