@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { withRouter } from "react-router-dom"
-import { useWeb3React } from "@web3-react/core"
-import { fetchQuests } from "../quests"
-import { useENSName } from "../hooks"
 
 import Confetti from "canvas-confetti"
 import Lock from "../assets/images/lock.png"
@@ -12,6 +9,8 @@ import { Text } from "rebass"
 import { AutoColumn } from "../components/Column"
 import { Link } from "../theme/components"
 import Row, { RowBetween } from "../components/Row"
+
+import { useQuests } from "../contexts/Application"
 
 const ProgressWrapper = styled.div`
   display: flex;
@@ -263,11 +262,8 @@ function Progress({ history }) {
   const [showModal, setShowModal] = useState(false)
   const [activeSection, setActiveSection] = useState("finance")
 
-  const [quests, setQuests] = useState()
+  const quests = useQuests()
   const [formattedQuests, setFormattedQuests] = useState()
-
-  const { account } = useWeb3React()
-  const ENSName = useENSName(account)
 
   const rootId = activeSection === "finance" ? "COMP-101" : "KITTY-101"
   const trackStructure =
@@ -276,14 +272,6 @@ function Progress({ history }) {
   function toggleSection() {
     setActiveSection(activeSection === "finance" ? "gaming" : "finance")
   }
-
-  useEffect(() => {
-    fetchQuests(ENSName, account).then((data) => {
-      if (data) {
-        setQuests(data)
-      }
-    })
-  }, [ENSName, account])
 
   useEffect(() => {
     if (quests) {
@@ -312,8 +300,7 @@ function Progress({ history }) {
     complete = false,
     offset,
   }) => {
-    let icon = require("../assets/images/" +
-      formattedQuests[questId]?.badgeImgPath)
+    const icon = require("../assets/images/" + questId + "-badge.svg")
     return (
       <TrackCard
         onClick={onClick}
@@ -539,7 +526,7 @@ function Progress({ history }) {
       <AutoColumn gap="40px" style={{ marginTop: "40px" }}>
         <TrackSection justify="center">
           <Tree type={activeSection}>
-            {formattedQuests && renderQuest(rootId, false)}
+            {formattedQuests?.[rootId] && renderQuest(rootId, false)}
           </Tree>
         </TrackSection>
       </AutoColumn>

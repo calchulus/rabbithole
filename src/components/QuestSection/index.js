@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Suspense } from "react"
 import styled from "styled-components"
-import { fetchQuests } from "../../quests"
 import { useWeb3React } from "@web3-react/core"
 import {
   useENSName,
@@ -8,9 +7,10 @@ import {
   useNotificationThread,
   useThreadPosts,
 } from "../../hooks"
-import { ToastMessage } from "rimble-ui"
 import Spinner from "../Spinner"
 import useMedia from "use-media"
+
+import { useQuests } from "../../contexts/Application"
 const EthmojiAPI = require("ethmoji-js").default
 
 const HIDE_LOCKED = false
@@ -285,8 +285,6 @@ const Loading = styled.div`
 `
 
 export default function QuestSection() {
-  const [quests, setQuests] = useState([])
-
   const [weeklyQuests, setWeeklyQuests] = useState([])
 
   const [sideQuests, setSideQuests] = useState([])
@@ -307,9 +305,7 @@ export default function QuestSection() {
 
   const [ethMoji, setEthmoji] = useState()
 
-  const isMedium = useMedia({ maxWidth: "1400px" })
-
-  const isSmall = useMedia({ maxWidth: "1100px" })
+  const quests = useQuests()
 
   const isExtraSmall = useMedia({ maxWidth: "970px" })
 
@@ -330,24 +326,21 @@ export default function QuestSection() {
   })
 
   useEffect(() => {
-    fetchQuests(ENSName, account).then((data) => {
-      let weeklyQuests = 0
-      let sideQuests = 0
-      if (data) {
-        data.map((quest) => {
-          if (quest.type === "weekly" && quest.progress < 100) {
-            weeklyQuests += 1
-          }
-          if (quest.type === "side-quest" && quest.progress < 100) {
-            sideQuests += 1
-          }
-        })
-        setSideQuests(sideQuests)
-        setWeeklyQuests(weeklyQuests)
-        setQuests(data)
-      }
-    })
-  }, [ENSName, account])
+    let weeklyQuests = 0
+    let sideQuests = 0
+    quests &&
+      quests.map((quest) => {
+        if (quest.type === "weekly" && quest.progress < 100) {
+          weeklyQuests += 1
+        }
+        if (quest.type === "side-quest" && quest.progress < 100) {
+          sideQuests += 1
+        }
+        return true
+      })
+    setSideQuests(sideQuests)
+    setWeeklyQuests(weeklyQuests)
+  }, [ENSName, account, quests])
 
   return (
     <Suspense fallback={null}>

@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
-import { fetchQuests } from '../../quests'
-import { useWeb3React } from '@web3-react/core'
-import { useENSName } from '../../hooks'
-import { useMedia } from 'use-media'
-import Copy from '../AccountDetails/Copy'
-import Spinner from '../Spinner'
+import React from "react"
+import styled from "styled-components"
+import { useWeb3React } from "@web3-react/core"
+import { useENSName } from "../../hooks"
+import { useMedia } from "use-media"
+import Copy from "../AccountDetails/Copy"
+import Spinner from "../Spinner"
+import { useQuests } from "../../contexts/Application"
 
 const Wrapper = styled.div`
   display: grid;
   grid-template-areas: "profile history";
   grid-template-rows: auto;
   grid-template-columns: 40% 60%;
-  width: 100%
-  
-  @media (max-width: 930px) {
-    grid-template-areas: "switch"\n"current";
+  width: 100% @media (max-width: 930px) {
+    grid-template-areas: "switch" \n"current";
     grid-template-rows: 40px auto;
     grid-template-columns: auto;
     margin: 0 auto;
@@ -32,14 +30,13 @@ const Switcher = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  
 
   & > div {
     width: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #1F1F1F;
+    background-color: #1f1f1f;
     border-bottom: 1px solid ${({ theme }) => theme.outlinePurple};
 
     &:first-of-type {
@@ -55,7 +52,7 @@ const Profile = styled.div`
   font-size: 24px;
   font-weight: bold;
   text-align: center;
-  
+
   & > img {
     width: 45px;
     height: 58px;
@@ -68,7 +65,7 @@ const Profile = styled.div`
 
   @media (max-width: 930px) {
     grid-area: current;
-    display: ${({ isCurrent }) => isCurrent ? 'block' : 'none'};
+    display: ${({ isCurrent }) => (isCurrent ? "block" : "none")};
     width: 90%;
   }
 `
@@ -77,7 +74,7 @@ const SubHeading = styled.span`
   display: block;
   font-size: 18px;
   font-weight: bold;
-  color: #A1A4B1;
+  color: #a1a4b1;
 `
 
 const History = styled.div`
@@ -87,14 +84,14 @@ const History = styled.div`
   font-size: 24px;
   font-weight: bold;
   display: grid;
-  grid-template-areas: "header link"\n"activities activities";
+  grid-template-areas: "header link" \n"activities activities";
   grid-template-columns: 80% 20%;
   grid-template-rows: 100px auto;
 
   @media (max-width: 930px) {
     grid-area: current;
-    display: ${({ isCurrent }) => isCurrent ? 'grid' : 'none'};
-    grid-template-areas: "header"\n"activities";
+    display: ${({ isCurrent }) => (isCurrent ? "grid" : "none")};
+    grid-template-areas: "header" \n"activities";
     grid-template-columns: auto;
     grid-template-rows: 70px auto;
     margin: auto;
@@ -128,11 +125,11 @@ const CopyLink = styled.div`
 
 const Activity = styled.div`
   display: grid;
-  grid-template-columns: 75px auto 100px; 
+  grid-template-columns: 75px auto 100px;
   grid-template-areas: "icon main points";
   border: 1px solid ${({ theme }) => theme.outlinePurple};
   border-radius: 10px;
-  background: #1F1F1F;
+  background: #1f1f1f;
   height: 75px;
   text-align: left;
   margin: 10px auto;
@@ -185,7 +182,7 @@ const QuestOverview = styled.div`
 
 const Platform = styled.div`
   font-size: 10px;
-  color: ${({color}) => color};
+  color: ${({ color }) => color};
   text-transform: uppercase;
 `
 
@@ -237,76 +234,95 @@ const Loading = styled.div`
 `
 
 export default function ActivityHistory() {
-  const [quests, setQuests] = useState([])
+  const quests = useQuests()
 
   const { account } = useWeb3React()
 
   const ENSName = useENSName(account)
 
-  const isExtraSmall = useMedia({ maxWidth: '970px' })
+  const isExtraSmall = useMedia({ maxWidth: "970px" })
 
-  const isXXSmall = useMedia({ maxWidth: '930px' })
+  const isXXSmall = useMedia({ maxWidth: "930px" })
 
-  const isXXXSmall = useMedia({ maxWidth: '525px' })
-
-  useEffect(() => {
-    fetchQuests(ENSName, account).then(data => {
-      console.log(data)
-      setQuests(data)
-    })
-  }, [ENSName, account])
+  const isXXXSmall = useMedia({ maxWidth: "525px" })
 
   return (
-    <> { quests.length > 0 ?
-      <Wrapper>
-        {isXXSmall &&
-          <Switcher>
-            <div>Profile</div>
-            <div>History</div>
-          </Switcher>
-        }
-        <Profile isCurrent={true}>
-          <div>
-            Profile
-            <SubHeading>Where you've been</SubHeading>
-          </div>
-        </Profile>
-        <History isCurrent={false}>
-          <div style={{ gridArea: 'header' }}>
-            History
-            <SubHeading>Ode to the journey</SubHeading>
-          </div>
-          {!isExtraSmall &&
-            <CopyLink>
-              <div>
-                Copy link <Copy toCopy={'https://rabithole.gg/' + account} />
-              </div>
-            </CopyLink>
-          }
-          <div style={{ gridArea: 'activities' }}>
-            {quests ?
-            quests.map(quest => {
-              if (quest.progress >= 100) {
-                return (
-                  <Activity key={quest.name}>
-                    <Icon>
-                      <img src={require('../../assets/images/' + quest.imgPath)} alt="" />
-                    </Icon>
-                    <QuestOverview>
-                      <Platform color={quest.color}>{quest.platform}</Platform>
-                      <BlurbWrapper>{quest.blurb}</BlurbWrapper>
-                    </QuestOverview>
-                    <Points style={{ gridArea: 'points' }}>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>
-                    {false && 
-                      <Link>
-                        <a href={quest.url}><img src={require('../../assets/images/globe.png')} alt="etherscan link" /></a>
-                      </Link>
+    <>
+      {" "}
+      {quests.length > 0 ? (
+        <Wrapper>
+          {isXXSmall && (
+            <Switcher>
+              <div>Profile</div>
+              <div>History</div>
+            </Switcher>
+          )}
+          <Profile isCurrent={true}>
+            <div>
+              Profile
+              <SubHeading>Where you've been</SubHeading>
+            </div>
+          </Profile>
+          <History isCurrent={false}>
+            <div style={{ gridArea: "header" }}>
+              History
+              <SubHeading>Ode to the journey</SubHeading>
+            </div>
+            {!isExtraSmall && (
+              <CopyLink>
+                <div>
+                  Copy link <Copy toCopy={"https://rabithole.gg/" + account} />
+                </div>
+              </CopyLink>
+            )}
+            <div style={{ gridArea: "activities" }}>
+              {quests
+                ? quests.map((quest) => {
+                    if (quest.progress >= 100) {
+                      return (
+                        <Activity key={quest.name}>
+                          <Icon>
+                            <img
+                              src={require("../../assets/images/" +
+                                quest.imgPath)}
+                              alt=""
+                            />
+                          </Icon>
+                          <QuestOverview>
+                            <Platform color={quest.color}>
+                              {quest.platform}
+                            </Platform>
+                            <BlurbWrapper>{quest.blurb}</BlurbWrapper>
+                          </QuestOverview>
+                          <Points style={{ gridArea: "points" }}>
+                            {quest.points}
+                            <DripSymbol
+                              src={require("../../assets/images/drip_symbol.svg")}
+                            />
+                          </Points>
+                          {false && (
+                            <Link>
+                              <a href={quest.url}>
+                                <img
+                                  src={require("../../assets/images/globe.png")}
+                                  alt="etherscan link"
+                                />
+                              </a>
+                            </Link>
+                          )}
+                        </Activity>
+                      )
                     }
-                  </Activity>
-                )
-              }}) : null}
-          </div>
-        </History>
-    </Wrapper> : <Loading><Spinner /></Loading>}
-  </>);
+                  })
+                : null}
+            </div>
+          </History>
+        </Wrapper>
+      ) : (
+        <Loading>
+          <Spinner />
+        </Loading>
+      )}
+    </>
+  )
 }
