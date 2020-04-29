@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Leaderboard = styled.div`
+const LeaderboardWrapper = styled.div`
   grid-area: leaderboard;
   width: 80%;
   margin: auto;
@@ -10,21 +10,15 @@ const Leaderboard = styled.div`
   font-weight: bold;
   text-align: center;
 
-  & > img {
-    width: 45px;
-    height: 58px;
-  }
-
   & > div {
     display: inline-block;
-    margin-left: 15px;
   }
 `
 
 const Leader = styled.div`
   display: grid;
   grid-template-columns: 30px 55px auto 65px;
-  grid-template-areas: "num moji name drip";
+  grid-template-areas: "num moji name score";
   padding: 5px;
   line-height: 25px;
   vertical-align: middle;
@@ -54,8 +48,8 @@ const Board = styled.div`
   margin-top: 50px;
 `
 
-const DripScore = styled.span`
-  grid-area: drip;
+const Score = styled.span`
+  grid-area: score;
   color: #8DFBC9;
   font-family: Inter;
   display: flex;
@@ -140,11 +134,10 @@ const leaderboardWithUser = {
 export default function Leaderboard() {
 
   return (
-    <Leaderboard>
-      <img src={require('../../assets/images/drip_symbol.svg')} alt="Drip" />
+    <LeaderboardWrapper>
       <div>
         Leaderboard
-        <SubHeading>Who's got more drip?</SubHeading>
+        <SubHeading>Take a shot, dont' miss</SubHeading>
       </div>
       <Board>
         {leaderboardWithUser.leaders.map((leader, i) => {
@@ -153,7 +146,7 @@ export default function Leaderboard() {
               <span style={{ gridArea: 'num' }}>{i+1}.</span>
               <img src={require('../../assets/images/' + leader.imageUrl)} alt={leader.name} style={{ gridArea: 'moji' }}/>
               <span style={{ gridArea: 'name' }}>{leader.name}</span>
-              <DripScore>{leader.points} <img src={require('../../assets/images/drip_symbol.svg')} alt="Drip" /></DripScore>
+              <Score>{leader.points} XP</Score>
             </Leader>
           );
         })}
@@ -164,11 +157,11 @@ export default function Leaderboard() {
               <span style={{ gridArea: 'num' }}>{leaderboardWithUser.user.position}.</span>
               <img src={require('../../assets/images/' + leaderboardWithUser.user.imageUrl)} alt={leaderboardWithUser.user.name} style={{ gridArea: 'moji' }}/>
               <span style={{ gridArea: 'name' }}>{leaderboardWithUser.user.name}</span>
-              <DripScore>{leaderboardWithUser.user.points} <img src={require('../../assets/images/drip_symbol.svg')} alt="Drip" /></DripScore>
+              <Score>{leaderboardWithUser.user.points} XP</Score>
             </Leader>
           </>
         ): null }
       </Board>
-    </Leaderboard>
+    </LeaderboardWrapper>
   )
 }

@@ -370,7 +370,7 @@ const questList = {
     blurb: "Vote on Spell within 1 hour of creation",
     task: "Vote on Spell within 1 hour of creation",
     description:
-      "This feels like that one time I camped outside the shop to get a brand new of kicks. But only now it's some drip.",
+      "This feels like that one time I camped outside the shop to get a brand new of kicks. But only now it's a badge.",
     resource: "https://vote.makerdao.com/",
     platform: "Maker Protocol",
     color: "#1aaa9b",
@@ -688,7 +688,7 @@ export const fetchQuests = async function(ENSName, account) {
         if (key === "BOX3") {
           const spaceList = await Box.listSpaces(account)
           // spaceList contains all the spaces they are in. Everyone should have MyFollowing, so they have at least 1/4.
-          // TODO: give user a hint that they can join spaces via drip
+          // TODO: give user a hint that they can join spaces via rabbithole
           if (spaceList) {
             quest.progress = Math.min(
               Math.round((spaceList.length / 4) * 100),

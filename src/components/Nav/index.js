@@ -78,9 +78,10 @@ const Score = styled.div`
   align-items: center;
   font-family: Inter;
   font-weight: bold;
-  width: 75px;
+  max-width: 100px;
   height: 32px;
   color: #8dfbc9;
+  padding: 0 10px;
   border: 1px solid #8dfbc9;
   border-radius: 30px;
 
@@ -150,7 +151,8 @@ const SidebarScore = styled.div`
   align-items: center;
   font-family: Inter;
   font-weight: bold;
-  width: 75px;
+  max-width: 100px;
+  padding: 0 10px;
   height: 32px;
   color: #8dfbc9;
   border: 1px solid #8dfbc9;
@@ -158,11 +160,6 @@ const SidebarScore = styled.div`
 
   @media (max-width: 580px) {
     margin: 15px auto;
-  }
-
-  & > img {
-    height: 20px;
-    margin-left: 4px;
   }
 `
 
@@ -232,11 +229,7 @@ function Nav({ history }) {
             toggleSidebar(sidebarOpen)
           }}
           >
-            {score}
-            <img
-              src={require("../../assets/images/drip_symbol.svg")}
-              alt="score symbol"
-            />
+            {score} XP
           </Score>
         </AccountWrapper>
       </NavWrapper>
@@ -255,11 +248,7 @@ function Nav({ history }) {
           </a>
         </SidebarBrandWrapper>
         <SidebarScore>
-          {score}
-          <img
-            src={require("../../assets/images/drip_symbol.svg")}
-            alt="score symbol"
-          />
+          {score} XP
         </SidebarScore>
         <SidebarList>
           <SidebarItem 

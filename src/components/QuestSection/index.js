@@ -198,7 +198,7 @@ const Platform = styled.div`
 const Track = styled.div`
   grid-area: track;
   padding: 0 14px;
-  display: ${({ isOpen }) => isOpen ? 'flex' : 'none'};
+  display: flex;
   width: 70px;
   height: 24px;
   font-size: 16px;
@@ -212,6 +212,7 @@ const Track = styled.div`
 
   @media (max-width: 550px) {
     grid-area: none;
+    display: ${({ isOpen }) => isOpen ? 'flex' : 'none'};
   }
 `
 
@@ -243,11 +244,6 @@ const Points = styled.div`
   font-family: Inter;
   font-size 13px;
   font-weight: bold;
-`
-
-const DripSymbol = styled.img`
-  height: 15px;
-  margin-left: 3px;
 `
 
 const QuestType = styled.div`
@@ -434,10 +430,7 @@ export default function QuestSection() {
                           </div>
                         )}
                         <Points>
-                          {quest.points}
-                          <DripSymbol
-                            src={require("../../assets/images/drip_symbol.svg")}
-                          />
+                          {quest.points} XP
                         </Points>
                         <Description isOpen={OpenQuest === quest}>
                           {quest.description}
@@ -523,10 +516,7 @@ export default function QuestSection() {
                           </div>
                         )}
                       <Points style={{ gridArea: "points" }}>
-                        {quest.points}
-                        <DripSymbol
-                          src={require("../../assets/images/drip_symbol.svg")}
-                        />
+                        {quest.points} XP
                       </Points>
                       <Description isOpen={OpenQuest === quest}>
                         {quest.description}
@@ -613,10 +603,7 @@ export default function QuestSection() {
                           </div>
                         )}
                         <Points>
-                          {quest.points}
-                          <DripSymbol
-                            src={require("../../assets/images/drip_symbol.svg")}
-                          />
+                          {quest.points} XP
                         </Points>
                         <Description isOpen={OpenQuest === quest}>
                           {quest.description}
