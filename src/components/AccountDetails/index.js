@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState} from "react"
 import styled from 'styled-components'
 import { useWeb3React } from '../../hooks'
 import { isMobile } from 'react-device-detect'
@@ -12,8 +12,55 @@ import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import FortmaticIcon from '../../assets/images/fortmaticIcon.png'
 import Identicon from '../Identicon'
 import ProfileHover from 'profile-hover';
-
+import { Text } from "rebass"
 import { Link } from '../../theme'
+import Row, { RowBetween } from "../Row"
+import { useScore } from "../../contexts/Application"
+
+
+const Box = require("3box")
+
+const Selector = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  width: 300px;
+  border-radius: 5px;
+  padding: 10px;
+
+  div {
+    :hover {
+      cursor: pointer;
+    }
+  }
+`
+
+const PublicSelector = styled(Row)`
+  width: 50%;
+  height: 100%;
+  background-color: ${({ active }) => active && "#8dfbc9"};
+  border: ${({ active }) => !active && "1px solid #1F1F1F;"};
+  border-right: none;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+`
+
+const PrivateSelector = styled(Row)`
+  width: 50%;
+  height: 100%;
+  background-color: ${({ active }) => active && "#FFD683"};
+  border: ${({ active }) => !active && "1px solid #1F1F1F;"};
+  border-left: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+`
+
+
+const SharingSettings = styled.div`
+background-color: ${({ theme }) => theme.concreteGray};
+padding: 3rem 2.5rem;
+${({ theme }) => theme.mediaWidth.upToMedium`padding: 0rem 1rem 1rem 1rem;`};
+`
 
 const OptionButton = styled.div`
   ${({ theme }) => theme.flexColumnNoWrap}
@@ -201,6 +248,58 @@ export default function AccountDetails({
 }) {
   const { chainId, account, connector } = useWeb3React()
 
+
+  const score = useScore()
+
+const [privacy, setPrivacy] = useState("public")
+// console.log(privacy)
+
+async function togglePrivacy() {
+    console.log(privacy)
+    console.log('changingprivacy')
+    // setPrivacy(privacy === "public" ? "private" : "public")
+    setPrivacy(privacy === "public" ? "private" : "public")
+
+    console.log(privacy)
+    const isMetaMask = window.ethereum && window.ethereum.isMetaMask
+    const name = Object.keys(SUPPORTED_WALLETS)
+      .filter(
+        k =>
+          SUPPORTED_WALLETS[k].connector === connector && (connector !== injected || isMetaMask === (k === 'METAMASK'))
+      )
+      .map(k => SUPPORTED_WALLETS[k].name)[0]
+
+    const box = await Box.openBox(account, name)
+    // Write this to 3box
+    if (privacy === "public") {
+    await box.public.set('rabbitholexp', score)
+    console.log("public " + score);
+    await box.public.set('description', "Rabbit Hole XP: " + score)
+    // Optional override the individual's current description with their RabbitHole XP
+    const profile = await Box.getProfile(account);
+    console.log(profile)
+    const check = await box.public.get('rabbitholexp')
+      console.log("confirming public " + check)
+      const checktwo = await box.public.get('description')
+      console.log("confirming public desc " + checktwo)
+    }
+    else {
+      await box.private.set('rabbitholexp', score)
+      await box.public.remove('rabbitholexp')
+      console.log("private " +  score)
+      const check = await box.private.get('rabbitholexp')
+      console.log("confirming priv" + check)
+      const checkpub = await box.public.get('rabbitholexp')
+      console.log("confirming pub" + checkpub)
+      // Need to delete if the user has any rabbithole score existing
+    }
+    
+  }
+
+  const textColor = privacy === "finance" ? "#275440" : "#463512"
+
+  
+  
   function formatConnectorName() {
     const isMetaMask = window.ethereum && window.ethereum.isMetaMask
     const name = Object.keys(SUPPORTED_WALLETS)
@@ -271,6 +370,38 @@ export default function AccountDetails({
                   </AccountControl>
                 )}
               </AccountGroupingRow>
+
+              <SharingSettings>
+                <label> Click Public to share your score on 3B0x
+               {/* <input type="checkbox"></input> */}
+               </label> 
+               <Selector onClick={togglePrivacy}>
+      
+          <PrivateSelector active={privacy === "private"} align="center">
+            <Text
+              fontWeight={600}
+              fontSize={18}
+              color="#a4a4a4"
+              textAlign="center"
+              width="100%"
+            >
+              Public
+            </Text>
+          </PrivateSelector>
+          <PublicSelector active={privacy === "public"}>
+            <Text
+              fontWeight={600}
+              fontSize={18}
+              color="#a4a4a4"
+              textAlign="center"
+              width="100%"
+            >
+              Private
+            </Text>
+          </PublicSelector>
+        </Selector>
+
+              </SharingSettings>
             </InfoCard>
           </YourAccount>
           {!isMobile && (
