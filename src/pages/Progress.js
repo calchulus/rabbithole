@@ -308,6 +308,7 @@ function Progress({ history }) {
         complete={complete}
         offset={offset ? "offset" : ""}
         type={activeSection}
+        onMouseEnter={() => complete && triggerConfetti()}
       >
         {locked && (
           <LockedWrapper>
