@@ -667,6 +667,13 @@ export const fetchQuests = async function(ENSName, account) {
         "https://api.opensea.io/api/v1/events?event_type=successful&account_address=" +
         account,
     }
+    var dclOptions = {
+      method: "GET",
+      url:
+        "https://api.opensea.io/api/v1/assets?owner=" +
+        account +
+        "&asset_contract_address=0x2a187453064356c898cae034eaed119e1663acb8",
+    }
     return Promise.all(
       Object.keys(questList).map(async (key) => {
         let quest = questList[key]
@@ -764,24 +771,14 @@ export const fetchQuests = async function(ENSName, account) {
           }
         }
         if (key === "MANA1") {
-          if (ENSName) {
-            let result = await ensClient.query({
-              query: DCL_ENS_QUERY,
-              fetchPolicy: "cache-first",
-              variables: {
-                avatar_name: ENSName.replace(".eth", ".dcl.eth"),
-              },
-            })
-            if (result.data.domains.length >= 1) {
-              if (
-                result.data.domains[0].owner.id === account.toLowerCase() ||
-                result.data.domains[0].resolvedAddress.id ===
-                  account.toLowerCase()
-              ) {
+          request(dclOptions, function(error, response, body) {
+            if (!error && body.length > 0) {
+              var result = JSON.parse(body)
+              if (result.assets.length > 0) {
                 quest.progress = 100
               }
             }
-          }
+          })
         }
         if (key === "MANA2") {
           let result = await manaClient.query({
