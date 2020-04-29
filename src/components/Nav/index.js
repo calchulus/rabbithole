@@ -95,16 +95,93 @@ const Score = styled.div`
 `
 
 const Sidebar = styled.div`
-  display: ${({ sidebarOpen }) => (sidebarOpen ? "flex" : "none")};
-  background: blue;
+  display: none;
+
+  @media (max-width: 970px) {
+    display: ${({ sidebarOpen }) => (sidebarOpen ? "flex" : "none")};
+    width: 75%;
+    height: 100%;
+    background: #050b14;
+    position: absolute;
+    z-index: 2;
+    flex-direction: column;
+  }
+`
+
+const SidebarBrandWrapper = styled.div`
+  margin 15px auto;
+`
+
+const SidebarList = styled.div`
+  display: flex;
+  margin-top: 15px;
+  height: 40%;
+  padding: 0;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+`
+
+const SidebarItem = styled.div`
+  font-weight: bold;
+  padding: 15px 0;
+  width: 60%;
+  font-size: 16px;
+  text-decoration: none;
+  text-align: center;
+  color: ${({ active }) => (active ? "#EFEFEF" : "#A1A4B1")};
+  background: ${({ active }) =>
+    active
+      ? "linear-gradient(180deg, rgba(141, 251, 201, 0) 0%, rgba(141, 251, 201, 0.1) 100%)"
+      : "none"};
+
+  border-bottom: ${({ active }) =>
+    active ? "1px solid #8DFBC9" : "1px solid transparent"};
+
+  :hover {
+    cursor: pointer;
+    border-bottom: 1px solid #8dfbc9;
+  }
+`
+
+const SidebarScore = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Inter;
+  font-weight: bold;
+  width: 75px;
+  height: 32px;
+  color: #8dfbc9;
+  border: 1px solid #8dfbc9;
+  border-radius: 30px;
+
+  @media (max-width: 580px) {
+    margin: 15px auto;
+  }
+
+  & > img {
+    height: 20px;
+    margin-left: 4px;
+  }
+`
+
+const SidebarLoginWrapper = styled.div`
+  max-width: 200px;
+  height: 35px;
+  margin: 10px auto;
 `
 
 function Nav({ history }) {
-  const [sidebarOpen, toggleSidebarOpen] = useState([])
+  const [sidebarOpen, toggleSidebarOpen] = useState(false)
 
   const isExtraSmall = useMedia({ maxWidth: "970px" })
 
   const score = useScore()
+
+  function toggleSidebar(sidebarOpen) {
+    toggleSidebarOpen(sidebarOpen === true ? false : true)
+  }
 
   return (
     <>
@@ -145,17 +222,16 @@ function Nav({ history }) {
             </NavItem>
           </NavList>
         )}
-        <AccountWrapper
-          onClick={() => {
-            toggleSidebarOpen(sidebarOpen)
-          }}
-        >
+        <AccountWrapper>
           {!isExtraSmall && (
             <LoginWrapper>
               <Web3Status />
             </LoginWrapper>
           )}
-          <Score>
+          <Score onClick={() => {
+            toggleSidebar(sidebarOpen)
+          }}
+          >
             {score}
             <img
               src={require("../../assets/images/drip_symbol.svg")}
@@ -164,39 +240,68 @@ function Nav({ history }) {
           </Score>
         </AccountWrapper>
       </NavWrapper>
-      <Sidebar sidebarOpen={false}>
-        <BrandWrapper>
+      <Sidebar 
+        sidebarOpen={sidebarOpen} 
+        onDismiss={() => {
+          toggleSidebar(true)
+        }}
+      >
+        <SidebarBrandWrapper>
           <a href="/">
             <Logo
               src={require("../../assets/images/rabbithole.png")}
               alt="rabbithole logo"
             />
           </a>
-        </BrandWrapper>
-        <Score>
-          200{" "}
+        </SidebarBrandWrapper>
+        <SidebarScore>
+          {score}
           <img
             src={require("../../assets/images/drip_symbol.svg")}
             alt="score symbol"
           />
-        </Score>
-        <NavList>
-          <NavItem href="/" active={true}>
+        </SidebarScore>
+        <SidebarList>
+          <SidebarItem 
+            onClick={() => {
+              history.push("/")
+              toggleSidebar(sidebarOpen)
+            }} 
+            active={history.location.pathname === "/"}
+          >
             Dashboard
-          </NavItem>
-          <NavItem href="/rewards" active={false}>
-            Rewards
-          </NavItem>
-          <NavItem href="/activity" active={false}>
+          </SidebarItem>
+          <SidebarItem 
+            onClick={() => {
+              history.push("/activity")
+              toggleSidebar(sidebarOpen)
+            }} 
+            active={history.location.pathname === "/activity"}
+          >
             Activity
-          </NavItem>
-          <NavItem href="/faq" active={false}>
+          </SidebarItem>
+          <SidebarItem 
+            onClick={() => {
+              history.push("/progress")
+              toggleSidebar(sidebarOpen)
+            }} 
+            active={history.location.pathname === "/progress"}
+          >
+            Progress
+          </SidebarItem>
+          <SidebarItem 
+            onClick={() => {
+              history.push("/faq")
+              toggleSidebar(sidebarOpen)
+            }}
+            active={history.location.pathname === "/faq"}
+          >
             FAQ
-          </NavItem>
-        </NavList>
-        <LoginWrapper>
+          </SidebarItem>
+        </SidebarList>
+        <SidebarLoginWrapper>
           <Web3Status />
-        </LoginWrapper>
+        </SidebarLoginWrapper>
       </Sidebar>
     </>
   )

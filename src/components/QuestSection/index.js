@@ -123,6 +123,7 @@ const Quest = styled.div`
         ? '"exp icon main track points"\n"desc desc desc desc desc"\n"resc resc resc cta cta"'
         : '"exp icon main track points"'};
     grid-template-columns: 40px 50px auto 120px 75px;
+    grid-template-rows: ${({ isOpen }) => (isOpen ? "75px auto 60px" : "75px")};
   }
 
   @media (max-width: 820px) {
@@ -137,9 +138,10 @@ const Quest = styled.div`
     grid-template-rows: ${({ isOpen }) => (isOpen ? "75px auto 40px" : "75px")};
     grid-template-areas: ${({ isOpen }) =>
       isOpen
-        ? '"exp icon main points"\n"desc desc desc desc"\n"resc resc resc cta"'
+        ? '"exp icon main points"\n"desc desc desc desc"\n"resc resc resc cta"\n"track track track cta"'
         : '"exp icon main points"'};
     grid-template-columns: 15px 45px auto 75px;
+    grid-template-rows: ${({ isOpen }) => (isOpen ? "75px auto 30px 45px" : "75px")};
     grid-column-gap: 2px;
   }
 `
@@ -196,7 +198,7 @@ const Platform = styled.div`
 const Track = styled.div`
   grid-area: track;
   padding: 0 14px;
-  display: flex;
+  display: ${({ isOpen }) => isOpen ? 'flex' : 'none'};
   width: 70px;
   height: 24px;
   font-size: 16px;
@@ -207,6 +209,10 @@ const Track = styled.div`
   justify-content: center;
   flex-wrap: nowrap;
   white-space: nowrap;
+
+  @media (max-width: 550px) {
+    grid-area: none;
+  }
 `
 
 const QuestWrapper = styled.div`
@@ -269,8 +275,16 @@ const Description = styled.div`
 const Resource = styled.div`
   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   grid-area: resc;
-  font-size: 10px;
+  font-size: 13px;
   text-align: center;
+
+  & > a {
+    color: #8dfbc9;
+
+    :visited {
+      color: #8dfbc9;
+    }
+  }
 `
 
 const CTA = styled.div`
@@ -282,6 +296,14 @@ const Loading = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+`
+
+const Footer = styled.div`
+  height: 100px;
+
+  media (max-width: 550px) {
+    height: 30px;
+  }
 `
 
 export default function QuestSection() {
@@ -346,7 +368,7 @@ export default function QuestSection() {
     <Suspense fallback={null}>
       {quests.length > 0 ? (
         <Wrapper>
-          {weeklyQuests > 0 ? (
+          {weeklyQuests > 0 && (
             <Section>
               <Heading>
                 <div>
@@ -400,10 +422,16 @@ export default function QuestSection() {
                             />
                           </QuestType>
                         )}
-                        {!isXXXSmall && (
-                          <Track color={quest.categoryColor}>
+                        {!isXXXSmall ? (
+                          <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
                             {quest.category}
                           </Track>
+                        ) : (
+                          <div style={{ gridArea: 'track', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
+                              {quest.category}
+                            </Track>
+                          </div>
                         )}
                         <Points>
                           {quest.points}
@@ -415,7 +443,9 @@ export default function QuestSection() {
                           {quest.description}
                         </Description>
                         <Resource isOpen={OpenQuest === quest}>
-                          https://reddit.com/r/MakerDAO
+                          <a href={quest.resource} target="_blank" rel="noopener noreferrer">
+                            {quest.resource}
+                          </a>
                         </Resource>
                         <CTA isOpen={OpenQuest === quest}>Go Vote!</CTA>
                       </Quest>
@@ -425,7 +455,7 @@ export default function QuestSection() {
                 })}
               </QuestWrapper>
             </Section>
-          ) : null}
+          )}
 
           <Section>
             <Heading>
@@ -481,11 +511,17 @@ export default function QuestSection() {
                           />
                         </QuestType>
                       )}
-                      {!isXXXSmall && (
-                        <Track color={quest.categoryColor}>
-                          {quest.category}
-                        </Track>
-                      )}
+                      {!isXXXSmall ? (
+                          <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
+                            {quest.category}
+                          </Track>
+                        ) : (
+                          <div style={{ gridArea: 'track', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
+                              {quest.category}
+                            </Track>
+                          </div>
+                        )}
                       <Points style={{ gridArea: "points" }}>
                         {quest.points}
                         <DripSymbol
@@ -496,7 +532,9 @@ export default function QuestSection() {
                         {quest.description}
                       </Description>
                       <Resource isOpen={OpenQuest === quest}>
-                        https://reddit.com/r/MakerDAO
+                        <a href={quest.resource} target="_blank" rel="noopener noreferrer">
+                          {quest.resource}
+                        </a>
                       </Resource>
                       <CTA isOpen={OpenQuest === quest}>Go Vote!</CTA>
                     </Quest>
@@ -507,7 +545,7 @@ export default function QuestSection() {
             </QuestWrapper>
           </Section>
 
-          {sideQuests > 0 ? (
+          {sideQuests > 0 && (
             <Section>
               <Heading>
                 <div>
@@ -563,10 +601,16 @@ export default function QuestSection() {
                             />
                           </QuestType>
                         )}
-                        {!isXXXSmall && (
-                          <Track color={quest.categoryColor}>
+                        {!isXXXSmall ? (
+                          <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
                             {quest.category}
                           </Track>
+                        ) : (
+                          <div style={{ gridArea: 'track', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
+                              {quest.category}
+                            </Track>
+                          </div>
                         )}
                         <Points>
                           {quest.points}
@@ -578,7 +622,9 @@ export default function QuestSection() {
                           {quest.description}
                         </Description>
                         <Resource isOpen={OpenQuest === quest}>
-                          https://reddit.com/r/MakerDAO
+                          <a href={quest.resource} target="_blank" rel="noopener noreferrer">
+                            {quest.resource}
+                          </a>
                         </Resource>
                         <CTA isOpen={OpenQuest === quest}>Go Vote!</CTA>
                       </Quest>
@@ -588,7 +634,8 @@ export default function QuestSection() {
                 })}
               </QuestWrapper>
             </Section>
-          ) : null}
+          )}
+          <Footer />
         </Wrapper>
       ) : (
         <Loading>
