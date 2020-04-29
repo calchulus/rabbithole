@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag"
 
 export const COMPOUND_QUERY = gql`
   query account($user: ID!) {
@@ -99,9 +99,8 @@ export const KITTIES_BRED_QUERY = gql`
 
 export const MKR_SPELL_VOTES_QUERY = gql`
   query votingActions($user: String!) {
-    votingActions(where: {sender: $user }) {
+    votingActions(where: { sender: $user }) {
       id
     }
   }
-  
 `

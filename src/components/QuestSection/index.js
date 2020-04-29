@@ -1,12 +1,17 @@
-import React, { useState, useEffect, Suspense } from 'react'
-import styled from 'styled-components'
-import { fetchQuests } from '../../quests'
-import { useWeb3React } from '@web3-react/core'
-import { useENSName, useBoxStorage, useNotificationThread, useThreadPosts } from '../../hooks'
-import { ToastMessage } from 'rimble-ui';
-import Spinner from  '../Spinner'
-import useMedia from 'use-media'
-const EthmojiAPI = require('ethmoji-js').default
+import React, { useState, useEffect, Suspense } from "react"
+import styled from "styled-components"
+import { fetchQuests } from "../../quests"
+import { useWeb3React } from "@web3-react/core"
+import {
+  useENSName,
+  useBoxStorage,
+  useNotificationThread,
+  useThreadPosts,
+} from "../../hooks"
+import { ToastMessage } from "rimble-ui"
+import Spinner from "../Spinner"
+import useMedia from "use-media"
+const EthmojiAPI = require("ethmoji-js").default
 
 const HIDE_LOCKED = false
 
@@ -36,13 +41,13 @@ const Wrapper = styled.div`
 
 const Section = styled.div`
   display: grid;
-  grid-template-areas: "header header"\n"gutter quests";
+  grid-template-areas: "header header" \n"gutter quests";
   grid-template-columns: 21px auto;
   grid-template-rows: 115px auto;
   width: 100%;
 
   @media (max-width: 525px) {
-    grid-template-areas: "header header"\n"quests quests";
+    grid-template-areas: "header header" \n"quests quests";
   }
 `
 
@@ -63,7 +68,7 @@ const Heading = styled.div`
     display: block;
     font-size: 16px;
     margin-top: 5px;
-    color: #A1A4B1;
+    color: #a1a4b1;
   }
 
   @media (max-width: 550px) {
@@ -81,15 +86,18 @@ const Gutter = styled.div`
 const Quest = styled.div`
   width: 100%;
   display: grid;
-  height: ${({isOpen}) => isOpen ? 'auto' : '75px' };
+  height: ${({ isOpen }) => (isOpen ? "auto" : "75px")};
   font-size: 14px;
   align-items: center;
-  background-color: #1F1F1F;
-  border: 1px solid ${({theme}) => theme.outlinePurple};
+  background-color: #1f1f1f;
+  border: 1px solid ${({ theme }) => theme.outlinePurple};
   border-radius: 10px;
-  grid-template-columns: 68px 120px auto 75px 75px 120px 75px; 
-  grid-template-rows: ${({isOpen}) => isOpen ? '75px auto 60px' : '75px' };
-  grid-template-areas: ${({isOpen}) => isOpen ? '"exp icon main perc type track points"\n"desc desc desc desc desc desc desc"\n"resc resc resc resc cta cta cta"' : '"exp icon main perc type track points"' };
+  grid-template-columns: 68px 120px auto 75px 75px 120px 75px;
+  grid-template-rows: ${({ isOpen }) => (isOpen ? "75px auto 60px" : "75px")};
+  grid-template-areas: ${({ isOpen }) =>
+    isOpen
+      ? '"exp icon main perc type track points"\n"desc desc desc desc desc desc desc"\n"resc resc resc resc cta cta cta"'
+      : '"exp icon main perc type track points"'};
   margin-bottom: 13px;
 
   &:hover {
@@ -102,12 +110,18 @@ const Quest = styled.div`
   }
 
   @media (max-width: 1400px) {
-    grid-template-areas: ${({isOpen}) => isOpen ? '"exp icon main perc type track points"\n"desc desc desc desc desc desc desc"\n"resc resc resc resc cta cta cta"' : '"exp icon main perc type track points"' };
+    grid-template-areas: ${({ isOpen }) =>
+      isOpen
+        ? '"exp icon main perc type track points"\n"desc desc desc desc desc desc desc"\n"resc resc resc resc cta cta cta"'
+        : '"exp icon main perc type track points"'};
     grid-template-columns: 40px 50px auto 75px 75px 120px 75px;
   }
 
   @media (max-width: 970px) {
-    grid-template-areas: ${({isOpen}) => isOpen ? '"exp icon main track points"\n"desc desc desc desc desc"\n"resc resc resc cta cta"' : '"exp icon main track points"' };
+    grid-template-areas: ${({ isOpen }) =>
+      isOpen
+        ? '"exp icon main track points"\n"desc desc desc desc desc"\n"resc resc resc cta cta"'
+        : '"exp icon main track points"'};
     grid-template-columns: 40px 50px auto 120px 75px;
   }
 
@@ -120,8 +134,11 @@ const Quest = styled.div`
   }
 
   @media (max-width: 525px) {
-    grid-template-rows: ${({isOpen}) => isOpen ? '75px auto 40px' : '75px' };
-    grid-template-areas: ${({isOpen}) => isOpen ? '"exp icon main points"\n"desc desc desc desc"\n"resc resc resc cta"' : '"exp icon main points"' };
+    grid-template-rows: ${({ isOpen }) => (isOpen ? "75px auto 40px" : "75px")};
+    grid-template-areas: ${({ isOpen }) =>
+      isOpen
+        ? '"exp icon main points"\n"desc desc desc desc"\n"resc resc resc cta"'
+        : '"exp icon main points"'};
     grid-template-columns: 15px 45px auto 75px;
     grid-column-gap: 2px;
   }
@@ -141,7 +158,7 @@ const Collapser = styled.img`
   margin: auto;
   height: 15px;
   width: 8px;
-  transform: rotate(${({isOpen}) => isOpen ? 'none': '-90deg'});
+  transform: rotate(${({ isOpen }) => (isOpen ? "none" : "-90deg")});
 `
 
 const Icon = styled.div`
@@ -172,19 +189,19 @@ const Icon = styled.div`
 
 const Platform = styled.div`
   font-size: 10px;
-  color: ${({color}) => color};
+  color: ${({ color }) => color};
   text-transform: uppercase;
 `
 
 const Track = styled.div`
-  grid-area: track;  
+  grid-area: track;
   padding: 0 14px;
   display: flex;
   width: 70px;
   height: 24px;
   font-size: 16px;
   color: rgba(245, 245, 253, 1);
-  background-color: ${({color}) => color};
+  background-color: ${({ color }) => color};
   border-radius: 20px;
   align-items: center;
   justify-content: center;
@@ -246,18 +263,18 @@ const Description = styled.div`
   width: 90%;
   grid-area: desc;
   margin: auto;
-  display: ${({ isOpen }) => isOpen ? 'block' : 'none' };
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
 `
 
 const Resource = styled.div`
-  display: ${({ isOpen }) => isOpen ? 'block' : 'none' };
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   grid-area: resc;
   font-size: 10px;
   text-align: center;
 `
 
 const CTA = styled.div`
-  display: ${({ isOpen }) => isOpen ? 'block' : 'none' };
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   grid-area: cta;
 `
 
@@ -290,15 +307,15 @@ export default function QuestSection() {
 
   const [ethMoji, setEthmoji] = useState()
 
-  const isMedium = useMedia({ maxWidth: '1400px' })
+  const isMedium = useMedia({ maxWidth: "1400px" })
 
-  const isSmall = useMedia({ maxWidth: '1100px' })
+  const isSmall = useMedia({ maxWidth: "1100px" })
 
-  const isExtraSmall = useMedia({ maxWidth: '970px' })
+  const isExtraSmall = useMedia({ maxWidth: "970px" })
 
-  const isXXSmall = useMedia({ maxWidth: '930px' })
+  const isXXSmall = useMedia({ maxWidth: "930px" })
 
-  const isXXXSmall = useMedia({ maxWidth: '525px' })
+  const isXXXSmall = useMedia({ maxWidth: "525px" })
 
   useEffect(() => {
     const getEthmoji = async () => {
@@ -313,16 +330,16 @@ export default function QuestSection() {
   })
 
   useEffect(() => {
-    fetchQuests(ENSName, account).then(data => {
-      let weeklyQuests = 0;
-      let sideQuests = 0;
+    fetchQuests(ENSName, account).then((data) => {
+      let weeklyQuests = 0
+      let sideQuests = 0
       if (data) {
         data.map((quest) => {
-          if (quest.type === 'weekly' && quest.progress < 100) {
-            weeklyQuests += 1;
-          } 
-          if (quest.type === 'side-quest' && quest.progress < 100) {
-            sideQuests += 1;
+          if (quest.type === "weekly" && quest.progress < 100) {
+            weeklyQuests += 1
+          }
+          if (quest.type === "side-quest" && quest.progress < 100) {
+            sideQuests += 1
           }
         })
         setSideQuests(sideQuests)
@@ -334,23 +351,28 @@ export default function QuestSection() {
 
   return (
     <Suspense fallback={null}>
-      {quests.length > 0 ? 
+      {quests.length > 0 ? (
         <Wrapper>
-          {weeklyQuests > 0 ?
+          {weeklyQuests > 0 ? (
             <Section>
               <Heading>
-                <div>Weekly Quests<span>Complete these challenges before they expire</span></div>
+                <div>
+                  Weekly Quests
+                  <span>Complete these challenges before they expire</span>
+                </div>
                 {!isXXSmall ? (
-                  <MojiWrapper style={{ paddingRight: '1rem' }}>{ethMoji && <img src={ethMoji.imageUrl} alt="" />}</MojiWrapper>
+                  <MojiWrapper style={{ paddingRight: "1rem" }}>
+                    {ethMoji && <img src={ethMoji.imageUrl} alt="" />}
+                  </MojiWrapper>
                 ) : null}
               </Heading>
 
-              {!isXXSmall ? <Gutter /> : null }
+              {!isXXSmall ? <Gutter /> : null}
 
               <QuestWrapper>
                 {quests.map((quest, i) => {
-                  let icon = require('../../assets/images/' + quest.imgPath)
-                  if (quest.type === 'weekly' && quest.progress < 100) {
+                  let icon = require("../../assets/images/" + quest.imgPath)
+                  if (quest.type === "weekly" && quest.progress < 100) {
                     return (
                       <Quest
                         key={i}
@@ -359,24 +381,49 @@ export default function QuestSection() {
                           setOpenQuest(quest)
                         }}
                       >
-                        <Collapser isOpen={OpenQuest === quest} src={require('../../assets/images/carat.svg')}></Collapser>
+                        <Collapser
+                          isOpen={OpenQuest === quest}
+                          src={require("../../assets/images/carat.svg")}
+                        ></Collapser>
                         <Icon>
                           <img src={icon} alt="" />
                         </Icon>
                         <QuestOverview>
-                          <Platform color={quest.color}>{quest.platform}</Platform>
+                          <Platform color={quest.color}>
+                            {quest.platform}
+                          </Platform>
                           <BlurbWrapper>{quest.blurb}</BlurbWrapper>
                         </QuestOverview>
-                        {!isExtraSmall &&
-                          <JustifyEnd style={{ gridArea: 'perc' }}>
-                            {quest.progress.toFixed(1) + '%'}
+                        {!isExtraSmall && (
+                          <JustifyEnd style={{ gridArea: "perc" }}>
+                            {quest.progress.toFixed(1) + "%"}
                           </JustifyEnd>
-                        }
-                        {!isExtraSmall && <QuestType><img src={require('../../assets/images/track.svg')} alt={quest.type} /></QuestType>}
-                        {!isXXXSmall && <Track color={quest.categoryColor}>{quest.category}</Track>}
-                        <Points>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>
-                        <Description isOpen={OpenQuest === quest}>{quest.description}</Description>
-                        <Resource isOpen={OpenQuest === quest}>https://reddit.com/r/MakerDAO</Resource>
+                        )}
+                        {!isExtraSmall && (
+                          <QuestType>
+                            <img
+                              src={require("../../assets/images/track.svg")}
+                              alt={quest.type}
+                            />
+                          </QuestType>
+                        )}
+                        {!isXXXSmall && (
+                          <Track color={quest.categoryColor}>
+                            {quest.category}
+                          </Track>
+                        )}
+                        <Points>
+                          {quest.points}
+                          <DripSymbol
+                            src={require("../../assets/images/drip_symbol.svg")}
+                          />
+                        </Points>
+                        <Description isOpen={OpenQuest === quest}>
+                          {quest.description}
+                        </Description>
+                        <Resource isOpen={OpenQuest === quest}>
+                          https://reddit.com/r/MakerDAO
+                        </Resource>
                         <CTA isOpen={OpenQuest === quest}>Go Vote!</CTA>
                       </Quest>
                     )
@@ -385,18 +432,23 @@ export default function QuestSection() {
                 })}
               </QuestWrapper>
             </Section>
-          : null }
+          ) : null}
 
           <Section>
             <Heading>
-              <div>Tracks<span>Progress through each application’s track and earn rewards</span></div>
+              <div>
+                Tracks
+                <span>
+                  Progress through each application’s track and earn rewards
+                </span>
+              </div>
             </Heading>
 
             {!isXXSmall && <Gutter />}
 
             <QuestWrapper>
               {quests.map((quest, i) => {
-                if (quest.type === 'track' && quest.progress < 100) {
+                if (quest.type === "track" && quest.progress < 100) {
                   return (
                     <Quest
                       key={i}
@@ -405,25 +457,54 @@ export default function QuestSection() {
                         setOpenQuest(quest)
                       }}
                     >
-
-                      <Collapser isOpen={OpenQuest === quest} src={require('../../assets/images/carat.svg')}></Collapser>
+                      <Collapser
+                        isOpen={OpenQuest === quest}
+                        src={require("../../assets/images/carat.svg")}
+                      ></Collapser>
                       <Icon>
-                        <img src={require('../../assets/images/' + quest.imgPath)} alt="" />
+                        <img
+                          src={require("../../assets/images/" + quest.imgPath)}
+                          alt=""
+                        />
                       </Icon>
                       <QuestOverview>
-                        <Platform color={quest.color}>{quest.platform}</Platform>
+                        <Platform color={quest.color}>
+                          {quest.platform}
+                        </Platform>
                         <BlurbWrapper>{quest.blurb}</BlurbWrapper>
                       </QuestOverview>
-                      {!isExtraSmall && 
-                        <JustifyEnd style={{ gridArea: 'perc' }}>
-                          {quest.progress.toFixed(1) + '%'}
+                      {!isExtraSmall && (
+                        <JustifyEnd style={{ gridArea: "perc" }}>
+                          {quest.progress.toFixed(1) + "%"}
                         </JustifyEnd>
-                      }
-                      {!isExtraSmall && <QuestType><img src={require('../../assets/images/' + quest.type + '.svg')} alt={quest.type} /></QuestType>}
-                      {!isXXXSmall && <Track color={quest.categoryColor}>{quest.category}</Track>}
-                      <Points style={{ gridArea: 'points' }}>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>
-                      <Description isOpen={OpenQuest === quest}>{quest.description}</Description>
-                      <Resource isOpen={OpenQuest === quest}>https://reddit.com/r/MakerDAO</Resource>
+                      )}
+                      {!isExtraSmall && (
+                        <QuestType>
+                          <img
+                            src={require("../../assets/images/" +
+                              quest.type +
+                              ".svg")}
+                            alt={quest.type}
+                          />
+                        </QuestType>
+                      )}
+                      {!isXXXSmall && (
+                        <Track color={quest.categoryColor}>
+                          {quest.category}
+                        </Track>
+                      )}
+                      <Points style={{ gridArea: "points" }}>
+                        {quest.points}
+                        <DripSymbol
+                          src={require("../../assets/images/drip_symbol.svg")}
+                        />
+                      </Points>
+                      <Description isOpen={OpenQuest === quest}>
+                        {quest.description}
+                      </Description>
+                      <Resource isOpen={OpenQuest === quest}>
+                        https://reddit.com/r/MakerDAO
+                      </Resource>
                       <CTA isOpen={OpenQuest === quest}>Go Vote!</CTA>
                     </Quest>
                   )
@@ -433,12 +514,17 @@ export default function QuestSection() {
             </QuestWrapper>
           </Section>
 
-          {sideQuests > 0 ?
+          {sideQuests > 0 ? (
             <Section>
               <Heading>
-                <div>Bonus Challenges<span>Complete these challenges before they expire</span></div>
+                <div>
+                  Bonus Challenges
+                  <span>Complete these challenges before they expire</span>
+                </div>
                 {!isXXSmall ? (
-                  <MojiWrapper style={{ paddingRight: '1rem' }}>{ethMoji && <img src={ethMoji.imageUrl} alt="" />}</MojiWrapper>
+                  <MojiWrapper style={{ paddingRight: "1rem" }}>
+                    {ethMoji && <img src={ethMoji.imageUrl} alt="" />}
+                  </MojiWrapper>
                 ) : null}
               </Heading>
 
@@ -446,8 +532,8 @@ export default function QuestSection() {
 
               <QuestWrapper>
                 {quests.map((quest, i) => {
-                  let icon = require('../../assets/images/' + quest.imgPath)
-                  if (quest.type === 'side-quest' && quest.progress < 100) {
+                  let icon = require("../../assets/images/" + quest.imgPath)
+                  if (quest.type === "side-quest" && quest.progress < 100) {
                     return (
                       <Quest
                         key={i}
@@ -456,24 +542,51 @@ export default function QuestSection() {
                           setOpenQuest(quest)
                         }}
                       >
-                        <Collapser isOpen={OpenQuest === quest} src={require('../../assets/images/carat.svg')}></Collapser>
+                        <Collapser
+                          isOpen={OpenQuest === quest}
+                          src={require("../../assets/images/carat.svg")}
+                        ></Collapser>
                         <Icon>
                           <img src={icon} alt="" />
                         </Icon>
                         <QuestOverview>
-                          <Platform color={quest.color}>{quest.platform}</Platform>
+                          <Platform color={quest.color}>
+                            {quest.platform}
+                          </Platform>
                           <BlurbWrapper>{quest.blurb}</BlurbWrapper>
                         </QuestOverview>
-                        {!isExtraSmall &&
-                          <JustifyEnd style={{ gridArea: 'perc' }}>
-                            {quest.progress.toFixed(1) + '%'}
-                          </JustifyEnd> 
-                        }
-                        {!isExtraSmall && <QuestType><img src={require('../../assets/images/' + quest.type + '.svg')} alt={quest.type} /></QuestType>}
-                        {!isXXXSmall && <Track color={quest.categoryColor}>{quest.category}</Track>}
-                        <Points>{quest.points}<DripSymbol src={require('../../assets/images/drip_symbol.svg')}/></Points>
-                        <Description isOpen={OpenQuest === quest}>{quest.description}</Description>
-                        <Resource isOpen={OpenQuest === quest}>https://reddit.com/r/MakerDAO</Resource>
+                        {!isExtraSmall && (
+                          <JustifyEnd style={{ gridArea: "perc" }}>
+                            {quest.progress.toFixed(1) + "%"}
+                          </JustifyEnd>
+                        )}
+                        {!isExtraSmall && (
+                          <QuestType>
+                            <img
+                              src={require("../../assets/images/" +
+                                quest.type +
+                                ".svg")}
+                              alt={quest.type}
+                            />
+                          </QuestType>
+                        )}
+                        {!isXXXSmall && (
+                          <Track color={quest.categoryColor}>
+                            {quest.category}
+                          </Track>
+                        )}
+                        <Points>
+                          {quest.points}
+                          <DripSymbol
+                            src={require("../../assets/images/drip_symbol.svg")}
+                          />
+                        </Points>
+                        <Description isOpen={OpenQuest === quest}>
+                          {quest.description}
+                        </Description>
+                        <Resource isOpen={OpenQuest === quest}>
+                          https://reddit.com/r/MakerDAO
+                        </Resource>
                         <CTA isOpen={OpenQuest === quest}>Go Vote!</CTA>
                       </Quest>
                     )
@@ -482,8 +595,13 @@ export default function QuestSection() {
                 })}
               </QuestWrapper>
             </Section>
-          : null }
-        </Wrapper> : <Loading><Spinner /></Loading>}
+          ) : null}
+        </Wrapper>
+      ) : (
+        <Loading>
+          <Spinner />
+        </Loading>
+      )}
     </Suspense>
   )
 }
