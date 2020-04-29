@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import { useWeb3React } from "@web3-react/core"
 import { useENSName } from "../../hooks"
@@ -9,18 +9,16 @@ import { useQuests } from "../../contexts/Application"
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-areas: "profile history";
-  grid-template-rows: auto;
+  grid-template-areas: "profile history"\n"footer footer";
+  grid-template-rows: auto 100px;
   grid-template-columns: 40% 60%;
-  width: 100% @media (max-width: 930px) {
-    grid-template-areas: "switch" \n"current";
-    grid-template-rows: 40px auto;
+  width: 100%;
+  
+  @media (max-width: 930px) {
+    grid-template-areas: "switch" \n"current"\n"footer";
+    grid-template-rows: 40px auto 50px;
     grid-template-columns: auto;
     margin: 0 auto;
-  }
-
-  @media (max-width: 550px) {
-    width: 100%;
   }
 `
 
@@ -67,6 +65,11 @@ const Profile = styled.div`
     grid-area: current;
     display: ${({ isCurrent }) => (isCurrent ? "block" : "none")};
     width: 90%;
+    margin-top: 20px;
+
+    & > div {
+      margin-left: 0;
+    }
   }
 `
 
@@ -77,15 +80,33 @@ const SubHeading = styled.span`
   color: #a1a4b1;
 `
 
+const BadgeList = styled.div`
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid ${({ theme }) => theme.outlinePurple};
+  border-radius: 5px;
+  background: #1f1f1f;
+  padding: 10px;
+  margin: auto;
+  margin-top: 25px;
+  width: 80%;
+`
+
+const Badge = styled.img`
+  width: 120px;
+  margin 10px;
+`
+
 const History = styled.div`
   margin-top: 25px;
+  margin-left: 30px;
   grid-area: history;
   text-align: center;
   font-size: 24px;
   font-weight: bold;
   display: grid;
-  grid-template-areas: "header link" \n"activities activities";
-  grid-template-columns: 80% 20%;
+  grid-template-areas: ". header link" \n"activities activities activities";
+  grid-template-columns: 30% 40% 30%;
   grid-template-rows: 100px auto;
 
   @media (max-width: 930px) {
@@ -95,7 +116,7 @@ const History = styled.div`
     grid-template-columns: auto;
     grid-template-rows: 70px auto;
     margin: auto;
-    margin-top: 10px;
+    margin-top: 20px;
   }
 
   @media (max-width: 550px) {
@@ -125,7 +146,7 @@ const CopyLink = styled.div`
 
 const Activity = styled.div`
   display: grid;
-  grid-template-columns: 75px auto 100px;
+  grid-template-columns: 50px auto 100px;
   grid-template-areas: "icon main points";
   border: 1px solid ${({ theme }) => theme.outlinePurple};
   border-radius: 10px;
@@ -135,13 +156,17 @@ const Activity = styled.div`
   margin: 10px auto;
   width: 95%
 
-
   &: hover {
     background-color: #141516;
   }
 
   &:last-of-type {
     margin-bottom: 0;
+  }
+
+  @media (max-width: 550px) {
+    width: 100%;
+    margin: 10px 0;
   }
 `
 
@@ -233,6 +258,10 @@ const Loading = styled.div`
   justify-content: center;
 `
 
+const Footer = styled.div`
+  grid-area: footer;
+`
+
 export default function ActivityHistory() {
   const quests = useQuests()
 
@@ -246,6 +275,12 @@ export default function ActivityHistory() {
 
   const isXXXSmall = useMedia({ maxWidth: "525px" })
 
+  const [currentPanel, setCurrentPanel] = useState('history')
+
+  function toggleCurrentPanel(newPanel) {
+    setCurrentPanel(newPanel)
+  }
+
   return (
     <>
       {" "}
@@ -253,17 +288,29 @@ export default function ActivityHistory() {
         <Wrapper>
           {isXXSmall && (
             <Switcher>
-              <div>Profile</div>
-              <div>History</div>
+              <div onClick={() => toggleCurrentPanel('profile')}>Profile</div>
+              <div onClick={() => toggleCurrentPanel('history')}>History</div>
             </Switcher>
           )}
-          <Profile isCurrent={true}>
+          <Profile isCurrent={currentPanel === 'profile'}>
             <div>
               Profile
               <SubHeading>Where you've been</SubHeading>
             </div>
+            <BadgeList>
+              {quests 
+                && quests.map(quest => {
+                  if (quest.progress >= 100) {
+                    return (
+                      <Badge 
+                        src={require("../../assets/images/badge.png")}
+                        alt="" />
+                    )
+                  }
+                })}
+            </BadgeList>
           </Profile>
-          <History isCurrent={false}>
+          <History isCurrent={currentPanel === 'history'}>
             <div style={{ gridArea: "header" }}>
               History
               <SubHeading>Ode to the journey</SubHeading>
@@ -277,46 +324,47 @@ export default function ActivityHistory() {
             )}
             <div style={{ gridArea: "activities" }}>
               {quests
-                ? quests.map((quest) => {
-                    if (quest.progress >= 100) {
-                      return (
-                        <Activity key={quest.name}>
-                          <Icon>
-                            <img
-                              src={require("../../assets/images/" +
-                                quest.imgPath)}
-                              alt=""
-                            />
-                          </Icon>
-                          <QuestOverview>
-                            <Platform color={quest.color}>
-                              {quest.platform}
-                            </Platform>
-                            <BlurbWrapper>{quest.blurb}</BlurbWrapper>
-                          </QuestOverview>
-                          <Points style={{ gridArea: "points" }}>
-                            {quest.points}
-                            <DripSymbol
-                              src={require("../../assets/images/drip_symbol.svg")}
-                            />
-                          </Points>
-                          {false && (
-                            <Link>
-                              <a href={quest.url}>
-                                <img
-                                  src={require("../../assets/images/globe.png")}
-                                  alt="etherscan link"
-                                />
-                              </a>
-                            </Link>
-                          )}
-                        </Activity>
-                      )
-                    }
-                  })
-                : null}
+                && quests.map((quest) => {
+                  if (quest.progress >= 100) {
+                    return (
+                      <Activity key={quest.name}>
+                        <Icon>
+                          <img
+                            src={require("../../assets/images/" +
+                              quest.imgPath)}
+                            alt=""
+                          />
+                        </Icon>
+                        <QuestOverview>
+                          <Platform color={quest.color}>
+                            {quest.platform}
+                          </Platform>
+                          <BlurbWrapper>{quest.blurb}</BlurbWrapper>
+                        </QuestOverview>
+                        <Points style={{ gridArea: "points" }}>
+                          {quest.points}
+                          <DripSymbol
+                            src={require("../../assets/images/drip_symbol.svg")}
+                          />
+                        </Points>
+                        {false && (
+                          <Link>
+                            <a href={quest.url}>
+                              <img
+                                src={require("../../assets/images/globe.png")}
+                                alt="etherscan link"
+                              />
+                            </a>
+                          </Link>
+                        )}
+                      </Activity>
+                    )
+                  }
+                })
+              }
             </div>
           </History>
+          <Footer />
         </Wrapper>
       ) : (
         <Loading>

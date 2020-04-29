@@ -31,7 +31,7 @@ const questList = {
     blurb: "Create a Profile",
     task: "",
     description: "",
-    resource: "",
+    resource: "https://hub.3box.io",
     platform: "3Box",
     color: "#1168df",
     imgPath: "3box.png",
@@ -48,7 +48,7 @@ const questList = {
     blurb: "Add a verified Twitter or Github",
     task: "",
     description: "",
-    resource: "",
+    resource: "https://hub.3box.io",
     platform: "3Box",
     color: "#1168df",
     imgPath: "3box.png",
@@ -64,7 +64,7 @@ const questList = {
     type: "track",
     blurb: "Join 4 spaces on 3Box",
     task: "",
-    description: "",
+    description: "https://hub.3box.io",
     resource: "",
     platform: "3Box",
     color: "#1168df",
@@ -83,7 +83,7 @@ const questList = {
     task: "",
     description:
       "Under the hood, when a user contributes their assets to a large pool of liquidity (a “market”) that is available for other users to borrow, they share in the interest that borrowers pay back to the pool.",
-    resource: "",
+    resource: "https://app.compound.finance/",
     platform: "Compound Finance",
     color: "#4dffca",
     imgPath: "compound.png",
@@ -101,7 +101,7 @@ const questList = {
     task: "",
     description:
       "Under the hood, when a user contributes their assets to a large pool of liquidity (a “market”) that is available for other users to borrow, they share in the interest that borrowers pay back to the pool.",
-    resource: "",
+    resource: "https://app.compound.finance/",
     platform: "Compound Finance",
     color: "#4dffca",
     imgPath: "compound.png",
@@ -119,7 +119,7 @@ const questList = {
     task: "",
     description:
       "At every Ethereum block, your supplied assets earn interest paid by borrowers. Now see if you can earn 10 DAI worth of interest with your supplied assets!",
-    resource: "",
+    resource: "https://app.compound.finance/",
     platform: "Compound Finance",
     color: "#4dffca",
     imgPath: "compound.png",
@@ -137,7 +137,7 @@ const questList = {
     task: "Register an ENS name to your Ethereum address.",
     description:
       "ENS is managed through the ENS Manager currently. Go register a .eth domain and set the resolver to your address.",
-    resource: "manager.ens.domains/",
+    resource: "https://app.ens.domains/",
     platform: "ENS",
     color: "#5183FE",
     imgPath: "enspng.png",
@@ -155,7 +155,7 @@ const questList = {
     task: "",
     description:
       "CryptoKitties is one of the world’s first blockchain games. Each kitty has a unique genome that defines its appearance and traits. Players can breed their kitties to create new furry friends and unlock rare cattributes.",
-    resource: "",
+    resource: "https://www.cryptokitties.co/",
     platform: "CryptoKitties",
     color: "#e96bd4",
     imgPath: "cryptokitties.png",
@@ -191,7 +191,7 @@ const questList = {
     task: "Get yourself some LAND",
     description:
       "Venturing into new territory. Grab some land and build up a scene to share with the 3d world inside Decentraland.",
-    resource: "https://avatars.decentraland.org/",
+    resource: "https://marketplace.decentraland.org/",
     platform: "Decentraland",
     color: "#FF0055",
     imgPath: "mana.svg",
@@ -458,7 +458,7 @@ const questList = {
     task: "Attend an Ethereum virtual meetup during social distancing",
     description:
       "When at an Ethereum Foundation event find a POAP representative to receive your badge and NFT.",
-    resource: "https://opensea.io/assets/poap-v2",
+    resource: "https://www.poap.xyz/",
     platform: "POAP",
     color: "#DC6BE5",
     imgPath: "poap.png",
@@ -476,7 +476,7 @@ const questList = {
     task: "Acquire a POAP NFT for attending an EF event.",
     description:
       "When at an Ethereum Foundation event find a POAP representative to receive your badge and NFT.",
-    resource: "https://opensea.io/assets/poap-v2",
+    resource: "https://www.poap.xyz/",
     platform: "POAP",
     color: "#DC6BE5",
     imgPath: "poap.png",
@@ -583,7 +583,7 @@ const questList = {
     task: "Buy a token set on Set Protocol.",
     description:
       "Set Protocol is a platform on Ethereum that enhances your portfolio with automated asset management strategies.",
-    resource: "https://www.tokensets.com/",
+    resource: "https://www.tokensets.com/explore",
     platform: "Set Protocol",
     color: "#ECC251",
     imgPath: "set.svg",
