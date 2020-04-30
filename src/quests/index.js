@@ -223,7 +223,7 @@ const questList = {
   },
   MANA2: {
     name: "MANA-201",
-    type: "side-quest",
+    type: "track",
     blurb: "Obtain some Decentraland LAND",
     task: "Get yourself some LAND",
     description:
@@ -259,7 +259,7 @@ const questList = {
   },
   MKR2: {
     name: "MKR-102",
-    type: "side-quest",
+    type: "track",
     blurb: "Open a Vault in MakerDAO",
     task: "Open a Vault and create at least 1 Dai",
     description:
@@ -277,7 +277,7 @@ const questList = {
   },
   MKR3: {
     name: "MKR-103",
-    type: "side-quest",
+    type: "track",
     blurb: "Vote on Governance Poll in MakerDAO",
     task: "Vote on Governance Poll",
     description:
@@ -330,7 +330,7 @@ const questList = {
   },
   NEXUS1: {
     name: "NEXUS-101",
-    type: "side-quest",
+    type: "track",
     blurb: "Own a piece of nexus mutual",
     task: "Buy NXM from Nexus Mutual to become a backer in the system.",
     description:
