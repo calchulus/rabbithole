@@ -178,7 +178,7 @@ const questList = {
     platform: "ENS",
     color: "#5183FE",
     imgPath: "enspng.png",
-    badgeImgPath: "3box.png",
+    badgeImgPath: "ENS-101-badge.svg",
     category: "Profile",
     categoryColor: "#4c6ae0",
     prerequisite: "",
