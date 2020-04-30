@@ -476,7 +476,7 @@ export default function QuestSection() {
           <Section>
             <Heading>
               <div>
-                Track Quests
+                Quests in progress
                 <span>
                   Complete these quests to move onto the next level in its
                   track. View your current journey on the Progress page.
