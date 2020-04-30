@@ -73,7 +73,6 @@ const AccountWrapper = styled.div`
     width: 100%;
     justify-content: flex-end;
     padding-right: 20px;
-
   }
 `
 
@@ -83,7 +82,7 @@ const LoginWrapper = styled.div`
 
   @media (max-width: 970px) {
     margin-right: 10px;
-    display: ${({account}) => (account.account === undefined ? 'block' : 'none')};
+    display: ${({ account }) => (account === undefined ? "block" : "none")};
   }
 `
 
@@ -101,7 +100,7 @@ const Score = styled.div`
   border-radius: 30px;
 
   @media (max-width: 970px) {
-    display: ${({account}) => (account.account === undefined ? 'none' : 'flex')};
+    display: ${({ account }) => (account === undefined ? "none" : "flex")};
   }
 
   @media (max-width: 580px) {
@@ -247,7 +246,7 @@ function Nav({ history }) {
               <Web3Status />
             </LoginWrapper>
           )}
-          <Score>{score} XP</Score>
+          <Score account={account}>{score} XP</Score>
           {isExtraSmall && (
             <Hover
               onClick={() => {
