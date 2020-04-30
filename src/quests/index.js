@@ -552,6 +552,13 @@ export const fetchQuests = async function(ENSName, account) {
         account +
         "&asset_contract_address=0x2a187453064356c898cae034eaed119e1663acb8",
     }
+    var socksOptions = {
+      method: "GET",
+      url:
+        "https://api.opensea.io/api/v1/assets?owner=" +
+        account +
+        "&asset_contract_address=0x2a187453064356c898cae034eaed119e1663acb8",
+    }
     return Promise.all(
       Object.keys(questList).map(async (key) => {
         let quest = questList[key]
@@ -750,7 +757,6 @@ export const fetchQuests = async function(ENSName, account) {
               var result = JSON.parse(body)
               if (result.assets.length > 0) {
                 quest.progress = 100
-                return true
               }
             }
           })
@@ -895,6 +901,16 @@ export const fetchQuests = async function(ENSName, account) {
             })
             quest.progress = (parseFloat(supplied) / 0.5) * 100
           }
+        }
+        if (key === "UNI3") {
+          request(socksOptions, function(error, response, body) {
+            if (!error && body.length > 0) {
+              var result = JSON.parse(body)
+              if (result.assets.length > 0) {
+                quest.progress = 100
+              }
+            }
+          })
         }
         return quest
       })
