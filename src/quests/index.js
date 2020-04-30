@@ -755,7 +755,7 @@ export const fetchQuests = async function(ENSName, account) {
           request(poapOptions, function(error, response, body) {
             if (!error && body.length > 0) {
               var result = JSON.parse(body)
-              if (result.assets.length > 0) {
+              if (result.assets?.length > 0) {
                 quest.progress = 100
               }
             }
