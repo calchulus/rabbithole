@@ -32,6 +32,9 @@ export const financeTrack = {
   "POOL-101": {
     children: ["POOL-201", "MKR-101"],
   },
+  "MKR-101": {
+    children: ["MKR-201"],
+  },
   "POOL-201": {
     children: ["POOL-301"],
   },
@@ -54,7 +57,7 @@ export const gamingTrack = {
     children: ["MANA-201"],
   },
   "SEA-101": {
-    children: ["UNI-301"],
+    children: ["UNI-301", "SEA-201"],
   },
 }
 
@@ -257,26 +260,8 @@ const questList = {
     points: 250,
     progress: 0,
   },
-  MKR2: {
-    name: "MKR-102",
-    type: "track",
-    blurb: "Open a Vault in MakerDAO",
-    task: "Open a Vault and create at least 1 Dai",
-    description:
-      "Any user who wishes to generate Dai may deposit Collateral into a Vault and do so, paying a Stability Fee on the generated Dai balance.",
-    resource: "https://oasis.app/borrow",
-    platform: "Maker Protocol",
-    color: "#1aaa9b",
-    imgPath: "makerdao.png",
-    badgeImgPath: "MKR-102-badge.svg",
-    category: "Finance",
-    categoryColor: "#6ed16b",
-    prerequisite: "MKR-101",
-    points: 200,
-    progress: 0,
-  },
   MKR3: {
-    name: "MKR-103",
+    name: "MKR-101",
     type: "track",
     blurb: "Vote on Governance Poll in MakerDAO",
     task: "Vote on Governance Poll",
@@ -294,7 +279,7 @@ const questList = {
     progress: 0,
   },
   MKR4: {
-    name: "MKR-104",
+    name: "MKR-201",
     type: "track",
     blurb: "Vote on Executive Spell",
     task: "Vote on Executive Spell",
@@ -510,7 +495,7 @@ const questList = {
   },
   UNI3: {
     name: "UNI-301",
-    type: "side-quest",
+    type: "track",
     blurb: "Redeem a Unisocks token and obtain proof",
     task: "Own a Unisocks token",
     description:
