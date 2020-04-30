@@ -273,6 +273,9 @@ const Resource = styled.div`
 const CTA = styled.div`
   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   grid-area: cta;
+  font-size: 10px;
+  color: ${({ color }) => color};
+  text-transform: uppercase;
 `
 
 const Loading = styled.div`
@@ -388,7 +391,7 @@ export default function QuestSection() {
       </Icon>
       <QuestOverview>
         <Platform color={quest.color}>
-          {quest.platform} - {quest.name}
+         {quest.name}
         </Platform>
         <BlurbWrapper>{quest.blurb}</BlurbWrapper>
       </QuestOverview>
@@ -432,7 +435,7 @@ export default function QuestSection() {
           {quest.resource}
         </a>
       </Resource>
-      <CTA isOpen={OpenQuest === quest}>Go Vote!</CTA>
+      <CTA isOpen={OpenQuest === quest}>{quest.platform}</CTA>
     </Quest>
   )
 
