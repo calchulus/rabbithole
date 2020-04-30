@@ -83,7 +83,7 @@ const questList = {
     blurb: "Add a verified Twitter or Github to 3box",
     task: "",
     description:
-      "You've already setup your porifle. Why not verify your Twitter or Github handle now?",
+      "You've already setup your profle. Why not verify your Twitter or Github handle now?",
     resource: "https://3box.io/hub",
     platform: "3Box",
     color: "#1168df",
