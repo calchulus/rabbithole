@@ -3,17 +3,14 @@ import styled from "styled-components"
 import { useWeb3React } from "@web3-react/core"
 import {
   useENSName,
-  useBoxStorage,
-  useNotificationThread,
-  useThreadPosts,
+  // useBoxStorage,
+  // useNotificationThread,
+  // useThreadPosts,
 } from "../../hooks"
 import Spinner from "../Spinner"
 import useMedia from "use-media"
-
 import { useQuests } from "../../contexts/Application"
-const EthmojiAPI = require("ethmoji-js").default
-
-const HIDE_LOCKED = false
+import { financeTrack, gamingTrack } from "../../quests"
 
 const Wrapper = styled.div`
   display: flex;
@@ -141,7 +138,8 @@ const Quest = styled.div`
         ? '"exp icon main points"\n"desc desc desc desc"\n"resc resc resc cta"\n"track track track cta"'
         : '"exp icon main points"'};
     grid-template-columns: 15px 45px auto 75px;
-    grid-template-rows: ${({ isOpen }) => (isOpen ? "75px auto 30px 45px" : "75px")};
+    grid-template-rows: ${({ isOpen }) =>
+      isOpen ? "75px auto 30px 45px" : "75px"};
     grid-column-gap: 2px;
   }
 `
@@ -212,7 +210,7 @@ const Track = styled.div`
 
   @media (max-width: 550px) {
     grid-area: none;
-    display: ${({ isOpen }) => isOpen ? 'flex' : 'none'};
+    display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
   }
 `
 
@@ -248,17 +246,6 @@ const Points = styled.div`
 
 const QuestType = styled.div`
   grid-area: type;
-`
-
-const MojiWrapper = styled.div`
-  height: 70px;
-  width: 70px;
-  margin-top: 2rem;
-
-  img {
-    height: 70px;
-    width: 70px;
-  }
 `
 
 const Description = styled.div`
@@ -311,17 +298,13 @@ export default function QuestSection() {
 
   const ENSName = useENSName(account)
 
-  const userSpace = useBoxStorage(account, global.web3.currentProvider)
+  // const userSpace = useBoxStorage(account, global.web3.currentProvider)
 
-  const notificationThread = useNotificationThread(userSpace, account)
+  // const notificationThread = useNotificationThread(userSpace, account)
 
-  const notificationPosts = useThreadPosts(notificationThread)
-
-  const [notifyCompletedQuests, setNotifyCompletedQuests] = useState([])
+  // const notificationPosts = useThreadPosts(notificationThread)
 
   const [OpenQuest, setOpenQuest] = useState()
-
-  const [ethMoji, setEthmoji] = useState()
 
   const quests = useQuests()
 
@@ -331,17 +314,8 @@ export default function QuestSection() {
 
   const isXXXSmall = useMedia({ maxWidth: "525px" })
 
-  useEffect(() => {
-    const getEthmoji = async () => {
-      const ethmojiAPI = new EthmojiAPI(global.web3.currentProvider)
-      await ethmojiAPI.init()
-      const avatar = await ethmojiAPI.getAvatar(account)
-      if (avatar) {
-        setEthmoji(avatar)
-      }
-    }
-    getEthmoji()
-  })
+  const root0 = "COMP-101"
+  const root1 = "KITTY-101"
 
   useEffect(() => {
     let weeklyQuests = 0
@@ -360,6 +334,108 @@ export default function QuestSection() {
     setWeeklyQuests(weeklyQuests)
   }, [ENSName, account, quests])
 
+  const [formattedQuests, setFormattedQuests] = useState()
+
+  useEffect(() => {
+    if (quests) {
+      const newFormatted = {}
+      quests.map((quest) => {
+        return (newFormatted[quest.name] = quest)
+      })
+      setFormattedQuests(newFormatted)
+    }
+  }, [quests])
+
+  function renderQuest(quest, locked, track) {
+    return (
+      quest && (
+        <>
+          {quest?.progress < 100 && !locked && (
+            <QuestItem quest={quest} key={quest.name} />
+          )}
+          {formattedQuests &&
+            track[quest?.name]?.children &&
+            track[quest?.name]?.children?.map((childQuest) => {
+              return renderQuest(
+                formattedQuests[childQuest],
+                !(quest?.progress >= 100 && !locked),
+                track
+              )
+            })}
+        </>
+      )
+    )
+  }
+
+  const QuestItem = ({ quest }) => (
+    <Quest
+      key={quest.name}
+      isOpen={OpenQuest === quest}
+      onClick={() => {
+        if (OpenQuest === quest) {
+          setOpenQuest(null)
+        } else {
+          setOpenQuest(quest)
+        }
+      }}
+    >
+      <Collapser
+        isOpen={OpenQuest === quest}
+        src={require("../../assets/images/carat.svg")}
+      ></Collapser>
+      <Icon>
+        <img src={require("../../assets/images/" + quest?.imgPath)} alt="" />
+      </Icon>
+      <QuestOverview>
+        <Platform color={quest.color}>
+          {quest.platform} - {quest.name}
+        </Platform>
+        <BlurbWrapper>{quest.blurb}</BlurbWrapper>
+      </QuestOverview>
+      {!isExtraSmall && (
+        <JustifyEnd style={{ gridArea: "perc" }}>
+          {quest.progress.toFixed(1) + "%"}
+        </JustifyEnd>
+      )}
+      {!isExtraSmall && (
+        <QuestType>
+          <img
+            src={require("../../assets/images/track.svg")}
+            alt={quest.type}
+          />
+        </QuestType>
+      )}
+      {!isXXXSmall ? (
+        <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
+          {quest.category}
+        </Track>
+      ) : (
+        <div
+          style={{
+            gridArea: "track",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
+            {quest.category}
+          </Track>
+        </div>
+      )}
+      <Points>{quest.points} XP</Points>
+      <Description isOpen={OpenQuest === quest}>
+        {quest.description}
+      </Description>
+      <Resource isOpen={OpenQuest === quest}>
+        <a href={quest.resource} target="_blank" rel="noopener noreferrer">
+          {quest.resource}
+        </a>
+      </Resource>
+      <CTA isOpen={OpenQuest === quest}>Go Vote!</CTA>
+    </Quest>
+  )
+
   return (
     <Suspense fallback={null}>
       {quests.length > 0 ? (
@@ -371,170 +447,36 @@ export default function QuestSection() {
                   Weekly Quests
                   <span>Complete these challenges before they expire</span>
                 </div>
-                {!isXXSmall ? (
-                  <MojiWrapper style={{ paddingRight: "1rem" }}>
-                    {ethMoji && <img src={ethMoji.imageUrl} alt="" />}
-                  </MojiWrapper>
-                ) : null}
               </Heading>
-
               {!isXXSmall ? <Gutter /> : null}
-
               <QuestWrapper>
                 {quests.map((quest, i) => {
-                  let icon = require("../../assets/images/" + quest.imgPath)
                   if (quest.type === "weekly" && quest.progress < 100) {
-                    return (
-                      <Quest
-                        key={i}
-                        isOpen={OpenQuest === quest}
-                        onClick={() => {
-                          setOpenQuest(quest)
-                        }}
-                      >
-                        <Collapser
-                          isOpen={OpenQuest === quest}
-                          src={require("../../assets/images/carat.svg")}
-                        ></Collapser>
-                        <Icon>
-                          <img src={icon} alt="" />
-                        </Icon>
-                        <QuestOverview>
-                          <Platform color={quest.color}>
-                            {quest.platform}
-                          </Platform>
-                          <BlurbWrapper>{quest.blurb}</BlurbWrapper>
-                        </QuestOverview>
-                        {!isExtraSmall && (
-                          <JustifyEnd style={{ gridArea: "perc" }}>
-                            {quest.progress.toFixed(1) + "%"}
-                          </JustifyEnd>
-                        )}
-                        {!isExtraSmall && (
-                          <QuestType>
-                            <img
-                              src={require("../../assets/images/track.svg")}
-                              alt={quest.type}
-                            />
-                          </QuestType>
-                        )}
-                        {!isXXXSmall ? (
-                          <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
-                            {quest.category}
-                          </Track>
-                        ) : (
-                          <div style={{ gridArea: 'track', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
-                              {quest.category}
-                            </Track>
-                          </div>
-                        )}
-                        <Points>
-                          {quest.points} XP
-                        </Points>
-                        <Description isOpen={OpenQuest === quest}>
-                          {quest.description}
-                        </Description>
-                        <Resource isOpen={OpenQuest === quest}>
-                          <a href={quest.resource} target="_blank" rel="noopener noreferrer">
-                            {quest.resource}
-                          </a>
-                        </Resource>
-                        <CTA isOpen={OpenQuest === quest}>Go Vote!</CTA>
-                      </Quest>
-                    )
+                    return <QuestItem quest={quest} />
                   }
                   return true
                 })}
               </QuestWrapper>
             </Section>
           )}
-
           <Section>
             <Heading>
               <div>
-                Tracks
+                Track Quests
                 <span>
-                  Progress through each application’s track and earn rewards
+                  Complete these quests to move onto the next level in its
+                  track. View your current journey on the Progress page.
                 </span>
               </div>
             </Heading>
-
             {!isXXSmall && <Gutter />}
-
             <QuestWrapper>
-              {quests.map((quest, i) => {
-                if (quest.type === "track" && quest.progress < 100) {
-                  return (
-                    <Quest
-                      key={i}
-                      isOpen={OpenQuest === quest}
-                      onClick={() => {
-                        setOpenQuest(quest)
-                      }}
-                    >
-                      <Collapser
-                        isOpen={OpenQuest === quest}
-                        src={require("../../assets/images/carat.svg")}
-                      ></Collapser>
-                      <Icon>
-                        <img
-                          src={require("../../assets/images/" + quest.imgPath)}
-                          alt=""
-                        />
-                      </Icon>
-                      <QuestOverview>
-                        <Platform color={quest.color}>
-                          {quest.platform}
-                        </Platform>
-                        <BlurbWrapper>{quest.blurb}</BlurbWrapper>
-                      </QuestOverview>
-                      {!isExtraSmall && (
-                        <JustifyEnd style={{ gridArea: "perc" }}>
-                          {quest.progress.toFixed(1) + "%"}
-                        </JustifyEnd>
-                      )}
-                      {!isExtraSmall && (
-                        <QuestType>
-                          <img
-                            src={require("../../assets/images/" +
-                              quest.type +
-                              ".svg")}
-                            alt={quest.type}
-                          />
-                        </QuestType>
-                      )}
-                      {!isXXXSmall ? (
-                          <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
-                            {quest.category}
-                          </Track>
-                        ) : (
-                          <div style={{ gridArea: 'track', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
-                              {quest.category}
-                            </Track>
-                          </div>
-                        )}
-                      <Points style={{ gridArea: "points" }}>
-                        {quest.points} XP
-                      </Points>
-                      <Description isOpen={OpenQuest === quest}>
-                        {quest.description}
-                      </Description>
-                      <Resource isOpen={OpenQuest === quest}>
-                        <a href={quest.resource} target="_blank" rel="noopener noreferrer">
-                          {quest.resource}
-                        </a>
-                      </Resource>
-                      <CTA isOpen={OpenQuest === quest}>Go Vote!</CTA>
-                    </Quest>
-                  )
-                }
-                return true
-              })}
+              {formattedQuests &&
+                renderQuest(formattedQuests[root0], false, financeTrack)}
+              {formattedQuests &&
+                renderQuest(formattedQuests[root1], false, gamingTrack)}
             </QuestWrapper>
           </Section>
-
           {sideQuests > 0 && (
             <Section>
               <Heading>
@@ -542,80 +484,12 @@ export default function QuestSection() {
                   Bonus Challenges
                   <span>Complete these challenges before they expire</span>
                 </div>
-                {!isXXSmall ? (
-                  <MojiWrapper style={{ paddingRight: "1rem" }}>
-                    {ethMoji && <img src={ethMoji.imageUrl} alt="" />}
-                  </MojiWrapper>
-                ) : null}
               </Heading>
-
               {!isXXSmall && <Gutter />}
-
               <QuestWrapper>
                 {quests.map((quest, i) => {
-                  let icon = require("../../assets/images/" + quest.imgPath)
                   if (quest.type === "side-quest" && quest.progress < 100) {
-                    return (
-                      <Quest
-                        key={i}
-                        isOpen={OpenQuest === quest}
-                        onClick={() => {
-                          setOpenQuest(quest)
-                        }}
-                      >
-                        <Collapser
-                          isOpen={OpenQuest === quest}
-                          src={require("../../assets/images/carat.svg")}
-                        ></Collapser>
-                        <Icon>
-                          <img src={icon} alt="" />
-                        </Icon>
-                        <QuestOverview>
-                          <Platform color={quest.color}>
-                            {quest.platform}
-                          </Platform>
-                          <BlurbWrapper>{quest.blurb}</BlurbWrapper>
-                        </QuestOverview>
-                        {!isExtraSmall && (
-                          <JustifyEnd style={{ gridArea: "perc" }}>
-                            {quest.progress.toFixed(1) + "%"}
-                          </JustifyEnd>
-                        )}
-                        {!isExtraSmall && (
-                          <QuestType>
-                            <img
-                              src={require("../../assets/images/" +
-                                quest.type +
-                                ".svg")}
-                              alt={quest.type}
-                            />
-                          </QuestType>
-                        )}
-                        {!isXXXSmall ? (
-                          <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
-                            {quest.category}
-                          </Track>
-                        ) : (
-                          <div style={{ gridArea: 'track', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <Track color={quest.categoryColor} isOpen={OpenQuest === quest}>
-                              {quest.category}
-                            </Track>
-                          </div>
-                        )}
-                        <Points>
-                          {quest.points} XP
-                        </Points>
-                        <Description isOpen={OpenQuest === quest}>
-                          {quest.description}
-                        </Description>
-                        <Resource isOpen={OpenQuest === quest}>
-                          <a href={quest.resource} target="_blank" rel="noopener noreferrer">
-                            {quest.resource}
-                          </a>
-                        </Resource>
-                        <CTA isOpen={OpenQuest === quest}>Go Vote!</CTA>
-                      </Quest>
-                    )
+                    return <QuestItem quest={quest} />
                   }
                   return true
                 })}

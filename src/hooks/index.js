@@ -1,27 +1,32 @@
-import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
-import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
-import copy from 'copy-to-clipboard'
+import { useState, useMemo, useCallback, useEffect, useRef } from "react"
+import { useWeb3React as useWeb3ReactCore } from "@web3-react/core"
+import copy from "copy-to-clipboard"
 
-import ERC20_ABI from '../constants/abis/erc20'
-import { getContract, getFactoryContract, getExchangeContract, isAddress } from '../utils'
-import { injected } from '../connectors'
+import ERC20_ABI from "../constants/abis/erc20"
+import {
+  getContract,
+  getFactoryContract,
+  getExchangeContract,
+  isAddress,
+} from "../utils"
+import { injected } from "../connectors"
 
-const Box = require('3box')
+const Box = require("3box")
 
 export function useWeb3React() {
   const context = useWeb3ReactCore()
-  const contextNetwork = useWeb3ReactCore('NETWORK')
+  const contextNetwork = useWeb3ReactCore("NETWORK")
 
   return context.active ? context : contextNetwork
 }
 
 export function useEagerConnect() {
-  const { activate, active } = useWeb3ReactCore() // specifically using useWeb3ReactCore because of what this hook does
+  const { activate, active } = useWeb3ReactCore()
 
   const [tried, setTried] = useState(false)
 
   useEffect(() => {
-    injected.isAuthorized().then(isAuthorized => {
+    injected.isAuthorized().then((isAuthorized) => {
       if (isAuthorized) {
         activate(injected, undefined, true).catch(() => {
           setTried(true)
@@ -58,19 +63,19 @@ export function useInactiveListener(suppress = false) {
         activate(injected, undefined, true).catch(() => {})
       }
 
-      const handleAccountsChanged = accounts => {
+      const handleAccountsChanged = (accounts) => {
         if (accounts.length > 0) {
           // eat errors
           activate(injected, undefined, true).catch(() => {})
         }
       }
 
-      ethereum.on('networkChanged', handleNetworkChanged)
-      ethereum.on('accountsChanged', handleAccountsChanged)
+      ethereum.on("networkChanged", handleNetworkChanged)
+      ethereum.on("accountsChanged", handleAccountsChanged)
 
       return () => {
-        ethereum.removeListener('networkChanged', handleNetworkChanged)
-        ethereum.removeListener('accountsChanged', handleAccountsChanged)
+        ethereum.removeListener("networkChanged", handleNetworkChanged)
+        ethereum.removeListener("accountsChanged", handleAccountsChanged)
       }
     }
 
@@ -100,14 +105,18 @@ export function useDebounce(value, delay) {
 }
 
 // modified from https://usehooks.com/useKeyPress/
-export function useBodyKeyDown(targetKey, onKeyDown, suppressOnKeyDown = false) {
+export function useBodyKeyDown(
+  targetKey,
+  onKeyDown,
+  suppressOnKeyDown = false
+) {
   const downHandler = useCallback(
-    event => {
+    (event) => {
       const {
         target: { tagName },
-        key
+        key,
       } = event
-      if (key === targetKey && tagName === 'BODY' && !suppressOnKeyDown) {
+      if (key === targetKey && tagName === "BODY" && !suppressOnKeyDown) {
         event.preventDefault()
         onKeyDown()
       }
@@ -116,9 +125,9 @@ export function useBodyKeyDown(targetKey, onKeyDown, suppressOnKeyDown = false) 
   )
 
   useEffect(() => {
-    window.addEventListener('keydown', downHandler)
+    window.addEventListener("keydown", downHandler)
     return () => {
-      window.removeEventListener('keydown', downHandler)
+      window.removeEventListener("keydown", downHandler)
     }
   }, [downHandler])
 }
@@ -132,7 +141,7 @@ export function useENSName(address) {
     if (isAddress(address)) {
       let stale = false
       try {
-        library.lookupAddress(address).then(name => {
+        library.lookupAddress(address).then((name) => {
           if (!stale) {
             if (name) {
               setENSName(name)
@@ -161,7 +170,12 @@ export function useContract(address, ABI, withSignerIfPossible = true) {
 
   return useMemo(() => {
     try {
-      return getContract(address, ABI, library, withSignerIfPossible ? account : undefined)
+      return getContract(
+        address,
+        ABI,
+        library,
+        withSignerIfPossible ? account : undefined
+      )
     } catch {
       return null
     }
@@ -174,7 +188,12 @@ export function useTokenContract(tokenAddress, withSignerIfPossible = true) {
 
   return useMemo(() => {
     try {
-      return getContract(tokenAddress, ERC20_ABI, library, withSignerIfPossible ? account : undefined)
+      return getContract(
+        tokenAddress,
+        ERC20_ABI,
+        library,
+        withSignerIfPossible ? account : undefined
+      )
     } catch {
       return null
     }
@@ -187,19 +206,30 @@ export function useFactoryContract(withSignerIfPossible = true) {
 
   return useMemo(() => {
     try {
-      return getFactoryContract(chainId, library, withSignerIfPossible ? account : undefined)
+      return getFactoryContract(
+        chainId,
+        library,
+        withSignerIfPossible ? account : undefined
+      )
     } catch {
       return null
     }
   }, [chainId, library, withSignerIfPossible, account])
 }
 
-export function useExchangeContract(exchangeAddress, withSignerIfPossible = true) {
+export function useExchangeContract(
+  exchangeAddress,
+  withSignerIfPossible = true
+) {
   const { library, account } = useWeb3React()
 
   return useMemo(() => {
     try {
-      return getExchangeContract(exchangeAddress, library, withSignerIfPossible ? account : undefined)
+      return getExchangeContract(
+        exchangeAddress,
+        library,
+        withSignerIfPossible ? account : undefined
+      )
     } catch {
       return null
     }
@@ -209,7 +239,7 @@ export function useExchangeContract(exchangeAddress, withSignerIfPossible = true
 export function useCopyClipboard(timeout = 500) {
   const [isCopied, setIsCopied] = useState(false)
 
-  const staticCopy = useCallback(text => {
+  const staticCopy = useCallback((text) => {
     const didCopy = copy(text)
     setIsCopied(didCopy)
   }, [])
@@ -256,7 +286,6 @@ export function useBoxStorage(address, provider) {
       }
     }
     setBoxSpace()
-    
   }, [address, provider])
 
   return userSpace
@@ -268,9 +297,12 @@ export function useNotificationThread(space, account) {
   useEffect(() => {
     if (space) {
       async function _setNotificationThread() {
-        const notificationThread = await space.createConfidentialThread(account.toLowerCase() + 'notificationThread', {
-          members: true
-        })
+        const notificationThread = await space.createConfidentialThread(
+          account.toLowerCase() + "notificationThread",
+          {
+            members: true,
+          }
+        )
         if (notificationThread) {
           setNotificationThread(notificationThread)
         }
@@ -306,13 +338,17 @@ export function useQuestThreads(space, quests) {
     Promise.all(
       Object.keys(quests).map((quest) => {
         async function getQuestThread() {
-          const thread = await space.joinThread(quest.id, { firstModerator: 'some3ID', members: true })
+          const thread = await space.joinThread(quest.id, {
+            firstModerator: "some3ID",
+            members: true,
+          })
           questThreads.push(thread)
         }
         getQuestThread()
-      }))
+        return true
+      })
+    )
     setQuestThreads(questThreads)
-    
   }, [space, quests])
 
   return questThreads

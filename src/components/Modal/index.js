@@ -1,25 +1,29 @@
-import React from 'react'
-import styled, { css } from 'styled-components'
-import { animated, useTransition, useSpring } from 'react-spring'
-import { Spring } from 'react-spring/renderprops'
+import React from "react"
+import styled, { css } from "styled-components"
+import { animated, useTransition, useSpring } from "react-spring"
+import { Spring } from "react-spring/renderprops"
 
-import { DialogOverlay, DialogContent } from '@reach/dialog'
-import { isMobile } from 'react-device-detect'
-import '@reach/dialog/styles.css'
-import { transparentize } from 'polished'
-import { useGesture } from 'react-use-gesture'
+import { DialogOverlay, DialogContent } from "@reach/dialog"
+import { isMobile } from "react-device-detect"
+import "@reach/dialog/styles.css"
+import { transparentize } from "polished"
+import { useGesture } from "react-use-gesture"
 
 const AnimatedDialogOverlay = animated(DialogOverlay)
-const WrappedDialogOverlay = ({ suppressClassNameWarning, mobile, ...rest }) => <AnimatedDialogOverlay {...rest} />
+const WrappedDialogOverlay = ({
+  suppressClassNameWarning,
+  mobile,
+  ...rest
+}) => <AnimatedDialogOverlay {...rest} />
 const StyledDialogOverlay = styled(WrappedDialogOverlay).attrs({
-  suppressClassNameWarning: true
+  suppressClassNameWarning: true,
 })`
   &[data-reach-dialog-overlay] {
-    z-index: 1;
+    z-index: 3;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: ${({ theme }) => 'transparent'};
+    background-color: ${({ theme }) => "transparent"};
 
     ${({ mobile }) =>
       mobile &&
@@ -28,7 +32,7 @@ const StyledDialogOverlay = styled(WrappedDialogOverlay).attrs({
       `}
 
     &::after {
-      content: '';
+      content: "";
       background-color: ${({ theme }) => theme.modalBackground};
       opacity: 0.5;
       top: 0;
@@ -42,15 +46,21 @@ const StyledDialogOverlay = styled(WrappedDialogOverlay).attrs({
   }
 `
 
-const FilteredDialogContent = ({ minHeight, maxHeight, isOpen, slideInAnimation, mobile, ...rest }) => (
-  <DialogContent {...rest} />
-)
+const FilteredDialogContent = ({
+  minHeight,
+  maxHeight,
+  isOpen,
+  slideInAnimation,
+  mobile,
+  ...rest
+}) => <DialogContent {...rest} />
 const StyledDialogContent = styled(FilteredDialogContent)`
   &[data-reach-dialog-content] {
     margin: 0 0 2rem 0;
     border: 1px solid ${({ theme }) => theme.concreteGray};
     background-color: ${({ theme }) => theme.inputBackground};
-    box-shadow: 0 4px 8px 0 ${({ theme }) => transparentize(0.95, theme.shadowColor)};
+    box-shadow: 0 4px 8px 0
+      ${({ theme }) => transparentize(0.95, theme.shadowColor)};
     padding: 0px;
     width: 50vw;
 
@@ -95,17 +105,24 @@ const HiddenCloseButton = styled.button`
   border: none;
 `
 
-export default function Modal({ isOpen, onDismiss, minHeight = false, maxHeight = 80, initialFocusRef, children }) {
+export default function Modal({
+  isOpen,
+  onDismiss,
+  minHeight = false,
+  maxHeight = 80,
+  initialFocusRef,
+  children,
+}) {
   const transitions = useTransition(isOpen, null, {
     config: { duration: 200 },
     from: { opacity: 0 },
     enter: { opacity: 1 },
-    leave: { opacity: 0 }
+    leave: { opacity: 0 },
   })
 
   const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }))
   const bind = useGesture({
-    onDrag: state => {
+    onDrag: (state) => {
       let velocity = state.velocity
       if (velocity < 1) {
         velocity = 1
@@ -115,12 +132,12 @@ export default function Modal({ isOpen, onDismiss, minHeight = false, maxHeight 
       }
       set({
         xy: state.down ? state.movement : [0, 0],
-        config: { mass: 1, tension: 210, friction: 20 }
+        config: { mass: 1, tension: 210, friction: 20 },
       })
       if (velocity > 3 && state.direction[1] > 0) {
         onDismiss()
       }
-    }
+    },
   })
 
   if (isMobile) {
@@ -136,16 +153,20 @@ export default function Modal({ isOpen, onDismiss, minHeight = false, maxHeight 
           >
             <Spring // animation for entrance and exit
               from={{
-                transform: isOpen ? 'translateY(200px)' : 'translateY(100px)'
+                transform: isOpen ? "translateY(200px)" : "translateY(100px)",
               }}
               to={{
-                transform: isOpen ? 'translateY(0px)' : 'translateY(200px)'
+                transform: isOpen ? "translateY(0px)" : "translateY(200px)",
               }}
             >
-              {props => (
+              {(props) => (
                 <animated.div
                   {...bind()}
-                  style={{ transform: xy.interpolate((x, y) => `translate3d(${0}px,${y > 0 ? y : 0}px,0)`) }}
+                  style={{
+                    transform: xy.interpolate(
+                      (x, y) => `translate3d(${0}px,${y > 0 ? y : 0}px,0)`
+                    ),
+                  }}
                 >
                   <StyledDialogContent
                     style={props}

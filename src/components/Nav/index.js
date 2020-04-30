@@ -4,6 +4,8 @@ import Web3Status from "../Web3Status"
 import useMedia from "use-media"
 import { useScore } from "../../contexts/Application"
 import { withRouter } from "react-router-dom"
+import { Text } from "rebass"
+import { Hover } from "../../theme/components"
 
 const NavWrapper = styled.div`
   display: flex;
@@ -65,6 +67,12 @@ const AccountWrapper = styled.div`
   width: 25%;
   align-items: center;
   justify-content: space-around;
+
+  @media (max-width: 580px) {
+    width: 100%;
+    justify-content: flex-end;
+    padding-right: 20px;
+  }
 `
 
 const LoginWrapper = styled.div`
@@ -78,7 +86,7 @@ const Score = styled.div`
   align-items: center;
   font-family: Inter;
   font-weight: bold;
-  max-width: 100px;
+  width: fit-content;
   height: 32px;
   color: #8dfbc9;
   padding: 0 10px;
@@ -169,6 +177,12 @@ const SidebarLoginWrapper = styled.div`
   margin: 10px auto;
 `
 
+const CloseIcon = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+`
+
 function Nav({ history }) {
   const [sidebarOpen, toggleSidebarOpen] = useState(false)
 
@@ -225,20 +239,22 @@ function Nav({ history }) {
               <Web3Status />
             </LoginWrapper>
           )}
-          <Score onClick={() => {
-            toggleSidebar(sidebarOpen)
-          }}
-          >
-            {score} XP
-          </Score>
+          <Score>{score} XP</Score>
+          {isExtraSmall && (
+            <Hover
+              onClick={() => {
+                toggleSidebar(sidebarOpen)
+              }}
+            >
+              <Text color="#8DFBC9" fontWeight={500}>
+                Menu
+              </Text>
+            </Hover>
+          )}
         </AccountWrapper>
       </NavWrapper>
-      <Sidebar 
-        sidebarOpen={sidebarOpen} 
-        onDismiss={() => {
-          toggleSidebar(true)
-        }}
-      >
+      <Sidebar sidebarOpen={sidebarOpen}>
+        <CloseIcon onClick={() => toggleSidebarOpen(false)}>X</CloseIcon>
         <SidebarBrandWrapper>
           <a href="/">
             <Logo
@@ -247,38 +263,36 @@ function Nav({ history }) {
             />
           </a>
         </SidebarBrandWrapper>
-        <SidebarScore>
-          {score} XP
-        </SidebarScore>
+        <SidebarScore>{score} XP</SidebarScore>
         <SidebarList>
-          <SidebarItem 
+          <SidebarItem
             onClick={() => {
               history.push("/")
               toggleSidebar(sidebarOpen)
-            }} 
+            }}
             active={history.location.pathname === "/"}
           >
             Dashboard
           </SidebarItem>
-          <SidebarItem 
+          <SidebarItem
             onClick={() => {
               history.push("/activity")
               toggleSidebar(sidebarOpen)
-            }} 
+            }}
             active={history.location.pathname === "/activity"}
           >
             Activity
           </SidebarItem>
-          <SidebarItem 
+          <SidebarItem
             onClick={() => {
               history.push("/progress")
               toggleSidebar(sidebarOpen)
-            }} 
+            }}
             active={history.location.pathname === "/progress"}
           >
             Progress
           </SidebarItem>
-          <SidebarItem 
+          <SidebarItem
             onClick={() => {
               history.push("/faq")
               toggleSidebar(sidebarOpen)
