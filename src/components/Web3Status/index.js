@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
 import { darken, transparentize } from 'polished'
 import { Activity } from 'react-feather'
+import { useMedia } from 'use-media'
 
 import { shortenAddress } from '../../utils'
 import { useENSName } from '../../hooks'
@@ -131,6 +132,8 @@ export default function Web3Status() {
 
   const toggleWalletModal = useWalletModalToggle()
 
+  const isXXXSmall = useMedia({ maxWidth: "525px" })
+
   // handle the logo we want to show with the account
   function getStatusIcon() {
     if (connector === injected) {
@@ -175,7 +178,7 @@ export default function Web3Status() {
     } else {
       return (
         <Web3StatusConnect onClick={toggleWalletModal} faded={!account}>
-          <Text>{t('Connect to a Wallet')}</Text>
+          <Text>{!isXXXSmall ? t('Connect to a Wallet') : t('Connect Wallet') }</Text>
         </Web3StatusConnect>
       )
     }

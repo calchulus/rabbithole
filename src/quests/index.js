@@ -20,6 +20,7 @@ import {
   POOL_TOGETHER_QUERY,
   // DCL_ENS_QUERY,
   MKR_SPELL_VOTES_QUERY,
+  MKR_POLL_VOTES_QUERY
 } from "../apollo/queries"
 const EthmojiAPI = require("ethmoji-js").default
 const Box = require("3box")
@@ -826,6 +827,19 @@ export const fetchQuests = async function(ENSName, account) {
             },
           })
           if (result.data.user && result.data.user.parcels) {
+            quest.progress = 100
+          }
+        }
+        if (key === "MKR3") {
+          let result = await makerGovClient.query({
+            query: MKR_POLL_VOTES_QUERY,
+            fetchPolicy: "cache-first",
+            variables: {
+              user: account.toLowerCase(),
+            },
+          })
+
+          if (result.data.pollVotes.length > 0) {
             quest.progress = 100
           }
         }

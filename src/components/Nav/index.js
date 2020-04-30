@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import styled from "styled-components"
+import { useWeb3React } from "@web3-react/core"
 import Web3Status from "../Web3Status"
 import useMedia from "use-media"
 import { useScore } from "../../contexts/Application"
@@ -72,12 +73,18 @@ const AccountWrapper = styled.div`
     width: 100%;
     justify-content: flex-end;
     padding-right: 20px;
+
   }
 `
 
 const LoginWrapper = styled.div`
   max-width: 200px;
   height: 35px;
+
+  @media (max-width: 970px) {
+    margin-right: 10px;
+    display: ${({account}) => (account.account === undefined ? 'block' : 'none')};
+  }
 `
 
 const Score = styled.div`
@@ -93,13 +100,12 @@ const Score = styled.div`
   border: 1px solid #8dfbc9;
   border-radius: 30px;
 
-  @media (max-width: 580px) {
-    margin-right: 25px;
+  @media (max-width: 970px) {
+    display: ${({account}) => (account.account === undefined ? 'none' : 'flex')};
   }
 
-  & > img {
-    height: 20px;
-    margin-left: 4px;
+  @media (max-width: 580px) {
+    margin-right: 25px;
   }
 `
 
@@ -189,6 +195,8 @@ function Nav({ history }) {
   const isExtraSmall = useMedia({ maxWidth: "970px" })
 
   const score = useScore()
+
+  const account = useWeb3React()
 
   function toggleSidebar(sidebarOpen) {
     toggleSidebarOpen(sidebarOpen === true ? false : true)
