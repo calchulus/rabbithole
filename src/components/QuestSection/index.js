@@ -450,12 +450,20 @@ export default function QuestSection() {
               </Heading>
               {!isXXSmall ? <Gutter /> : null}
               <QuestWrapper>
-                {quests.map((quest, i) => {
-                  if (quest.type === "weekly" && quest.progress < 100) {
-                    return <QuestItem quest={quest} />
-                  }
-                  return true
-                })}
+                {quests
+                  .sort((a, b) => {
+                    if (a?.points >= b?.points) {
+                      return -1
+                    } else {
+                      return 1
+                    }
+                  })
+                  .map((quest, i) => {
+                    if (quest.type === "weekly" && quest.progress < 100) {
+                      return <QuestItem quest={quest} />
+                    }
+                    return true
+                  })}
               </QuestWrapper>
             </Section>
           )}
@@ -487,12 +495,20 @@ export default function QuestSection() {
               </Heading>
               {!isXXSmall && <Gutter />}
               <QuestWrapper>
-                {quests.map((quest, i) => {
-                  if (quest.type === "side-quest" && quest.progress < 100) {
-                    return <QuestItem quest={quest} />
-                  }
-                  return true
-                })}
+                {quests
+                  .sort((a, b) => {
+                    if (a?.points >= b?.points) {
+                      return -1
+                    } else {
+                      return 1
+                    }
+                  })
+                  .map((quest, i) => {
+                    if (quest.type === "side-quest" && quest.progress < 100) {
+                      return <QuestItem quest={quest} />
+                    }
+                    return true
+                  })}
               </QuestWrapper>
             </Section>
           )}
