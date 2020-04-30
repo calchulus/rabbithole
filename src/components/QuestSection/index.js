@@ -201,8 +201,9 @@ const Track = styled.div`
   width: 70px;
   height: 24px;
   font-size: 16px;
-  color: rgba(245, 245, 253, 1);
-  background-color: ${({ color }) => color};
+  color: ${({ color }) => color};
+  background-color: none;
+  border: 1px solid ${({ color }) => color};
   border-radius: 20px;
   align-items: center;
   justify-content: center;
