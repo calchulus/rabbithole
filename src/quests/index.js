@@ -96,7 +96,7 @@ const questList = {
     progress: 0,
   },
   BOX3: {
-    name: "3BOX-201",
+    name: "3BOX-103",
     type: "track",
     blurb: "Join 4 spaces on 3Box",
     task: "",
@@ -106,7 +106,7 @@ const questList = {
     platform: "3Box",
     color: "#1168df",
     imgPath: "3box.png",
-    badgeImgPath: "3BOX-201-badge.svg",
+    badgeImgPath: "3BOX-103-badge.svg",
     category: "Profile",
     categoryColor: "#4c6ae0",
     prerequisite: "",
