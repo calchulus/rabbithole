@@ -1,6 +1,7 @@
 import React, { Suspense } from "react"
 import styled from "styled-components"
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
+import { useWeb3React } from "@web3-react/core"
 
 import Web3ReactManager from "../components/Web3ReactManager"
 
@@ -32,6 +33,8 @@ const BodyWrapper = styled.div`
 `
 
 export default function App() {
+  const { account } = useWeb3React()
+
   return (
     <>
       <Suspense fallback={null}>
@@ -42,24 +45,29 @@ export default function App() {
                 <Nav />
                 <Suspense fallback={null}>
                   <Switch>
-                    <Route
-                      exact
-                      strict
-                      path="/activity"
-                      component={() => <ActivityHistory />}
-                    />
+                    
                     <Route exact strict path="/" component={() => <Home />} />
-                    <Route
-                      exact
-                      strict
-                      path="/progress"
-                      component={() => <Progress />}
-                    />
                     <Route 
                       exact
                       string
                       path="/faq" 
                       component={() => <FAQ />} />
+                      {account && (
+                        <>
+                          <Route
+                          exact
+                          strict
+                          path="/activity"
+                          component={() => <ActivityHistory />}
+                          />
+                          <Route
+                            exact
+                            strict
+                            path="/progress"
+                            component={() => <Progress />}
+                          />
+                        </>
+                      )}           
                     <Redirect to="/" />
                     <Route path="/rewards" component={() => <Rewards />} />
                   </Switch>
