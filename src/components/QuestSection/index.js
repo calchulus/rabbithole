@@ -188,7 +188,8 @@ const Icon = styled.div`
 `
 
 const Platform = styled.div`
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: bold;
   color: ${({ color }) => color};
   text-transform: uppercase;
 `
@@ -253,6 +254,7 @@ const Description = styled.div`
   grid-area: desc;
   margin: auto;
   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  padding-bottom: 20px;
 `
 
 const Resource = styled.div`
