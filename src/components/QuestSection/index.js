@@ -200,7 +200,7 @@ const Track = styled.div`
   display: flex;
   width: 70px;
   height: 24px;
-  font-size: 16px;
+  font-size: 13px;
   color: ${({ color }) => color};
   background-color: none;
   border: 1px solid ${({ color }) => color};
