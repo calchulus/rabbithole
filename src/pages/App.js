@@ -55,10 +55,13 @@ export default function App() {
                       path="/progress"
                       component={() => <Progress />}
                     />
+                    <Route 
+                      exact
+                      string
+                      path="/faq" 
+                      component={() => <FAQ />} />
                     <Redirect to="/" />
-                    <Route path="/rewards" component={Rewards} />
-                    <Route path="/faq" component={FAQ} />
-                    <Route path="/" component={() => <Home />} />
+                    <Route path="/rewards" component={() => <Rewards />} />
                   </Switch>
                 </Suspense>
               </BrowserRouter>
