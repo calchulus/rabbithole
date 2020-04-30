@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { useWeb3React } from "@web3-react/core"
-import { useENSName } from "../../hooks"
 import { useMedia } from "use-media"
 import Copy from "../AccountDetails/Copy"
 import Spinner from "../Spinner"
@@ -9,13 +8,13 @@ import { useQuests } from "../../contexts/Application"
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-areas: "profile history"\n"footer footer";
+  grid-template-areas: "profile history" \n"footer footer";
   grid-template-rows: auto 100px;
   grid-template-columns: 40% 60%;
   width: 100%;
-  
+
   @media (max-width: 930px) {
-    grid-template-areas: "switch" \n"current"\n"footer";
+    grid-template-areas: "switch" \n"current" \n"footer";
     grid-template-rows: 40px auto 50px;
     grid-template-columns: auto;
     margin: 0 auto;
@@ -84,16 +83,16 @@ const BadgeList = styled.div`
   display: flex;
   justify-content: space-around;
   border: 1px solid ${({ theme }) => theme.outlinePurple};
-  border-radius: 5px;
+  border-radius: 10px;
   background: #1f1f1f;
   padding: 10px;
   margin: auto;
-  margin-top: 25px;
+  margin-top: 48px;
   width: 80%;
 `
 
 const Badge = styled.img`
-  width: 120px;
+  width: 80px;
   margin 10px;
 `
 
@@ -131,9 +130,9 @@ const CopyLink = styled.div`
   justify-content: center;
 
   & > div {
-    max-width: 150px;
+    max-width: 180px;
     color: #A1A4B1;
-    font-size: 10px;
+    font-size: 12px;
     height: 27px;
     border: 1px solid ${({ theme }) => theme.outlinePurple};
     border-radius: 20px;
@@ -268,15 +267,11 @@ export default function ActivityHistory() {
 
   const { account } = useWeb3React()
 
-  const ENSName = useENSName(account)
-
   const isExtraSmall = useMedia({ maxWidth: "970px" })
 
   const isXXSmall = useMedia({ maxWidth: "930px" })
 
-  const isXXXSmall = useMedia({ maxWidth: "525px" })
-
-  const [currentPanel, setCurrentPanel] = useState('history')
+  const [currentPanel, setCurrentPanel] = useState("history")
 
   function toggleCurrentPanel(newPanel) {
     setCurrentPanel(newPanel)
@@ -289,43 +284,48 @@ export default function ActivityHistory() {
         <Wrapper>
           {isXXSmall && (
             <Switcher>
-              <div onClick={() => toggleCurrentPanel('profile')}>Profile</div>
-              <div onClick={() => toggleCurrentPanel('history')}>History</div>
+              <div onClick={() => toggleCurrentPanel("profile")}>Badges</div>
+              <div onClick={() => toggleCurrentPanel("history")}>History</div>
             </Switcher>
           )}
-          <Profile isCurrent={currentPanel === 'profile'}>
+          <Profile isCurrent={currentPanel === "profile"}>
             <div>
-              Profile
-              <SubHeading>Where you've been</SubHeading>
+              Badges
+              <SubHeading>Badges you've earned so far</SubHeading>
             </div>
             <BadgeList>
-              {quests 
-                && quests.map(quest => {
+              {quests &&
+                quests.map((quest) => {
                   if (quest.progress >= 100) {
                     return (
-                      <Badge 
-                        src={require("../../assets/images/badge.png")}
-                        alt="" />
+                      <Badge
+                        src={require("../../assets/images/" +
+                          quest.badgeImgPath)}
+                        alt=""
+                        key={quest.name}
+                      />
                     )
                   }
+                  return true
                 })}
             </BadgeList>
           </Profile>
-          <History isCurrent={currentPanel === 'history'}>
+          <History isCurrent={currentPanel === "history"}>
             <div style={{ gridArea: "header" }}>
               History
-              <SubHeading>Ode to the journey</SubHeading>
+              <SubHeading>Quests you've completed so far</SubHeading>
             </div>
             {!isExtraSmall && (
               <CopyLink>
                 <div>
-                  Copy link <Copy toCopy={"https://rabithole.gg/" + account} />
+                  Share your stats{" "}
+                  <Copy toCopy={"https://rabithole.gg/" + account} />
                 </div>
               </CopyLink>
             )}
             <div style={{ gridArea: "activities" }}>
-              {quests
-                && quests.map((quest) => {
+              {quests &&
+                quests.map((quest) => {
                   if (quest.progress >= 100) {
                     return (
                       <Activity key={quest.name}>
@@ -358,8 +358,8 @@ export default function ActivityHistory() {
                       </Activity>
                     )
                   }
-                })
-              }
+                  return true
+                })}
             </div>
           </History>
           <Footer />

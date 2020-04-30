@@ -6,6 +6,7 @@ import {
   cryptoKittiesClient,
   compoundClient,
   poolTogetherClient,
+  // ensClient,
   makerGovClient,
 } from "../apollo/client"
 import {
@@ -17,11 +18,45 @@ import {
   COMPOUND_QUERY,
   COMPOUND_INTEREST_QUERY,
   POOL_TOGETHER_QUERY,
+  // DCL_ENS_QUERY,
   MKR_SPELL_VOTES_QUERY,
   MKR_POLL_VOTES_QUERY
 } from "../apollo/queries"
 const EthmojiAPI = require("ethmoji-js").default
 const Box = require("3box")
+
+export const financeTrack = {
+  "COMP-101": {
+    children: ["SET-101", "POOL-101"],
+  },
+  "POOL-101": {
+    children: ["POOL-201", "MKR-101"],
+  },
+  "POOL-201": {
+    children: ["POOL-301"],
+  },
+  "SET-101": {
+    children: ["UNI-101"],
+  },
+  "UNI-101": {
+    children: ["UNI-201", "COMP-102"],
+  },
+  "COMP-102": {
+    children: ["COMP-201", "NEXUS-101"],
+  },
+}
+
+export const gamingTrack = {
+  "KITTY-101": {
+    children: ["MANA-101", "SEA-101"],
+  },
+  "MANA-101": {
+    children: ["MANA-201"],
+  },
+  "SEA-101": {
+    children: ["UNI-301"],
+  },
+}
 
 const questList = {
   BOX1: {
@@ -29,7 +64,8 @@ const questList = {
     type: "track",
     blurb: "Create a Profile",
     task: "",
-    description: "Experience the internet like never before with your new all-in-one sign-in, profile, and cloud storage.",
+    description:
+      "Experience the internet like never before with your new all-in-one sign-in, profile, and cloud storage.",
     resource: "https://3box.io/hub",
     platform: "3Box",
     color: "#1168df",
@@ -46,7 +82,8 @@ const questList = {
     type: "track",
     blurb: "Add a verified Twitter or Github",
     task: "",
-    description: "You've already setup your porifle. Why not verify your Twitter or Github handle now?",
+    description:
+      "You've already setup your porifle. Why not verify your Twitter or Github handle now?",
     resource: "https://3box.io/hub",
     platform: "3Box",
     color: "#1168df",
@@ -63,7 +100,8 @@ const questList = {
     type: "track",
     blurb: "Join 4 spaces on 3Box",
     task: "",
-    description: "Show the world your XP. Connect 4 different applications to your 3box profile.",
+    description:
+      "Show the world your XP. Connect 4 different applications to your 3box profile.",
     resource: "",
     platform: "3Box",
     color: "#1168df",
@@ -86,7 +124,7 @@ const questList = {
     platform: "Compound Finance",
     color: "#4dffca",
     imgPath: "compound.png",
-    badgeImgPath: "COM-101-badge.svg",
+    badgeImgPath: "COMP-101-badge.svg",
     category: "Finance",
     categoryColor: "#6ed16b",
     prerequisite: "",
@@ -745,6 +783,7 @@ export const fetchQuests = async function(ENSName, account) {
               totalSupplyInterest =
                 totalSupplyInterest +
                 parseFloat(lentToken.lifetimeSupplyInterestAccrued)
+              return true
             })
             if (totalSupplyInterest > 0) {
               quest.progress = (totalSupplyInterest / 0.005) * 100
@@ -818,6 +857,7 @@ export const fetchQuests = async function(ENSName, account) {
             if (action.id.search("ADD-ARRAY")) {
               votes += 1
             }
+            return true
           })
           if (votes > 0) {
             quest.progress = 100
@@ -857,8 +897,8 @@ export const fetchQuests = async function(ENSName, account) {
                 if (badge.name === "Berlin Blockchain week - 2019") {
                   // change to Topaz ceremony or other relevant meetup
                   quest.progress = 100
-                  return true
                 }
+                return true
               })
             }
           })
@@ -942,6 +982,7 @@ export const fetchQuests = async function(ENSName, account) {
                 if (event.seller.address === account.toLowerCase()) {
                   itemsSold += 1
                 }
+                return true
               })
               if (itemsSold > 1) {
                 quest.progress = 100
@@ -1009,6 +1050,7 @@ export const fetchQuests = async function(ENSName, account) {
             Object.keys(result.data.userExchangeDatas).map((key) => {
               let exchange = result.data.userExchangeDatas[key]
               supplied += parseFloat(exchange.ethDeposited)
+              return true
             })
             quest.progress = (parseFloat(supplied) / 0.5) * 100
           }

@@ -31,6 +31,12 @@ export const Button = styled.button.attrs(({ warning, theme }) => ({
   }
 `
 
+export const Hover = styled.div`
+  :hover {
+    cursor: pointer;
+  }
+`
+
 export const Link = styled.a.attrs({
   target: "_blank",
   rel: "noopener noreferrer",

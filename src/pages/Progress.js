@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { withRouter } from "react-router-dom"
 
+import { financeTrack, gamingTrack } from "../quests"
 import Confetti from "canvas-confetti"
 import Lock from "../assets/images/lock.png"
 import Modal from "../components//Modal"
@@ -9,7 +10,6 @@ import { Text } from "rebass"
 import { AutoColumn } from "../components/Column"
 import { Link } from "../theme/components"
 import Row, { RowBetween } from "../components/Row"
-
 import { useQuests } from "../contexts/Application"
 
 const ProgressWrapper = styled.div`
@@ -224,39 +224,6 @@ const Tree = styled.ul`
   }
 `
 
-const financeTrack = {
-  "COMP-101": {
-    children: ["SET-101", "POOL-101"],
-  },
-  "POOL-101": {
-    children: ["POOL-201", "MKR-101"],
-  },
-  "POOL-201": {
-    children: ["POOL-301"],
-  },
-  "SET-101": {
-    children: ["UNI-101"],
-  },
-  "UNI-101": {
-    children: ["UNI-201", "COMP-102"],
-  },
-  "COMP-102": {
-    children: ["COMP-201", "NEXUS-101"],
-  },
-}
-
-const gamingTrack = {
-  "KITTY-101": {
-    children: ["MANA-101", "SEA-101"],
-  },
-  "MANA-101": {
-    children: ["MANA-201"],
-  },
-  "SEA-101": {
-    children: ["UNI-301"],
-  },
-}
-
 function Progress({ history }) {
   const [openQuest, setOpenQuest] = useState(null)
   const [showModal, setShowModal] = useState(false)
@@ -308,7 +275,6 @@ function Progress({ history }) {
         complete={complete}
         offset={offset ? "offset" : ""}
         type={activeSection}
-        onMouseEnter={() => complete && triggerConfetti()}
       >
         {locked && (
           <LockedWrapper>
