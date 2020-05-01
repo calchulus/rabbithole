@@ -478,8 +478,7 @@ export default function QuestSection() {
               <div>
                 Quests in progress
                 <span>
-                  Complete these quests to move onto the next level in its
-                  track. View your current journey on the Progress page.
+                  Up next in the rabbit hole
                 </span>
               </div>
             </Heading>
@@ -496,7 +495,7 @@ export default function QuestSection() {
               <Heading>
                 <div>
                   Bonus Challenges
-                  <span>Complete these challenges before they expire</span>
+                  <span>Just some something extra to make your experience better</span>
                 </div>
               </Heading>
               {!isXXSmall && <Gutter />}
