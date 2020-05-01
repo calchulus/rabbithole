@@ -34,22 +34,6 @@ const Hero = styled.div`
     flex-direction: column;
   }
 `
-const Input = styled.input`
-  padding: 0.5em;
-  font-size: 18px;
-  margin: 0.5em;
-  color: palevioletred;
-  background: papayawhip;
-  border: none;
-  border-radius: 10px;
-  height: 3em;
-  width: 20%;
-
-  @media (max-width: 550px) {
-    height: 2em;
-    width: 80%;
-  }
-`
 
 const Section = styled.div`
   background-color: ${({bgColor}) => bgColor};
