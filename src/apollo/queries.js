@@ -4,6 +4,9 @@ export const COMPOUND_QUERY = gql`
   query account($user: ID!) {
     account(id: $user) {
       id
+      tokens {
+        id
+      }
       totalBorrowValueInEth
       totalCollateralValueInEth
     }
