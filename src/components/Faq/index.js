@@ -61,7 +61,7 @@ const faqs = [
   },
   {
     question: "What can I do with my XP?",
-    answer: "For now, XP is a reputation score that can be accessed by other dApps. In the future, who knows what it will be used for ;) "
+    answer: "For now, XP is a reputation score that can be accessed by other dApps. In the future, who knows what it will be used for. "
   },
   {
     question: "How do you decide which dApps will get on Rabbit Hole?",
@@ -73,7 +73,7 @@ const faqs = [
   },
   {
     question: "How can I get in contact with the team?",
-    answer: "You can join <a href=\"https://discordapp.com\"> our discord here</a> and message the moderators."
+    answer: "You can join our Discord (https://discord.gg/V7WMqbs) and message the moderators."
   },
 ]
 

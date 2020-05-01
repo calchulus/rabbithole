@@ -214,30 +214,34 @@ function Nav({ history }) {
         </BrandWrapper>
         {!isExtraSmall && (
           <NavList>
-            <NavItem
-              onClick={() => history.push("/")}
-              active={history.location.pathname === "/"}
-            >
-              Dashboard
-            </NavItem>
-            <NavItem
-              onClick={() => history.push("/activity")}
-              active={history.location.pathname === "/activity"}
-            >
-              Activity
-            </NavItem>
-            <NavItem
-              onClick={() => history.push("/progress")}
-              active={history.location.pathname === "/progress"}
-            >
-              Progress
-            </NavItem>
-            <NavItem
-              onClick={() => history.push("/faq")}
-              active={history.location.pathname === "/faq"}
-            >
-              FAQ
-            </NavItem>
+            {account.account &&
+              <>
+                <NavItem
+                  onClick={() => history.push("/")}
+                  active={history.location.pathname === "/"}
+                >
+                  Dashboard
+                </NavItem>
+                <NavItem
+                  onClick={() => history.push("/activity")}
+                  active={history.location.pathname === "/activity"}
+                >
+                  Activity
+                </NavItem>
+                <NavItem
+                  onClick={() => history.push("/progress")}
+                  active={history.location.pathname === "/progress"}
+                >
+                  Progress
+                </NavItem>
+                <NavItem
+                  onClick={() => history.push("/faq")}
+                  active={history.location.pathname === "/faq"}
+                >
+                  FAQ
+                </NavItem>
+              </>
+            }
           </NavList>
         )}
         <AccountWrapper>
@@ -272,42 +276,46 @@ function Nav({ history }) {
         </SidebarBrandWrapper>
         <SidebarScore>{score} XP</SidebarScore>
         <SidebarList>
-          <SidebarItem
-            onClick={() => {
-              history.push("/")
-              toggleSidebar(sidebarOpen)
-            }}
-            active={history.location.pathname === "/"}
-          >
-            Dashboard
-          </SidebarItem>
-          <SidebarItem
-            onClick={() => {
-              history.push("/activity")
-              toggleSidebar(sidebarOpen)
-            }}
-            active={history.location.pathname === "/activity"}
-          >
-            Activity
-          </SidebarItem>
-          <SidebarItem
-            onClick={() => {
-              history.push("/progress")
-              toggleSidebar(sidebarOpen)
-            }}
-            active={history.location.pathname === "/progress"}
-          >
-            Progress
-          </SidebarItem>
-          <SidebarItem
-            onClick={() => {
-              history.push("/faq")
-              toggleSidebar(sidebarOpen)
-            }}
-            active={history.location.pathname === "/faq"}
-          >
-            FAQ
-          </SidebarItem>
+          {account.account &&
+            <>
+              <SidebarItem
+                onClick={() => {
+                  history.push("/")
+                  toggleSidebar(sidebarOpen)
+                }}
+                active={history.location.pathname === "/"}
+              >
+                Dashboard
+              </SidebarItem>
+              <SidebarItem
+                onClick={() => {
+                  history.push("/activity")
+                  toggleSidebar(sidebarOpen)
+                }}
+                active={history.location.pathname === "/activity"}
+              >
+                Activity
+              </SidebarItem>
+              <SidebarItem
+                onClick={() => {
+                  history.push("/progress")
+                  toggleSidebar(sidebarOpen)
+                }}
+                active={history.location.pathname === "/progress"}
+              >
+                Progress
+              </SidebarItem>
+              <SidebarItem
+                onClick={() => {
+                  history.push("/faq")
+                  toggleSidebar(sidebarOpen)
+                }}
+                active={history.location.pathname === "/faq"}
+              >
+                FAQ
+              </SidebarItem>
+            </>
+          }
         </SidebarList>
         <SidebarLoginWrapper>
           <Web3Status />
