@@ -30,6 +30,10 @@ const BrandWrapper = styled.div`
 
 const Logo = styled.img`
   width: 150px;
+
+  :hover {
+    cursor: pointer;
+  }
 `
 
 const NavList = styled.div`
@@ -205,12 +209,11 @@ function Nav({ history }) {
     <>
       <NavWrapper>
         <BrandWrapper>
-          <a href="/">
-            <Logo
-              src={require("../../assets/images/rabbithole.png")}
-              alt="rabbithole logo"
-            />
-          </a>
+          <Logo
+            onClick={() => history.push("/")}
+            src={require("../../assets/images/rabbithole.png")}
+            alt="rabbithole logo"
+          />
         </BrandWrapper>
         {!isExtraSmall && (
           <NavList>
