@@ -34,6 +34,22 @@ const Hero = styled.div`
     flex-direction: column;
   }
 `
+const Input = styled.input`
+  padding: 0.5em;
+  font-size: 18px;
+  margin: 0.5em;
+  color: palevioletred;
+  background: papayawhip;
+  border: none;
+  border-radius: 10px;
+  height: 3em;
+  width: 20%;
+
+  @media (max-width: 550px) {
+    height: 2em;
+    width: 80%;
+  }
+`
 
 const Section = styled.div`
   background-color: ${({bgColor}) => bgColor};
@@ -203,7 +219,7 @@ export default function Home() {
             </div>  
           </Hero>
           <SecondSection>
-            <h2>Rabbit Hole is an on-chain achievement system to get users using crypto while earning.</h2>
+            <h2>Rabbit Hole is an on-chain achievement system that rewards users for interacting with smart contracts</h2>
             {!isXXXSmall ? (
               <>
                 <ImageDiv 
@@ -236,7 +252,7 @@ export default function Home() {
             
           </SecondSection>
           <ThirdSection>
-            <h2>We curate the safest and most important decentralized aplications so you don't have to</h2>
+            <h2>We curate the safest and most important decentralized applications so you don't have to</h2>
             <ImageDiv 
                src={require("../../assets/images/dapps.png")}
                alt="">
