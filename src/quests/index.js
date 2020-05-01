@@ -542,7 +542,7 @@ export const fetchQuests = async function(ENSName, account) {
             },
           })
           if (result.data.account) {
-            if (parseFloat(result.data.account.totalCollateralValueInEth) > 0) {
+            if (result.data.account.tokens?.length > 0 || (parseFloat(result.data.account.totalCollateralValueInEth) > 0)) {
               quest.progress = 100
             }
           }
