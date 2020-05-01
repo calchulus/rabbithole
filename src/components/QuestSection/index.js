@@ -109,7 +109,7 @@ const Quest = styled.div`
   @media (max-width: 1400px) {
     grid-template-areas: ${({ isOpen }) =>
       isOpen
-        ? '"exp icon main perc type track points"\n"desc desc desc desc desc desc desc"\n"resc resc resc resc cta cta cta"'
+        ? '"exp icon main perc type track points"\n"desc desc desc desc desc desc desc"\n". cta cta resc resc resc resc"'
         : '"exp icon main perc type track points"'};
     grid-template-columns: 40px 50px auto 75px 75px 120px 75px;
   }
@@ -117,7 +117,7 @@ const Quest = styled.div`
   @media (max-width: 970px) {
     grid-template-areas: ${({ isOpen }) =>
       isOpen
-        ? '"exp icon main track points"\n"desc desc desc desc desc"\n"resc resc resc cta cta"'
+        ? '"exp icon main track points"\n"desc desc desc desc desc"\n"cta cta resc resc resc"'
         : '"exp icon main track points"'};
     grid-template-columns: 40px 50px auto 120px 75px;
     grid-template-rows: ${({ isOpen }) => (isOpen ? "75px auto 60px" : "75px")};
@@ -135,9 +135,9 @@ const Quest = styled.div`
     grid-template-rows: ${({ isOpen }) => (isOpen ? "75px auto 40px" : "75px")};
     grid-template-areas: ${({ isOpen }) =>
       isOpen
-        ? '"exp icon main points"\n"desc desc desc desc"\n"resc resc resc cta"\n"track track track cta"'
-        : '"exp icon main points"'};
-    grid-template-columns: 15px 45px auto 75px;
+        ? '"exp icon main main points"\n"desc desc desc desc desc"\n"cta cta cta resc resc "\n"track track track resc resc"'
+        : '"exp icon main main points"'};
+    grid-template-columns: 15px 45px 50px auto 75px;
     grid-template-rows: ${({ isOpen }) =>
       isOpen ? "75px auto 30px 45px" : "75px"};
     grid-column-gap: 2px;
@@ -256,6 +256,7 @@ const Description = styled.div`
   margin: auto;
   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   padding-bottom: 20px;
+  border-bottom: 1px solid #2F2E2E;
 `
 
 const Resource = styled.div`
@@ -263,6 +264,7 @@ const Resource = styled.div`
   grid-area: resc;
   font-size: 13px;
   text-align: center;
+  margin-bottom: 15px;
 
   & > a {
     color: #8dfbc9;
@@ -270,6 +272,10 @@ const Resource = styled.div`
     :visited {
       color: #8dfbc9;
     }
+  }
+
+  @media (@max-width: 550px) {
+    margin-bottom 10px;
   }
 `
 
@@ -279,6 +285,12 @@ const CTA = styled.div`
   font-size: 10px;
   color: ${({ color }) => color};
   text-transform: uppercase;
+ 
+  @media (max-width: 550px) {
+    display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+    justify-content: center;
+    align-items: center;
+  }
 `
 
 const Loading = styled.div`
@@ -434,11 +446,12 @@ export default function QuestSection() {
         {quest.description}
       </Description>
       <Resource isOpen={OpenQuest === quest}>
+        <p style={{ margin: '5px 0'}}>Where to start:</p>
         <a href={quest.resource} target="_blank" rel="noopener noreferrer">
           {quest.resource}
         </a>
       </Resource>
-      <CTA isOpen={OpenQuest === quest}>{quest.platform}</CTA>
+      <CTA isOpen={OpenQuest === quest} color={quest.color}>{quest.platform}</CTA>
     </Quest>
   )
 
